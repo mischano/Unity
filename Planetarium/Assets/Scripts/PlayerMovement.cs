@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Vector3 upAxis;
+
+
+
     #region Movement Settings
     [Header("Movement Settings")]
 
@@ -41,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        GetGravity();
     }
     
     private void HandleMovement()
@@ -52,10 +57,15 @@ public class PlayerMovement : MonoBehaviour
 
         float speed = _isSprint ? _sprintSpeed : _walkSpeed;
         moveDirection *= speed;
-
+        
+        
         Vector3 movementVelocity = moveDirection;
-        // playerRigidbody.velocity = movementVelocity;
-        playerRigidbody.AddForce(movementVelocity);
+
+        Vector3 gravity = GetGravity();
+        movementVelocity += gravity;
+        playerRigidbody.velocity = movementVelocity;
+        
+        playerRigidbody.velocity = movementVelocity;
     }
 
     private void HandleRotation()
@@ -76,5 +86,11 @@ public class PlayerMovement : MonoBehaviour
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
+    }
+
+    private Vector3 GetGravity()
+    {
+        Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out upAxis);
+        return gravity;
     }
 }
