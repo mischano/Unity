@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
         HandleRotation();
         GetGravity();
     }
-    
+    /*
     private void HandleMovement()
     {
         moveDirection = cameraObject.forward * inputManager._verticalInput;
@@ -65,6 +65,27 @@ public class PlayerMovement : MonoBehaviour
         movementVelocity += gravity;
         playerRigidbody.velocity = movementVelocity;
         
+        playerRigidbody.velocity = movementVelocity;
+    }
+*/
+    private void HandleMovement()
+    {
+        moveDirection = cameraObject.forward * inputManager._verticalInput;
+        moveDirection += cameraObject.right * inputManager._horizontalInput;
+        moveDirection.Normalize();
+        // moveDirection.y = 0f;
+
+        float speed = _isSprint ? _sprintSpeed : _walkSpeed;
+        moveDirection = ProjectDirectionOnPlane(moveDirection, upAxis);
+        moveDirection *= speed;
+
+
+        Vector3 movementVelocity = moveDirection;
+
+        Vector3 gravity = GetGravity();
+        movementVelocity += gravity;
+        playerRigidbody.velocity = movementVelocity;
+
         playerRigidbody.velocity = movementVelocity;
     }
 
@@ -93,4 +114,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out upAxis);
         return gravity;
     }
+    private Vector3 ProjectDirectionOnPlane(Vector3 direction, Vector3 normal)
+    {
+        return (direction - normal * Vector3.Dot(direction, normal)).normalized;
+    }
+
 }

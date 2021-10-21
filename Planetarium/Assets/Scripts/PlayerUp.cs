@@ -10,7 +10,7 @@ public class PlayerUp : MonoBehaviour
 
     private Vector3 moveDirection;
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
     
         Vector3 gravityUp = (transform.position - target.position).normalized;
