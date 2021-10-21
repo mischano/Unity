@@ -15,8 +15,7 @@ public class PlayerUp : MonoBehaviour
     
         Vector3 gravityUp = (transform.position - target.position).normalized;
         Vector3 localUp = transform.up;
-        //Quaternion rotation = Quaternion.FromToRotation(transform.up, direction).normalized * transform.rotation ;
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 50f*Time.deltaTime);
+
         transform.rotation = Quaternion.FromToRotation(localUp, gravityUp) * transform.rotation;
     }
     
