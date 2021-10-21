@@ -13,5 +13,6 @@ public class CustomGravityRigidbody : MonoBehaviour {
 
    void FixedUpdate() {
       body.AddForce(CustomGravity.GetGravity(body.position), ForceMode.Acceleration);
+        Debug.Log(CustomGravity.GetGravity(body.position));
    }
 }

@@ -6,50 +6,56 @@ using UnityEngine.InputSystem.Interactions;
 
 public class InputManager : MonoBehaviour
 {
-    PlayerControls playerControls;
-    PlayerMovement playerMovement;
-    AnimatorManager animatorManager;
+    private PlayerControls playerControls;
+    private AnimatorManager animatorManager;
+    private PlayerMovement playerMovement;
 
-    [Header("Movements")]
-    public float horizontalInput;
-    public float verticalInput;
+    #region User Input WASD
+    [Header("User Input (WASD)")]
 
-    [Header("Actions")]
-    public bool leftShift;
-    public bool space;
+    public Vector2 _movementInput;
 
-    public Vector2 movementInput;
-    
+    public float _horizontalInput;
+    public float _verticalInput;
+    #endregion
+
+    #region User Input Actions
+    [Header("User Input Actions")]
+
+    public bool _leftShift;
+    public bool _space;
+    #endregion
+
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
         animatorManager = GetComponent<AnimatorManager>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     public void HandleAllInputs()
     {
         HandleMovementInput();
         HandleSprintingInput();
-        HandleJumpingInput();
+
     }
 
     private void HandleMovementInput()
     {
-        verticalInput = movementInput.y;
-        horizontalInput = movementInput.x;
+        _verticalInput = _movementInput.y;
+        _horizontalInput = _movementInput.x;
 
-        float moveAmount = HandleMovementAnimationType();
+        float moveAmount =HandleMovementAnimationType();
+
         animatorManager.UpdateAnimatorValues(0, moveAmount);
     }
-    
     private float HandleMovementAnimationType()
     {
-        float keyboardInput = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+        float keyboardInput = Mathf.Clamp01(Mathf.Abs(_horizontalInput) + Mathf.Abs(_verticalInput));
         float result;
 
         if (keyboardInput > 0)
         {
-            if (leftShift)
+            if (_leftShift)
             {
                 result = 1f;    // Sprint
             }
@@ -68,39 +74,30 @@ public class InputManager : MonoBehaviour
 
     private void HandleSprintingInput()
     {
-        playerMovement.isSprint = leftShift;
+        playerMovement._isSprint = _leftShift;
     }
 
-    private void HandleJumpingInput()
-    {
-        if (space)
-        {
-            space = false;
-            playerMovement.HandleJumping();
-        }
-    }
-    
     private void OnEnable()
     {
         if (playerControls == null)
         {
             playerControls = new PlayerControls();
-            
-            // WASD
-            playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
-            
-            // LEFT SHIFT
-            playerControls.PlayerActions.SprintPress.performed += i => leftShift = true;
-            playerControls.PlayerActions.SprintRelease.canceled += i => leftShift = false;
-            
-            // SPACE 
-            playerControls.PlayerActions.Jump.performed += i => space = true;
-            playerControls.PlayerActions.Jump.canceled += i => space = false;
+
+            // Store user input (WASD) in _movementInput vector. 
+            playerControls.PlayerMovement.Movement.performed += i => _movementInput = i.ReadValue<Vector2>();
+
+            // Store user input (Left Shit) in _leftShift bool.
+            playerControls.PlayerActions.SprintPress.performed += i => _leftShift = true;
+            playerControls.PlayerActions.SprintRelease.canceled += i => _leftShift = false;
+
+            // Store user input (Space) in _space bool. 
+            playerControls.PlayerActions.Jump.performed += i => _space = true;
+            playerControls.PlayerActions.Jump.canceled += i => _space = false;
         }
 
         playerControls.Enable();
     }
-    
+
     private void OnDisable()
     {
         playerControls.Disable();
