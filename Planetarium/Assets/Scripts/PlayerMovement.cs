@@ -47,27 +47,6 @@ public class PlayerMovement : MonoBehaviour
         HandleRotation();
         GetGravity();
     }
-    /*
-    private void HandleMovement()
-    {
-        moveDirection = cameraObject.forward * inputManager._verticalInput;
-        moveDirection += cameraObject.right * inputManager._horizontalInput;
-        moveDirection.Normalize();
-        moveDirection.y = 0f;
-
-        float speed = _isSprint ? _sprintSpeed : _walkSpeed;
-        moveDirection *= speed;
-        
-        
-        Vector3 movementVelocity = moveDirection;
-
-        Vector3 gravity = GetGravity();
-        movementVelocity += gravity;
-        playerRigidbody.velocity = movementVelocity;
-        
-        playerRigidbody.velocity = movementVelocity;
-    }
-*/
     private void HandleMovement()
     {
         moveDirection = cameraObject.forward * inputManager._verticalInput;
@@ -96,12 +75,14 @@ public class PlayerMovement : MonoBehaviour
         targetDirection = cameraObject.forward * inputManager._verticalInput;
         targetDirection += cameraObject.right * inputManager._horizontalInput;
         targetDirection.Normalize();
-        targetDirection.y = 0f;
-        
+        // targetDirection.y = 0f;
+
         if (targetDirection == Vector3.zero)
         {
             targetDirection = transform.forward;
         }
+
+        targetDirection = ProjectDirectionOnPlane(targetDirection, upAxis);
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
