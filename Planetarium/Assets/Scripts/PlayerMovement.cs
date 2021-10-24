@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 upAxis;
+    Vector3 _upAxis;
 
     #region Movement Settings
     [Header("Movement Settings")]
@@ -18,8 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField, Range(5f, 20f)]
     public float _rotationSpeed = 10f;
+
+    [SerializeField, Range(0.1f, 200f)]
+    public float _jumpVel = 10f;
     #endregion
-   
+
     #region Movement Flags
     [Header("Movement Flags")]
     public bool _isSprint;
@@ -38,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody playerRigidbody;
 
-    private Vector3 moveDirection;
+    private Vector3 _moveDirection;
+    private Vector3 _gravity;
 
     private void Awake()
     {
@@ -53,29 +57,28 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleAllMovement()
     {
+        _gravity = GetGravity();
         HandleMovement();
         HandleRotation();
-        GetGravity();
+        // HandleJumping();
     }
 
     private void HandleMovement()
     {
-        moveDirection = cameraObject.forward * inputManager._verticalInput;
-        moveDirection += cameraObject.right * inputManager._horizontalInput;
-        moveDirection.Normalize();
-        // moveDirection.y = 0f;
+        _moveDirection = cameraObject.forward * inputManager._verticalInput;
+        _moveDirection += cameraObject.right * inputManager._horizontalInput;
+        _moveDirection.Normalize();
 
         float speed = _isSprint ? _sprintSpeed : _walkSpeed;
-        moveDirection = ProjectDirectionOnPlane(moveDirection, upAxis);
-        moveDirection *= speed;
+        _moveDirection = ProjectDirectionOnPlane(_moveDirection, _upAxis);
+        _moveDirection *= speed;
 
 
-        Vector3 movementVelocity = moveDirection;
+        Vector3 movementVelocity = _moveDirection;
 
-        Vector3 gravity = GetGravity();
-        movementVelocity += gravity;
+        movementVelocity += _gravity;
 
-        playerRigidbody.velocity = movementVelocity;
+        playerRigidbody.velocity += movementVelocity * Time.deltaTime;
     }
 
     private void HandleRotation()
@@ -85,33 +88,35 @@ public class PlayerMovement : MonoBehaviour
         targetDirection = cameraObject.forward * inputManager._verticalInput;
         targetDirection += cameraObject.right * inputManager._horizontalInput;
         targetDirection.Normalize();
-        // targetDirection.y = 0f;
 
         if (targetDirection == Vector3.zero)
         {
             targetDirection = transform.forward;
         }
 
-        targetDirection = ProjectDirectionOnPlane(targetDirection, upAxis);
+        targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
     }
-    
+
     public void HandleJumping()
     {
+        _isGrounded = true;
         if (_isGrounded)
         {
-            animatorManager.animator.SetBool("isJumping", true);
-            animatorManager.PlayTargetAnimation("Jumping", false);
+            Debug.Log("jumping");
+            playerRigidbody.velocity += _upAxis * _jumpVel;
+            // animatorManager.animator.SetBool("isJumping", true);
+            // animatorManager.PlayTargetAnimation("Jumping", false);
         }
     }
 
     private Vector3 GetGravity()
     {
-        Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out upAxis);
+        Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out _upAxis);
         return gravity;
     }
     private Vector3 ProjectDirectionOnPlane(Vector3 direction, Vector3 normal)
@@ -137,6 +142,10 @@ public class PlayerMovement : MonoBehaviour
             _isGrounded |= normal.y >= 0.9f;
         }
 
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.DrawRay(transform.position, _upAxis * _jumpVel);
     }
 
     //private void HandleFallingAndLanding()
