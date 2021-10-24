@@ -36,7 +36,16 @@ public class InputManager : MonoBehaviour
     {
         HandleMovementInput();
         HandleSprintingInput();
+        HandleJumpingInput();
+    }
 
+    private void HandleJumpingInput()
+    {
+        if (_space)
+        {
+            _space = false;
+            playerMovement.HandleJumping();
+        }
     }
 
     private void HandleMovementInput()
@@ -44,10 +53,15 @@ public class InputManager : MonoBehaviour
         _verticalInput = _movementInput.y;
         _horizontalInput = _movementInput.x;
 
-        float moveAmount =HandleMovementAnimationType();
+        float moveAmount = HandleMovementAnimationType();
 
         animatorManager.UpdateAnimatorValues(0, moveAmount);
     }
+    private void HandleSprintingInput()
+    {
+        playerMovement._isSprint = _leftShift;
+    }
+
     private float HandleMovementAnimationType()
     {
         float keyboardInput = Mathf.Clamp01(Mathf.Abs(_horizontalInput) + Mathf.Abs(_verticalInput));
@@ -72,10 +86,6 @@ public class InputManager : MonoBehaviour
         return result;
     }
 
-    private void HandleSprintingInput()
-    {
-        playerMovement._isSprint = _leftShift;
-    }
 
     private void OnEnable()
     {

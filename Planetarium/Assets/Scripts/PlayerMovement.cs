@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Vector3 upAxis;
-
-
 
     #region Movement Settings
     [Header("Movement Settings")]
@@ -28,8 +27,15 @@ public class PlayerMovement : MonoBehaviour
     public bool _isGrounded;
     #endregion
 
+    [Header("Falling Settings")]
+    public float _inAirTime;
+    public LayerMask _groundLayer;
+
     private Transform cameraObject;
     private InputManager inputManager;
+    private PlayerManager playerManager;
+    private AnimatorManager animatorManager;
+
     private Rigidbody playerRigidbody;
 
     private Vector3 moveDirection;
@@ -37,16 +43,21 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
+        playerManager = GetComponent<PlayerManager>();
+        animatorManager = GetComponent<AnimatorManager>();
+
         playerRigidbody = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
     }
-    
+
+
     public void HandleAllMovement()
     {
         HandleMovement();
         HandleRotation();
         GetGravity();
     }
+
     private void HandleMovement()
     {
         moveDirection = cameraObject.forward * inputManager._verticalInput;
@@ -63,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 gravity = GetGravity();
         movementVelocity += gravity;
-        playerRigidbody.velocity = movementVelocity;
 
         playerRigidbody.velocity = movementVelocity;
     }
@@ -89,6 +99,15 @@ public class PlayerMovement : MonoBehaviour
 
         transform.rotation = playerRotation;
     }
+    
+    public void HandleJumping()
+    {
+        if (_isGrounded)
+        {
+            animatorManager.animator.SetBool("isJumping", true);
+            animatorManager.PlayTargetAnimation("Jumping", false);
+        }
+    }
 
     private Vector3 GetGravity()
     {
@@ -99,5 +118,56 @@ public class PlayerMovement : MonoBehaviour
     {
         return (direction - normal * Vector3.Dot(direction, normal)).normalized;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        EvaluateCollision(collision);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        EvaluateCollision(collision);
+    }
+
+    private void EvaluateCollision(Collision collision)
+    {
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            Vector3 normal = collision.GetContact(i).normal;
+            _isGrounded |= normal.y >= 0.9f;
+        }
+
+    }
+
+    //private void HandleFallingAndLanding()
+    //{
+    //    RaycastHit hit;
+    //    Vector3 rayCastOrigin = transform.position;
+
+    //    if (!_isGrounded)
+    //    {
+    //        if (!playerManager._isInteracting)
+    //        {
+    //            animatorManager.PlayTargetAnimation("Falling", true);
+    //        }
+
+    //        // _inAirTime += Time.deltaTime;
+    //        playerRigidbody.AddForce(GetGravity());
+    //    }
+    //    Debug.Log((Physics.Raycast(playerRigidbody.position, -upAxis, out hit, 0.2f, _groundLayer)));
+
+    //    if (Physics.Raycast(playerRigidbody.position, -upAxis, out hit, 0.2f, _groundLayer))
+    //    {
+    //        if (!_isGrounded && playerManager._isInteracting)
+    //        {
+    //            animatorManager.PlayTargetAnimation("Landing", true);
+    //        }
+    //        _isGrounded = true;
+    //    }
+    //    else
+    //    {
+    //        _isGrounded = false;
+    //    }
+    //}
 
 }
