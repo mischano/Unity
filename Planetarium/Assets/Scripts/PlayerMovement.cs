@@ -10,17 +10,27 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Settings
     [Header("Movement Settings")]
 
-    [SerializeField, Range(1f, 50f)]
-    public float _walkSpeed = 5f;
-
     [SerializeField, Range(3f, 200f)]
-    public float _sprintSpeed = 8f;
+    public float _moveAccel = 8f;
 
     [SerializeField, Range(5f, 20f)]
     public float _rotationSpeed = 10f;
 
     [SerializeField, Range(0.1f, 200f)]
     public float _jumpVel = 10f;
+
+    [SerializeField, Range(1f, 200f)]
+    float _maxSpeed = 10f;
+    [SerializeField, Range(1f, 200f)]
+    float _maxSprintSpeed = 20f;
+
+    [SerializeField, Range(0f, 5f)]
+    float _airMoveMultiplier = 0.4f;
+
+    [SerializeField, Range(0f, 1f)]
+    float _groundDragThreshold = 0.1f;
+    [SerializeField, Range(0f, 10f)]
+    float _groundDrag = 5f;
     #endregion
 
     [Header("Ground Check")]
@@ -71,20 +81,47 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        _moveDirection = cameraObject.forward * inputManager._verticalInput;
-        _moveDirection += cameraObject.right * inputManager._horizontalInput;
-        _moveDirection.Normalize();
+        Vector3 forwardMoveDir = cameraObject.forward * inputManager._verticalInput;
+        Vector3 lateralMoveDir = cameraObject.right * inputManager._horizontalInput;
+        forwardMoveDir = ProjectDirectionOnPlane(forwardMoveDir, _upAxis);
+        lateralMoveDir = ProjectDirectionOnPlane(lateralMoveDir, _upAxis);
 
-        float speed = _isSprint ? _sprintSpeed : _walkSpeed;
-        _moveDirection = ProjectDirectionOnPlane(_moveDirection, _upAxis);
-        _moveDirection *= speed;
+        // If we're going too fast, don't add speed in that direction.
+        float max = _isSprint ? _maxSprintSpeed : _maxSpeed;
+        if (Vector3.Dot(forwardMoveDir, playerRigidbody.velocity) > max)
+        {
+            forwardMoveDir = Vector3.zero;
+        }
+        if (Vector3.Dot(lateralMoveDir, playerRigidbody.velocity) > max)
+        {
+            lateralMoveDir = Vector3.zero;
+        }
 
+        _moveDirection = forwardMoveDir + lateralMoveDir;
+        if (_moveDirection.sqrMagnitude > 0f)
+        {
+            _moveDirection.Normalize();
+        }
 
-        Vector3 movementVelocity = _moveDirection;
+        Vector3 moveAccel = _moveDirection * _moveAccel;
+        if (!_isGrounded)
+        {
+            moveAccel *= _airMoveMultiplier;
+        }
 
-        movementVelocity += _gravity;
+        playerRigidbody.AddForce(moveAccel + _gravity);
 
-        playerRigidbody.velocity += movementVelocity * Time.deltaTime;
+        // Prevent sliding
+        if (_isGrounded &&
+            (_moveDirection.sqrMagnitude < _groundDragThreshold
+            || Vector3.Dot(_moveDirection, playerRigidbody.velocity) < 0f))
+        {
+            playerRigidbody.drag = _groundDrag;
+        }
+        else
+        {
+            playerRigidbody.drag = 0f;
+        }
     }
 
     private void HandleRotation()
@@ -156,8 +193,12 @@ public class PlayerMovement : MonoBehaviour
 
     // }
 
-    void OnDrawGizmos() {
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, _moveDirection);
     }
 
     //private void HandleFallingAndLanding()

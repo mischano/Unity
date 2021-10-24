@@ -1801,10 +1801,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bb686f9d71c064ea38e613a888bdba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 10
-  _sprintSpeed: 20
+  _moveAccel: 50
   _rotationSpeed: 10
   _jumpVel: 10
+  _maxSpeed: 5
+  _maxSprintSpeed: 10
+  _airMoveMultiplier: 0.1
+  _groundDragThreshold: 0.1
+  _groundDrag: 5
   _spherecastDist: 1
   _spherecastStartOffset: 1
   _isSprint: 0
