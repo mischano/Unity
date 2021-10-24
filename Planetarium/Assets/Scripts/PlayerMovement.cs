@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Settings
     [Header("Movement Settings")]
 
-    [SerializeField, Range(1f, 15f)]
+    [SerializeField, Range(1f, 50f)]
     public float _walkSpeed = 5f;
 
-    [SerializeField, Range(3f, 30f)]
+    [SerializeField, Range(3f, 200f)]
     public float _sprintSpeed = 8f;
 
     [SerializeField, Range(5f, 20f)]
@@ -22,6 +22,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0.1f, 200f)]
     public float _jumpVel = 10f;
     #endregion
+
+    [Header("Ground Check")]
+    [SerializeField]
+    float _spherecastDist = 0.5f;
+    [SerializeField]
+    float _spherecastStartOffset = 0.5f;
 
     #region Movement Flags
     [Header("Movement Flags")]
@@ -58,9 +64,9 @@ public class PlayerMovement : MonoBehaviour
     public void HandleAllMovement()
     {
         _gravity = GetGravity();
+        _isGrounded = CheckGrounded();
         HandleMovement();
         HandleRotation();
-        // HandleJumping();
     }
 
     private void HandleMovement()
@@ -104,14 +110,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleJumping()
     {
-        _isGrounded = true;
         if (_isGrounded)
         {
-            Debug.Log("jumping");
             playerRigidbody.velocity += _upAxis * _jumpVel;
-            // animatorManager.animator.SetBool("isJumping", true);
-            // animatorManager.PlayTargetAnimation("Jumping", false);
+            animatorManager.animator.SetBool("isJumping", true);
+            animatorManager.PlayTargetAnimation("Jumping", false);
         }
+    }
+
+    private bool CheckGrounded()
+    {
+        RaycastHit hit;
+        return Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _groundLayer);
     }
 
     private Vector3 GetGravity()
@@ -119,33 +129,35 @@ public class PlayerMovement : MonoBehaviour
         Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out _upAxis);
         return gravity;
     }
+
     private Vector3 ProjectDirectionOnPlane(Vector3 direction, Vector3 normal)
     {
         return (direction - normal * Vector3.Dot(direction, normal)).normalized;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        EvaluateCollision(collision);
-    }
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     EvaluateCollision(collision);
+    // }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        EvaluateCollision(collision);
-    }
+    // private void OnCollisionStay(Collision collision)
+    // {
+    //     EvaluateCollision(collision);
+    // }
 
-    private void EvaluateCollision(Collision collision)
-    {
-        for (int i = 0; i < collision.contactCount; i++)
-        {
-            Vector3 normal = collision.GetContact(i).normal;
-            _isGrounded |= normal.y >= 0.9f;
-        }
+    // private void EvaluateCollision(Collision collision)
+    // {
+    //     for (int i = 0; i < collision.contactCount; i++)
+    //     {
+    //         Vector3 normal = collision.GetContact(i).normal;
+    //         _isGrounded |= normal.y >= 0.9f;
+    //         Debug.Log($"_isGrounded: {_isGrounded}");
+    //     }
 
-    }
+    // }
 
     void OnDrawGizmos() {
-        Gizmos.DrawRay(transform.position, _upAxis * _jumpVel);
+        Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
     }
 
     //private void HandleFallingAndLanding()
