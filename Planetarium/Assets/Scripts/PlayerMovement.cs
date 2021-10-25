@@ -13,8 +13,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(3f, 200f)]
     public float _moveAccel = 8f;
 
-    [SerializeField, Range(5f, 20f)]
-    public float _rotationSpeed = 10f;
+    [SerializeField, Range(1f, 10000f)]
+    public float _rotationSpeed = 500f;
 
     [SerializeField, Range(0.1f, 200f)]
     public float _jumpVel = 10f;
@@ -127,12 +127,17 @@ public class PlayerMovement : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection;
-        targetDirection = cameraObject.forward;
+        targetDirection = cameraObject.forward * inputManager._verticalInput
+            + cameraObject.right * inputManager._horizontalInput;
+        if (targetDirection.sqrMagnitude < 0.05f)
+        {
+            targetDirection = transform.forward;
+        }
         targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
+        targetDirection.Normalize();
 
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-
-        transform.rotation = targetRotation;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
     }
 
     public void HandleJumping()
@@ -186,7 +191,8 @@ public class PlayerMovement : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
+        // Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
+        Gizmos.DrawRay(transform.position, _upAxis);
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, _moveDirection);
     }

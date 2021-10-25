@@ -172,11 +172,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d50adcf017cf8704295128646525e008, type: 3}
   m_PrefabInstance: {fileID: 134910106}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &100860784 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d50adcf017cf8704295128646525e008, type: 3}
-  m_PrefabInstance: {fileID: 134910106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!64 &100860785
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2658,7 +2653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveAccel: 50
-  _rotationSpeed: 10
+  _rotationSpeed: 500
   _jumpVel: 10
   _maxSpeed: 5
   _maxSprintSpeed: 10
@@ -2746,7 +2741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fafd42cdcf1e634b9925861e64b1fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 100860784}
+  _rotationSpeed: 9000
 --- !u!114 &2138986494
 MonoBehaviour:
   m_ObjectHideFlags: 0
