@@ -6,18 +6,17 @@ using UnityEngine;
 
 public class PlayerUp : MonoBehaviour
 {
-    public Transform target;
-
     private Vector3 moveDirection;
-    // Update is called once per frame
+
+    [SerializeField]
+    float _rotationSpeed = 360f;
+
     void FixedUpdate()
     {
-    
-        Vector3 gravityUp = (transform.position - target.position).normalized;
+        Vector3 gravityUp = CustomGravity.GetUpAxis(transform.position);
         Vector3 localUp = transform.up;
 
-        transform.rotation = Quaternion.FromToRotation(localUp, gravityUp) * transform.rotation;
+        Quaternion upRotation = Quaternion.FromToRotation(localUp, -gravityUp);
+        // transform.rotation = Quaternion.RotateTowards(transform.rotation, upRotation, _rotationSpeed * Time.deltaTime);
     }
-    
-    
 }
