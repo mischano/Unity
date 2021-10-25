@@ -127,22 +127,12 @@ public class PlayerMovement : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection;
-
-        targetDirection = cameraObject.forward * inputManager._verticalInput;
-        targetDirection += cameraObject.right * inputManager._horizontalInput;
-        targetDirection.Normalize();
-
-        if (targetDirection == Vector3.zero)
-        {
-            targetDirection = transform.forward;
-        }
-
+        targetDirection = cameraObject.forward;
         targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
 
-        transform.rotation = playerRotation;
+        transform.rotation = targetRotation;
     }
 
     public void HandleJumping()
