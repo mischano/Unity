@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField]
     Animator animator;
     InputManager inputManager;
     PlayerMovement playerMovement;
@@ -12,7 +13,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         inputManager = GetComponent<InputManager>();
         playerMovement = GetComponent<PlayerMovement>();
     }

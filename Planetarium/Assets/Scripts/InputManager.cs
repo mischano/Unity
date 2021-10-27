@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Interactions;
 public class InputManager : MonoBehaviour
 {
     private PlayerControls playerControls;
+    [SerializeField]
     private AnimatorManager animatorManager;
     private PlayerMovement playerMovement;
 
@@ -28,7 +29,6 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        animatorManager = GetComponent<AnimatorManager>();
         playerMovement = GetComponent<PlayerMovement>();
     }
 
@@ -93,14 +93,14 @@ public class InputManager : MonoBehaviour
         {
             playerControls = new PlayerControls();
 
-            // Store user input (WASD) in _movementInput vector. 
+            // Store user input (WASD) in _movementInput vector.
             playerControls.PlayerMovement.Movement.performed += i => _movementInput = i.ReadValue<Vector2>();
 
             // Store user input (Left Shit) in _leftShift bool.
             playerControls.PlayerActions.SprintPress.performed += i => _leftShift = true;
             playerControls.PlayerActions.SprintRelease.canceled += i => _leftShift = false;
 
-            // Store user input (Space) in _space bool. 
+            // Store user input (Space) in _space bool.
             playerControls.PlayerActions.Jump.performed += i => _space = true;
             playerControls.PlayerActions.Jump.canceled += i => _space = false;
         }

@@ -53,7 +53,10 @@ public class PlayerMovement : MonoBehaviour
     private Transform cameraObject;
     private InputManager inputManager;
     private PlayerManager playerManager;
-    private AnimatorManager animatorManager;
+    [Header("Visual")]
+    private AnimatorManager _animatorManager;
+    [SerializeField]
+    private GameObject _visualObject;
 
     private Rigidbody _rb;
 
@@ -64,12 +67,11 @@ public class PlayerMovement : MonoBehaviour
     {
         inputManager = GetComponent<InputManager>();
         playerManager = GetComponent<PlayerManager>();
-        animatorManager = GetComponent<AnimatorManager>();
+        _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
     }
-
 
     public void HandleAllMovement()
     {
@@ -77,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
         _isGrounded = CheckGrounded();
         HandleMovement();
         HandleRotation();
+        // _visualObject gets interpolated thanks to InterpolatedTransform
+        _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 
     private void HandleMovement()
@@ -137,7 +141,8 @@ public class PlayerMovement : MonoBehaviour
         targetDirection.Normalize();
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
-        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        // This doesn't interpolate between FixedUpdates because _rb is not kinematic
         _rb.MoveRotation(newRotation);
     }
 
@@ -146,8 +151,8 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
             _rb.velocity += _upAxis * _jumpVel;
-            animatorManager.animator.SetBool("isJumping", true);
-            animatorManager.PlayTargetAnimation("Jumping", false);
+            _animatorManager.animator.SetBool("isJumping", true);
+            _animatorManager.PlayTargetAnimation("Jumping", false);
         }
     }
 
