@@ -189,7 +189,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32506803}
-  m_LocalRotation: {x: 0.1762104, y: -0.000000016937143, z: 0.0000000030319434, w: 0.9843525}
+  m_LocalRotation: {x: 0.1762104, y: 0.000000016937147, z: -0.000000003031944, w: 0.9843525}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -327,7 +327,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -490,7 +490,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336199240}
-  m_LocalRotation: {x: 0.21185069, y: -0.000000016815834, z: 0.000000003645184, w: 0.9773021}
+  m_LocalRotation: {x: 0.21185069, y: 0.00000001681583, z: -0.0000000036451835, w: 0.9773021}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -944,12 +944,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681744701}
-  m_LocalRotation: {x: 0.19403902, y: -0.000000017442083, z: 0.0000000032274035, w: 0.9809938}
+  m_LocalRotation: {x: 0.19403902, y: -0.000000017441963, z: 0.0000000032267777, w: 0.9809938}
   m_LocalPosition: {x: 0, y: 110.850006, z: -12.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1681744705
 MonoBehaviour:
@@ -3824,6 +3824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34495407e99df0a439061afe53cf2506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &5877886337906739658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3836,12 +3837,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bb686f9d71c064ea38e613a888bdba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 12.04
-  _sprintSpeed: 29
+  _moveAccel: 8
   _rotationSpeed: 10
+  _jumpVel: 10
+  _maxSpeed: 10
+  _maxSprintSpeed: 20
+  _airMoveMultiplier: 0.4
+  _groundDragThreshold: 0.1
+  _groundDrag: 5
+  _spherecastDist: 0.5
+  _spherecastStartOffset: 0.5
   _isSprint: 0
   _isJumping: 0
   _isGrounded: 0
+  _inAirTime: 0
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _visualObject: {fileID: 0}
 --- !u!114 &5877886337906739659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3854,6 +3867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0aa0b9afbae53e4eb430d6106f563e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  _isInteracting: 0
 --- !u!114 &5877886337906739660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3866,6 +3881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af62b1f021a32e47bf5c3b4cf56a5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animatorManager: {fileID: 0}
   _movementInput: {x: 0, y: 0}
   _horizontalInput: 0
   _verticalInput: 0
@@ -4176,7 +4192,7 @@ Transform:
   - {fileID: 3328997051636055105}
   - {fileID: 418471222971149050}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6599236184579778303
 Transform:
