@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerManager playerManager;
     private AnimatorManager animatorManager;
 
-    private Rigidbody playerRigidbody;
+    private Rigidbody _rb;
 
     private Vector3 _moveDirection;
     private Vector3 _gravity;
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
         playerManager = GetComponent<PlayerManager>();
         animatorManager = GetComponent<AnimatorManager>();
 
-        playerRigidbody = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
     }
 
@@ -88,11 +88,11 @@ public class PlayerMovement : MonoBehaviour
 
         // If we're going too fast, don't add speed in that direction.
         float max = _isSprint ? _maxSprintSpeed : _maxSpeed;
-        if (Vector3.Dot(forwardMoveDir, playerRigidbody.velocity) > max)
+        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
         {
             forwardMoveDir = Vector3.zero;
         }
-        if (Vector3.Dot(lateralMoveDir, playerRigidbody.velocity) > max)
+        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
         {
             lateralMoveDir = Vector3.zero;
         }
@@ -109,18 +109,18 @@ public class PlayerMovement : MonoBehaviour
             moveAccel *= _airMoveMultiplier;
         }
 
-        playerRigidbody.AddForce(moveAccel + _gravity);
+        _rb.AddForce(moveAccel + _gravity);
 
         // Prevent sliding
         if (_isGrounded &&
             (_moveDirection.sqrMagnitude < _groundDragThreshold
-            || Vector3.Dot(_moveDirection, playerRigidbody.velocity) < 0f))
+            || Vector3.Dot(_moveDirection, _rb.velocity) < 0f))
         {
-            playerRigidbody.drag = _groundDrag;
+            _rb.drag = _groundDrag;
         }
         else
         {
-            playerRigidbody.drag = 0f;
+            _rb.drag = 0f;
         }
     }
 
@@ -137,14 +137,15 @@ public class PlayerMovement : MonoBehaviour
         targetDirection.Normalize();
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        _rb.MoveRotation(newRotation);
     }
 
     public void HandleJumping()
     {
         if (_isGrounded)
         {
-            playerRigidbody.velocity += _upAxis * _jumpVel;
+            _rb.velocity += _upAxis * _jumpVel;
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("Jumping", false);
         }
@@ -158,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 GetGravity()
     {
-        Vector3 gravity = CustomGravity.GetGravity(playerRigidbody.position, out _upAxis);
+        Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
         return gravity;
     }
 
