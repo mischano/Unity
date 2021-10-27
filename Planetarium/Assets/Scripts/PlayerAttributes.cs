@@ -12,11 +12,11 @@ public class Health
     
     // Amount of hearts the player currently owns.
     [SerializeField, Range(1, 9f)]
-    public int currentNumberOfHearts;
+    public int currentNumberOfHearts = 3;
     
     // Max number of hearts the player can have. 
     [SerializeField, Range(1, 9)]
-    public int maxNumberOfHearts;
+    public int maxNumberOfHearts = 5;
 
     public Image[] heartsList;
     public Sprite fullHeart;
@@ -30,11 +30,11 @@ public class Oxygen
     [Header("Player Oxygen")]
 
     [SerializeField, Range(1, 9f)]
-    public int currentNumberOfOxygen;
+    public int currentNumberOfOxygen = 3;
     
     // Max number of hearts the player can have. 
     [SerializeField, Range(1, 9)]
-    public int maxNumberOfOxygen;
+    public int maxNumberOfOxygen = 5;
 
     public Image[] oxygenList;
 
@@ -43,15 +43,15 @@ public class Oxygen
 public class PlayerAttributes : MonoBehaviour
 {
     // Reference to heart class. 
-    public Health playerHealth;
+    public Health health;
 
     // Reference to oxygen class
     public Oxygen oxygen;
 
     private void Awake()
     {
-        //playerHealth.currentNumberOfHearts = 5;
-        //playerHealth.maxNumberOfHearts = 5;
+        //health.currentNumberOfHearts = 5;
+        //health.maxNumberOfHearts = 5;
     }
 
     private void Update()
@@ -63,39 +63,39 @@ public class PlayerAttributes : MonoBehaviour
     /* Handles the player health attributes */
     private void HandleHealth()
     {
-        for (int i = 0; i < playerHealth.heartsList.Length; i++)
+        for (int i = 0; i < health.heartsList.Length; i++)
         {
             // If the number of player hearts exceeds the limit,
             // set it to max limit.
-            if (playerHealth.currentNumberOfHearts > playerHealth.maxNumberOfHearts)
+            if (health.currentNumberOfHearts > health.maxNumberOfHearts)
             {
-                playerHealth.currentNumberOfHearts = playerHealth.maxNumberOfHearts;
+                health.currentNumberOfHearts = health.maxNumberOfHearts;
             }
             
             // If the player owns the i(th) heart, assign the red image.
-            if (i < playerHealth.currentNumberOfHearts)
+            if (i < health.currentNumberOfHearts)
             {
-                playerHealth.heartsList[i].sprite = playerHealth.fullHeart;
+                health.heartsList[i].sprite = health.fullHeart;
             }
 
             // If the player lost the i(th) heart, assign empty image. 
             else
             {
-                playerHealth.heartsList[i].sprite = playerHealth.emptyHeart;
+                health.heartsList[i].sprite = health.emptyHeart;
             }
             
             // If i(th) heart is within the limit, 
             // Enable the i(th) image.
-            if (i < playerHealth.maxNumberOfHearts)
+            if (i < health.maxNumberOfHearts)
             {
-                playerHealth.heartsList[i].enabled = true;
+                health.heartsList[i].enabled = true;
             }
 
             // If i(th) heart is not within the limit,
             // Disable the i(th) image.
             else
             {
-                playerHealth.heartsList[i].enabled = false;
+                health.heartsList[i].enabled = false;
             }
         }
     }
@@ -123,4 +123,18 @@ public class PlayerAttributes : MonoBehaviour
             }
         }
     }
+    
+    /* Increases the number of hearts. 
+     * Called from ConsumableBuff */
+    public void AddHealth(int amount)
+    {
+        health.currentNumberOfHearts += amount;
+    }
+
+    /* Increases the number of oxygen tanks. 
+     * Called from ConsumableBuff */
+    public void AddOxygen(int amount) 
+    {
+        oxygen.currentNumberOfOxygen += amount;
+    } 
 }
