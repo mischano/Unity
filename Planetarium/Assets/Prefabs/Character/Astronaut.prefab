@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 6163363032806416647}
   - component: {fileID: 6003000602360891882}
   m_Layer: 0
-  m_Name: Simulated
+  m_Name: AstronautSimulated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  _visualObject: {fileID: 0}
+  _visualObject: {fileID: 7062958889879867107}
 --- !u!114 &7498839711831742367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,9 +687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a147044b97d95243a1a5ab929f1a972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth:
-    currentNumberOfHearts: 0
-    maxNumberOfHearts: 0
+  health:
+    currentNumberOfHearts: 3
+    maxNumberOfHearts: 5
     heartsList: []
     fullHeart: {fileID: 0}
     emptyHeart: {fileID: 0}
@@ -3045,7 +3045,7 @@ GameObject:
   - component: {fileID: 2604463845855982944}
   - component: {fileID: 2401773406258079115}
   m_Layer: 0
-  m_Name: Visual
+  m_Name: AstronautVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3091,7 +3091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34495407e99df0a439061afe53cf2506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 2401773406258079115}
 --- !u!95 &2401773406258079115
 Animator:
   serializedVersion: 3
