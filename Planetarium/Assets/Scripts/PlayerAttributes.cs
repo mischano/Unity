@@ -131,6 +131,13 @@ public class PlayerAttributes : MonoBehaviour
         health.currentNumberOfHearts += amount;
     }
 
+    /*decreases the number of hearts.
+     Called from EnemyFollowPlayer*/
+    public void TakeDamage(int amount)
+    {
+        health.currentNumberOfHearts -= amount;
+    }
+
     /* Increases the number of oxygen tanks. 
      * Called from ConsumableBuff */
     public void AddOxygen(int amount) 
