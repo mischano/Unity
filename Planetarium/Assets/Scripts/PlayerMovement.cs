@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _isSprint;
     public bool _isJumping;
     public bool _isGrounded;
+    bool _inZeroGravity;
     #endregion
 
     [Header("Falling Settings")]
@@ -165,6 +166,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetGravity()
     {
         Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
+        if (gravity == Vector3.zero)
+        {
+            // In zero gravity, don't alter the player's up axis
+            _upAxis = transform.up;
+            _inZeroGravity = true;
+        }
+        else
+        {
+            _inZeroGravity = false;
+        }
         return gravity;
     }
 
