@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _visualObject;
 
+    private Transform planet;
+
     private Rigidbody _rb;
 
     private Vector3 _moveDirection;
@@ -71,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
+        planet = GameObject.FindWithTag("Planet").transform;
         cameraObject = Camera.main.transform;
     }
 
@@ -145,6 +148,10 @@ public class PlayerMovement : MonoBehaviour
         Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
         // This doesn't interpolate between FixedUpdates because _rb is not kinematic
         _rb.MoveRotation(newRotation);
+        
+        // keep player normal to the surface of the planet
+        //Vector3 gravityUp = (transform.position - planet.position).normalized;
+        //transform.rotation = Quaternion.FromToRotation(transform.up, gravityUp) * transform.rotation;
     }
 
     public void HandleJumping()
