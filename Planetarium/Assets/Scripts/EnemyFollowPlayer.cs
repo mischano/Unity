@@ -8,8 +8,9 @@ public class EnemyFollowPlayer : MonoBehaviour
     private Rigidbody _rb;
     public Transform player;
     private Vector3 playerPos;
-
     private PlayerAttributes _playerAttributes;
+
+    private Transform planet;
     // speed of the moving enemy
     public float speed = 1.5f;
     // enemy will follow the player if within a certain range
@@ -21,6 +22,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         playerPos = new Vector3();
         _playerAttributes = GameObject.FindGameObjectWithTag("Player").
             GetComponent<PlayerAttributes>();
+        planet = GameObject.FindWithTag("Planet").transform;
     }
 
     // Update is called once per frame
@@ -30,7 +32,12 @@ public class EnemyFollowPlayer : MonoBehaviour
         //Debug.Log(playerPos);
         if ((playerPos - _rb.position).magnitude <= followRadius)
         {
+            _rb.constraints = RigidbodyConstraints.None;
             followPlayer();
+        }
+        else if ((playerPos - _rb.position).magnitude > followRadius)
+        {
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
@@ -41,6 +48,10 @@ public class EnemyFollowPlayer : MonoBehaviour
         // move enemy toward the player
         Vector3 moveDir = Vector3.MoveTowards(_rb.position, playerPos, speed * Time.deltaTime) ;
         _rb.MovePosition(moveDir);
+        
+        Vector3 gravityUp = (transform.position - planet.position).normalized;
+        Vector3 localUp = transform.up;
+        transform.rotation = Quaternion.FromToRotation(localUp, gravityUp) * transform.rotation;
         
         
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.99999946, b: 0.99999946, a: 1}
+  m_IndirectSpecularColor: {r: 0.30827507, g: 0.2896022, b: 0.3986606, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -33273,7 +33273,7 @@ GameObject:
   - component: {fileID: 919132149289299404}
   m_Layer: 0
   m_Name: Planet Terrain
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34748,6 +34748,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 239799686}
+    - target: {fileID: 8375886158081248619, guid: 8dbdbf8a61e97ce4ba414663dbb946ce, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8717924088743729416, guid: 8dbdbf8a61e97ce4ba414663dbb946ce, type: 3}
       propertyPath: m_Name
       value: Alien
