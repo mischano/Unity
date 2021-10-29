@@ -10,4 +10,9 @@ public class DestroyLaser : MonoBehaviour
     {
         Destroy(this.gameObject, lifetime);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this.gameObject);
+    }
 }
