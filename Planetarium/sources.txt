@@ -1,2 +1,4 @@
 Custom gravity scripts: https://catlikecoding.com/unity/tutorials/movement/custom-gravity/
 FixedInterpolation scripts (very helpful article): https://www.kinematicsoup.com/news/2016/8/9/rrypp5tkubynjwxhxjzd42s3o034o8
+Projectiles: https://www.studica.com/blog/how-to-create-a-projectile-in-unity
+Main menu: https://www.instructables.com/How-to-make-a-main-menu-in-Unity/
