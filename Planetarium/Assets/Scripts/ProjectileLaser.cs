@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyLaser : MonoBehaviour
+public class ProjectileLaser : MonoBehaviour
 {
     public float lifetime;
+    [SerializeField]
+    float _damage;
 
     private void Awake()
     {
@@ -13,6 +15,11 @@ public class DestroyLaser : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Health healthScript = collision.gameObject.GetComponent<Health>();
+        if (healthScript != null)
+        {
+            healthScript.TakeDamage(_damage);
+        }
         Destroy(this.gameObject);
     }
 }
