@@ -150,7 +150,7 @@ public class PlayerAttributes : MonoBehaviour
             {
                 Color a = health.heartsList[0].color;
                 a.a = 255;
-                for (int i = 0; i < health.currentNumberOfHearts; i++)
+                for (int i = 0; i < health.maxNumberOfHearts; i++)
                 {
                     health.heartsList[i].color = a;
                 }
