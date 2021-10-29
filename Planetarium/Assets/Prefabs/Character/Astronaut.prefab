@@ -692,9 +692,10 @@ MonoBehaviour:
   health:
     currentNumberOfHearts: 3
     maxNumberOfHearts: 5
+    glowHeartsAt: 2
     heartsList: []
-    fullHeart: {fileID: 0}
-    emptyHeart: {fileID: 0}
+    fullHeart: {fileID: 21300000, guid: 916f9c9dbd67c1a4783714423ec1d668, type: 3}
+    emptyHeart: {fileID: 21300000, guid: 57daf334b5a3b4b43bb48c1d75ce1a5d, type: 3}
   oxygen:
     currentNumberOfOxygen: 0
     maxNumberOfOxygen: 0
