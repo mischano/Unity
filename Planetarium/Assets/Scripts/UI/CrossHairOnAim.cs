@@ -16,7 +16,7 @@ public class CrossHairOnAim : MonoBehaviour
     // will update the crosshair based on aiming setting
     void Update()
     {
-        Debug.Log(Input.GetButton("Fire2"));
+       
         if (Input.GetButton("Fire2"))
         {
            

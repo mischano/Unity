@@ -166,25 +166,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleAimRotation()
     {
-        Vector3 targetDirection;
+        Vector3 targetDirectionX;
+        Vector3 targetDirectionY;
 
 
         // player rotation is based on mouse position
+        // horizontal rotation
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 5f);
         mousePosition.x += 2f; // offset to align mouse with center of screen
-        targetDirection = mousePosition - transform.position;
+        targetDirectionX = mousePosition - transform.position;
         // allow the player to stabilize the movement in the center
-        if (targetDirection.sqrMagnitude < 10f) 
+        if (targetDirectionX.sqrMagnitude < 10f) 
         {
-            targetDirection = transform.forward;
+            targetDirectionX = transform.forward;
         }
-        targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
-        targetDirection.Normalize(); 
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
+        targetDirectionX = ProjectDirectionOnPlane(targetDirectionX, _upAxis);
+        targetDirectionX.Normalize(); 
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirectionX, _upAxis);
         Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _aimRotationSpeed * Time.fixedDeltaTime);
         
         _rb.MoveRotation(newRotation);
         
+        // vertical rotation
+        //Vector3 mousePositionY = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.up * 5f);
+        //targetDirectionY = mousePositionY - transform.position;
+        //targetDirectionY = ProjectDirectionOnPlane(targetDirectionY, Vector3.forward);
+        //targetDirectionY.Normalize();
+        //Quaternion targetRotationY = Quaternion.LookRotation(targetDirectionY, Vector3.forward);
+        //Quaternion newRotationY =
+            //Quaternion.RotateTowards(_rb.rotation, targetRotationY, _aimRotationSpeed * Time.fixedDeltaTime);
+        //_rb.MoveRotation(newRotationY);
     }
 
     public void HandleJumping()
