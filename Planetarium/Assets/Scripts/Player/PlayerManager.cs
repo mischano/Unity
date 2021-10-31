@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     {
         inputManager = GetComponent<InputManager>();
         playerMovement = GetComponent<PlayerMovement>();
+        // TODO: When we make a pause menu, handle cursor locking there.
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
