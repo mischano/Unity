@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 public class InputManager : MonoBehaviour
@@ -37,8 +38,21 @@ public class InputManager : MonoBehaviour
         HandleMovementInput();
         HandleSprintingInput();
         HandleJumpingInput();
+        HandleAimInputs();
     }
 
+    private void HandleAimInputs()
+    {
+        // if right mouse button is down
+        if(Input.GetMouseButton(1))
+        {
+            playerMovement.aiming = true;
+        }
+        else
+        {
+            playerMovement.aiming = false;
+        }
+    }
     private void HandleJumpingInput()
     {
         if (_space)

@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -60,10 +63,11 @@ public class PlayerMovement : MonoBehaviour
     private GameObject _visualObject;
 
     private Rigidbody _rb;
-
+    private CinemachineFreeLook _cinemachineFree;
+    private CinemachineVirtualCamera _virtualCamera;
     private Vector3 _moveDirection;
     private Vector3 _gravity;
-
+    public bool aiming;
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
@@ -72,14 +76,24 @@ public class PlayerMovement : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
+        aiming = false;
     }
 
     public void HandleAllMovement()
     {
+       
         _gravity = GetGravity();
         _isGrounded = CheckGrounded();
         HandleMovement();
-        HandleRotation();
+        if (aiming == true)
+        {
+            HandleAimRotation();
+        }
+        else
+        {
+            HandleRotation();
+        }
+
         // _visualObject gets interpolated thanks to InterpolatedTransform
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
@@ -145,6 +159,30 @@ public class PlayerMovement : MonoBehaviour
         Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
         // This doesn't interpolate between FixedUpdates because _rb is not kinematic
         _rb.MoveRotation(newRotation);
+    }
+
+    private void HandleAimRotation()
+    {
+        Vector3 targetDirection;
+        targetDirection = cameraObject.forward * inputManager._verticalInput
+                          + cameraObject.right * inputManager._horizontalInput;
+
+
+        targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
+        targetDirection.Normalize();
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
+        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        _rb.MoveRotation(newRotation);
+        
+        
+        //Quaternion targetAimingRotation = Quaternion.Euler(0, cameraObject.eulerAngles.y, 0);
+        //Quaternion newAimRotation = Quaternion.Lerp(transform.rotation, targetAimingRotation, _rotationSpeed);
+    
+        //Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint((Input.mousePosition + Vector3.forward * 10f));
+        //float Angle = Mathf.Atan2(transform.position.y - mouseWorldPosition.y,
+            //transform.position.x - mouseWorldPosition.x) * Mathf.Rad2Deg;
+        //Quaternion newRotation =  Quaternion.Euler(new Vector3(0f, 0f, Angle));
+        //_rb.MoveRotation(newAimRotation);
     }
 
     public void HandleJumping()
