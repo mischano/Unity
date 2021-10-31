@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(1f, 10000f)]
     public float _rotationSpeed = 500f;
 
+    [SerializeField, Range(1f, 100f)]
+    public float _aimRotationSpeed = 2f;
+    
     [SerializeField, Range(0.1f, 200f)]
     public float _jumpVel = 10f;
 
@@ -164,25 +167,23 @@ public class PlayerMovement : MonoBehaviour
     private void HandleAimRotation()
     {
         Vector3 targetDirection;
-        targetDirection = cameraObject.forward * inputManager._verticalInput
-                          + cameraObject.right * inputManager._horizontalInput;
 
 
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 5f);
+        mousePosition.x += 2f;
+        targetDirection = mousePosition - transform.position;
+        if (targetDirection.sqrMagnitude < 10f)
+        {
+            targetDirection = transform.forward;
+        }
         targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
-        targetDirection.Normalize();
+        targetDirection.Normalize(); 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
-        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _aimRotationSpeed * Time.fixedDeltaTime);
+        
         _rb.MoveRotation(newRotation);
         
-        
-        //Quaternion targetAimingRotation = Quaternion.Euler(0, cameraObject.eulerAngles.y, 0);
-        //Quaternion newAimRotation = Quaternion.Lerp(transform.rotation, targetAimingRotation, _rotationSpeed);
-    
-        //Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint((Input.mousePosition + Vector3.forward * 10f));
-        //float Angle = Mathf.Atan2(transform.position.y - mouseWorldPosition.y,
-            //transform.position.x - mouseWorldPosition.x) * Mathf.Rad2Deg;
-        //Quaternion newRotation =  Quaternion.Euler(new Vector3(0f, 0f, Angle));
-        //_rb.MoveRotation(newAimRotation);
     }
 
     public void HandleJumping()

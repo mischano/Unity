@@ -12,6 +12,7 @@ public class PlayerShoot : MonoBehaviour
     public Rigidbody projectile;
     public Transform SpawnPoint;
     public float speed;             // speed of projectile
+    private float verticalDamp = -0.05f;
 
     private void Update()
     {
@@ -23,7 +24,10 @@ public class PlayerShoot : MonoBehaviour
 
     void FireProjectile()
     {
+        Vector3 shootDir;
         Rigidbody clone = (Rigidbody)Instantiate(projectile, SpawnPoint.position, projectile.rotation);
-        clone.velocity = SpawnPoint.TransformDirection(Vector3.forward * speed);
+        shootDir = Vector3.forward * speed;
+        shootDir.y = verticalDamp * speed;
+        clone.velocity = SpawnPoint.TransformDirection(shootDir);
     }
 }

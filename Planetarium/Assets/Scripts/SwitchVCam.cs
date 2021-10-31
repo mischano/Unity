@@ -14,25 +14,18 @@ public class SwitchVCam : MonoBehaviour
     private bool aimAction;
     public CinemachineFreeLook camera;
 
-    private void Awake()
-    {
-        
-        
-        
-        
-    }
-
     private void Update()
     {
         aimAction = Input.GetMouseButton(1);
-        Debug.Log(aimAction);
         if (aimAction)
         {
+            // if aiming, use the aimCamera
             virtualCamera.Priority = priorityboostAmount;
             camera.Priority = 0;
         }
         else
         {
+            // if not aiming, use the free look camera
             virtualCamera.Priority = 0;
             camera.Priority = 10;
         }
