@@ -10,6 +10,8 @@ public class Health : MonoBehaviour
     [SerializeField]
     float _maxHealth = 100f;
     [SerializeField]
+    OnHealthChangedEvent _onHealthChanged = null;
+    [SerializeField]
     UnityEvent _onDeath = null;
 
     void Awake()
@@ -24,6 +26,10 @@ public class Health : MonoBehaviour
         {
             _health = 0f;
             _onDeath.Invoke();
+        }
+        if (_onHealthChanged != null)
+        {
+            _onHealthChanged.Invoke(_health / _maxHealth);
         }
     }
 }
