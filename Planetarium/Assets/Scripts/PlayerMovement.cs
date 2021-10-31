@@ -169,11 +169,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetDirection;
 
 
-
+        // player rotation is based on mouse position
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 5f);
-        mousePosition.x += 2f;
+        mousePosition.x += 2f; // offset to align mouse with center of screen
         targetDirection = mousePosition - transform.position;
-        if (targetDirection.sqrMagnitude < 10f)
+        // allow the player to stabilize the movement in the center
+        if (targetDirection.sqrMagnitude < 10f) 
         {
             targetDirection = transform.forward;
         }
