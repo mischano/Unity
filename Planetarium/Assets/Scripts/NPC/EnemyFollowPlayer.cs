@@ -8,7 +8,7 @@ public class EnemyFollowPlayer : MonoBehaviour
     private Rigidbody _rb;
     public Transform player;
     private Vector3 playerPos;
-    private PlayerAttributes _playerAttributes;
+    private _PlayerHealth _playerAttributes;
 
     private Transform planet;
     // speed of the moving enemy
@@ -21,7 +21,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         playerPos = new Vector3();
         _playerAttributes = GameObject.FindGameObjectWithTag("Player").
-            GetComponent<PlayerAttributes>();
+            GetComponent<_PlayerHealth>();
         planet = GameObject.FindWithTag("Planet").transform;
     }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsumableRespawn : MonoBehaviour
+public class CollectibleRespawn : MonoBehaviour
 {
     [Header("Respawn Settings")]
 
