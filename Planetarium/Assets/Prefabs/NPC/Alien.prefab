@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6896933447101251214}
   - component: {fileID: 102989807961258}
   - component: {fileID: 5122818903662620740}
+  - component: {fileID: 1900215143460033457}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -127,7 +128,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 6554619489265720431}
-  tweenLength: 0.1
+  _tweenLength: 0.1
+  _hideTweenLength: 0.1
+  _timeVisible: 5
+--- !u!225 &1900215143460033457
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454534886544687137}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &2592128613616156765
 GameObject:
   m_ObjectHideFlags: 0
