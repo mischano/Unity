@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(float amount)
     {
         _health -= amount;
-        if (_health < 0f && _onDeath != null)
+        if (_health <= Mathf.Epsilon && _onDeath != null)
         {
             _health = 0f;
             _onDeath.Invoke();
