@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ConsumablesMovement : MonoBehaviour
+public class CollectibleMovement : MonoBehaviour
 {
     #region Movement Settings
     [Header("Movement Settings")]
