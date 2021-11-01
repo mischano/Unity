@@ -21,6 +21,7 @@ public class HealthBar : MonoBehaviour
     // fillAmount: Value in [0, 1] specifying how much of the health bar is full
     public void SetHealthBarFill(float fillAmount)
     {
+        StopCoroutine(LerpHideHealthBar());
         StartCoroutine(TweenToHealth(fillAmount));
         _timeSinceLastChange = 0f;
     }

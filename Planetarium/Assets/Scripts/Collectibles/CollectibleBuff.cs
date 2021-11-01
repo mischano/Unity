@@ -32,9 +32,10 @@ public class CollectibleBuff : MonoBehaviour
     public bool boostSprint;
     #endregion
 
-    private _PlayerHealth _playerHealth;
-    private Scrap _scrap;
     private GameObject _player;
+    private _PlayerHealth _playerHealth;
+    private Oxygen _oxygen;
+    private Scrap _scrap;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class CollectibleBuff : MonoBehaviour
         
         _playerHealth = _player.GetComponent<_PlayerHealth>();
         _scrap = _player.GetComponent<Scrap>();
+        _oxygen = _player.GetComponent<Oxygen>();
     }
     
     /* Apply the proper boost to player based on enabled boosts. */
@@ -52,13 +54,13 @@ public class CollectibleBuff : MonoBehaviour
             _playerHealth.AddHealth(healthBoostAmount);
 
         }
-        //if (boostOxygen)
-        //{
-        //    _playerHealth.AddOxygen(oxygenBoostAmount);
-        //}
-        //if (boostScrap)
-        //{
-        //    _scrap.AddScrap(scrapBoostAmount);
-        //}
+        else if (boostOxygen)
+        {
+            _oxygen.AddOxygen(oxygenBoostAmount * 10);
+        }
+        else if (boostScrap)
+        {
+            _scrap.AddScrap(scrapBoostAmount);
+        }
     }
 }
