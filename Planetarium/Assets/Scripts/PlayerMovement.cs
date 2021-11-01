@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -59,6 +60,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _visualObject;
 
+    [Header("Camera")]
+    [SerializeField]
+    CinemachineFreeLook _freelook;
+
+    [Header("Zero G Rotation")]
+    [SerializeField]
+    float _zeroGRotationSpeed = 1f;
+
     private Rigidbody _rb;
 
     private Vector3 _moveDirection;
@@ -79,7 +88,14 @@ public class PlayerMovement : MonoBehaviour
         _gravity = GetGravity();
         _isGrounded = CheckGrounded();
         HandleMovement();
-        HandleRotation();
+        if (_inZeroGravity)
+        {
+            HandleZeroGRotation();
+        }
+        else
+        {
+            HandleRotation();
+        }
         // _visualObject gets interpolated thanks to InterpolatedTransform
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
@@ -168,8 +184,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
         if (gravity == Vector3.zero)
         {
-            // In zero gravity, don't alter the player's up axis
-            _upAxis = transform.up;
             _inZeroGravity = true;
         }
         else
@@ -182,6 +196,30 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 ProjectDirectionOnPlane(Vector3 direction, Vector3 normal)
     {
         return (direction - normal * Vector3.Dot(direction, normal)).normalized;
+    }
+
+    void HandleZeroGRotation()
+    {
+        // Slowly move the player to the camera's up based on input.
+        AxisState yAxis = _freelook.m_YAxis;
+        float axisExtra = 0f;
+        float axisEpsilon = 0.08f;
+        // Note: input axis is inverted
+        if (yAxis.Value >= yAxis.m_MaxValue - axisEpsilon)
+        {
+            axisExtra = Mathf.Abs(Mathf.Clamp(yAxis.m_InputAxisValue, Mathf.NegativeInfinity, 0f));
+        }
+        else if (yAxis.Value <= yAxis.m_MinValue + axisEpsilon)
+        {
+            axisExtra = Mathf.Clamp(yAxis.m_InputAxisValue, 0f, Mathf.Infinity);
+        }
+
+        float rotateAmount = axisExtra * _zeroGRotationSpeed;
+        Quaternion targetUpRotation = Quaternion.FromToRotation(transform.up, cameraObject.up) * transform.rotation;
+        Quaternion newUpRotation = Quaternion.Slerp(transform.rotation, targetUpRotation, rotateAmount);
+
+        _upAxis = newUpRotation * transform.up;
+        _rb.MoveRotation(newUpRotation);
     }
 
     // private void OnCollisionEnter(Collision collision)
@@ -212,6 +250,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawRay(transform.position, _upAxis);
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, _moveDirection);
+        // Debug.Log($"{_freelook.m_YAxis.m_MinValue}, {_freelook.m_YAxis.m_MaxValue}, {_freelook.m_YAxis.Value}");
     }
 
     //private void HandleFallingAndLanding()
