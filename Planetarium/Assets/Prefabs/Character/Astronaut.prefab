@@ -577,7 +577,6 @@ GameObject:
   - component: {fileID: 2301779012137730153}
   - component: {fileID: 2524360641524639042}
   - component: {fileID: 7498839711831742367}
-  - component: {fileID: 2458461827545145525}
   - component: {fileID: 6163363032806416647}
   - component: {fileID: 6003000602360891882}
   - component: {fileID: 6343187683311283168}
@@ -679,22 +678,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2401773406258079115}
   _isInteracting: 0
---- !u!114 &2458461827545145525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551825590994139651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a147044b97d95243a1a5ab929f1a972, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  oxygen:
-    currentNumberOfOxygen: 0
-    maxNumberOfOxygen: 0
-    oxygenList: []
 --- !u!114 &6163363032806416647
 MonoBehaviour:
   m_ObjectHideFlags: 0
