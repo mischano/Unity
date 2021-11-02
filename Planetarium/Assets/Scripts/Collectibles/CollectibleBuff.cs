@@ -32,10 +32,10 @@ public class CollectibleBuff : MonoBehaviour
     public bool boostSprint;
     #endregion
 
-    private GameObject _player;
+    public GameObject _player;
     private _PlayerHealth _playerHealth;
     private Oxygen _oxygen;
-    private Scrap _scrap;
+    public Scrap _scrap;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class CollectibleBuff : MonoBehaviour
         }
         else if (boostScrap)
         {
-            _scrap.AddScrap(scrapBoostAmount);
+            _scrap.AddScrap();
         }
     }
 }

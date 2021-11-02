@@ -8,7 +8,7 @@ public class Scrap : MonoBehaviour
     [SerializeField]
     public int maxScrap = 3;
 
-    private int _collectedScrap = 0;
+    public int _collectedScrap = 0;
 
     private TextMeshProUGUI _text;
 
@@ -22,8 +22,13 @@ public class Scrap : MonoBehaviour
         _text.text = _collectedScrap.ToString() + "/" + maxScrap.ToString();
     }
 
-    public void AddScrap(int amount)
+    public void AddScrap()
     {
-        _collectedScrap += amount;
+        _collectedScrap += 1;
+    }
+
+    public int getScrap()
+    {
+        return(_collectedScrap);
     }
 }
