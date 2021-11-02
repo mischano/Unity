@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class Oxygen : MonoBehaviour
 {
     private float _oxygen;
+    public bool isEmpty => _oxygen <= Mathf.Epsilon;
+    public bool isFull => _oxygen >= maxOxygen - Mathf.Epsilon;
 
     [SerializeField]
     public float maxOxygen = 100f;
@@ -30,30 +32,45 @@ public class Oxygen : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    private void HandleOxygenChange()
     {
-        _oxygen -= amount;
-        if (_oxygen <= Mathf.Epsilon && onDeath != null)
-        {
-            _oxygen = 0f;
-            onDeath.Invoke();
-        }
         if (onOxygenChanged != null)
         {
             onOxygenChanged.Invoke(_oxygen / maxOxygen);
         }
     }
 
+    public void TakeDamage(float amount)
+    {
+        _oxygen -= amount;
+        if (_oxygen <= Mathf.Epsilon)
+        {
+            _oxygen = 0f;
+            if (onDeath != null)
+            {
+                onDeath.Invoke();
+            }
+        }
+        HandleOxygenChange();
+    }
+
     public void AddOxygen(float amount)
     {
         _oxygen += amount;
-        if (_oxygen >= maxOxygen)
+        if (_oxygen > maxOxygen)
         {
             _oxygen = maxOxygen;
         }
-        if (onOxygenChanged != null)
+        HandleOxygenChange();
+    }
+
+    // Set oxygen to max.
+    public void RefillOxygen()
+    {
+        if (!isFull)
         {
-            onOxygenChanged.Invoke(_oxygen / maxOxygen);
+            _oxygen = maxOxygen;
+            HandleOxygenChange();
         }
     }
 }
