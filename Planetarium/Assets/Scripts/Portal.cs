@@ -46,7 +46,7 @@ public class Portal : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         _onPortal = true;
         if (other.CompareTag("Player") && _activatePortal && _onPortal)
@@ -65,6 +65,7 @@ public class Portal : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         _onPortal = false;
+        _teleportTime = teleportTime;
         var main = _ps.main;
         main.startSpeed = 0.5f;
     }
