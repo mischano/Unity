@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
 
     bool gameHasEnded = false;
     
-    public float restartDelay = 5f;
+    public float restartDelay = 2f;
 
     public void CompleteLevel ()
     {
         Debug.Log ("LEVEL WON");
+        EndGame();
     }
 
     public void EndGame () 
