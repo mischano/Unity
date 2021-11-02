@@ -127,5 +127,10 @@ public class _PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentNumberOfHearts -= amount;
+        
+        if(currentNumberOfHearts == 0)
+        {
+            FindObjectOfType<GameManager>().EndGame();
+        }
     }
 }
