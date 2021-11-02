@@ -52,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Falling Settings")]
     public float _inAirTime;
-    public LayerMask _groundLayer;
+    public LayerMask playerLayer;
+    private LayerMask _playerLayerMask;
 
     private Transform cameraObject;
     private InputManager inputManager;
@@ -85,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _oxygen = GetComponent<Oxygen>();
         cameraObject = Camera.main.transform;
+
+        _playerLayerMask = ~playerLayer;
     }
 
     public void HandleAllMovement()
@@ -197,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
         RaycastHit hit;
-        return Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _groundLayer);
+        return Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
     }
 
     private Vector3 GetGravity()

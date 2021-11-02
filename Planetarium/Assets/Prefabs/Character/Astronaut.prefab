@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 6343187683311283168}
   - component: {fileID: 2167918156391942895}
   - component: {fileID: 491049095416860234}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AstronautSimulated
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -805,9 +805,9 @@ MonoBehaviour:
   _isJumping: 0
   _isGrounded: 0
   _inAirTime: 0
-  _groundLayer:
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8
   _visualObject: {fileID: 7062958889879867107}
   _freelook: {fileID: 8362208224887847047}
   _zeroGRotationSpeed: 0.5
@@ -2789,7 +2789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1602041737818765615}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ProjectileSpawnParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3334,7 +3334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 500713809127596178}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4805,19 +4805,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481268468725969196, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8548925
+      value: 0.8516584
       objectReference: {fileID: 0}
     - target: {fileID: 6481268468725969196, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5187878
+      value: -0.5240973
       objectReference: {fileID: 0}
     - target: {fileID: 6481268468725969196, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0036328505
+      value: 0.000000026418732
       objectReference: {fileID: 0}
     - target: {fileID: 6481268468725969196, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0022045798
+      value: 0.000000016257678
       objectReference: {fileID: 0}
     - target: {fileID: 6481268469152773906, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_BindingMode
@@ -4837,19 +4837,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481268469528117911, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8548925
+      value: 0.8516584
       objectReference: {fileID: 0}
     - target: {fileID: 6481268469528117911, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5187878
+      value: -0.5240973
       objectReference: {fileID: 0}
     - target: {fileID: 6481268469528117911, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0036328505
+      value: -0.000000026417329
       objectReference: {fileID: 0}
     - target: {fileID: 6481268469528117911, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0022045798
+      value: -0.000000016256813
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77b429a3d3120bb459410955d069dcc8, type: 3}
