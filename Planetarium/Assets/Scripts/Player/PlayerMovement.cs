@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField, Range(0f, 5f)]
     float _airMoveMultiplier = 0.4f;
+    [SerializeField]
+    float _zeroGMoveOxygenDepleteRate = 1.0f;
 
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
@@ -69,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     float _zeroGRotationSpeed = 1f;
 
     private Rigidbody _rb;
+    private Oxygen _oxygen;
 
     private Vector3 _moveDirection;
     private Vector3 _gravity;
@@ -80,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
         _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
+        _oxygen = GetComponent<Oxygen>();
         cameraObject = Camera.main.transform;
     }
 
@@ -96,6 +100,10 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleRotation();
         }
+        if (_isGrounded)
+        {
+            _oxygen.RefillOxygen();
+        }
         // _visualObject gets interpolated thanks to InterpolatedTransform
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
@@ -104,30 +112,39 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 forwardMoveDir = cameraObject.forward * inputManager._verticalInput;
         Vector3 lateralMoveDir = cameraObject.right * inputManager._horizontalInput;
-        forwardMoveDir = ProjectDirectionOnPlane(forwardMoveDir, _upAxis);
-        lateralMoveDir = ProjectDirectionOnPlane(lateralMoveDir, _upAxis);
+
+        if (!_inZeroGravity)
+        {
+            forwardMoveDir = ProjectDirectionOnPlane(forwardMoveDir, _upAxis);
+            lateralMoveDir = ProjectDirectionOnPlane(lateralMoveDir, _upAxis);
+        }
 
         // If we're going too fast, don't add speed in that direction.
         float max = _isSprint ? _maxSprintSpeed : _maxSpeed;
-        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
+        if (_isGrounded && Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
         {
             forwardMoveDir = Vector3.zero;
         }
-        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
+        if (_isGrounded && Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
         {
             lateralMoveDir = Vector3.zero;
         }
 
         _moveDirection = forwardMoveDir + lateralMoveDir;
-        if (_moveDirection.sqrMagnitude > 0f)
+        if (_moveDirection != Vector3.zero)
         {
             _moveDirection.Normalize();
         }
 
         Vector3 moveAccel = _moveDirection * _moveAccel;
-        if (!_isGrounded)
+        if (!_isGrounded && moveAccel != Vector3.zero)
         {
+            // Handle air movement
             moveAccel *= _airMoveMultiplier;
+            if (_inZeroGravity)
+            {
+                _oxygen.TakeDamage(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+            }
         }
 
         _rb.AddForce(moveAccel + _gravity);
@@ -175,6 +192,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CheckGrounded()
     {
+        if (_inZeroGravity)
+        {
+            return false;
+        }
         RaycastHit hit;
         return Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _groundLayer);
     }
