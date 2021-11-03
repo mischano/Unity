@@ -143,20 +143,17 @@ public class PlayerMovement : MonoBehaviour
 
         // If we're going too fast, don't add speed in that direction.
         float max = _isSprint ? _maxSprintSpeed : _maxSpeed;
-        if (_isGrounded && Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
+        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
         {
             forwardMoveDir = Vector3.zero;
         }
-        if (_isGrounded && Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
+        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
         {
             lateralMoveDir = Vector3.zero;
         }
 
         _moveDirection = forwardMoveDir + lateralMoveDir;
-        if (_moveDirection != Vector3.zero)
-        {
-            _moveDirection.Normalize();
-        }
+        _moveDirection = Vector3.ClampMagnitude(_moveDirection, 1.0f);
 
         Vector3 moveAccel = _moveDirection * _moveAccel;
         if (!_isGrounded && moveAccel != Vector3.zero)
