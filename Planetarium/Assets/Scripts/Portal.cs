@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Events;
 
 [System.Serializable]
@@ -15,6 +16,7 @@ public class Portal : MonoBehaviour
     private Gradient _gradNew;
 
     private GameManager _gameManager;
+    private TextMeshProUGUI _text;
     
     private float _teleportTime;
 
@@ -25,6 +27,9 @@ public class Portal : MonoBehaviour
     {
         _ps = GetComponentInChildren<ParticleSystem>();
         _gameManager = FindObjectOfType<GameManager>();
+        _text = GameObject.FindGameObjectWithTag("UI-Extract").GetComponent<TextMeshProUGUI>();
+        _text.enabled = false;
+
 
         _gradNew = new Gradient();
         _gradNew.SetKeys(
@@ -45,7 +50,7 @@ public class Portal : MonoBehaviour
         color.color= _gradNew;
 
     }
-
+    
     private void OnTriggerStay(Collider other)
     {
         _onPortal = true;
@@ -59,14 +64,17 @@ public class Portal : MonoBehaviour
             }
             var main = _ps.main;
             main.startSpeed = 2f;
+            _text.enabled = true;
             _teleportTime -= Time.deltaTime;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         _onPortal = false;
         _teleportTime = teleportTime;
         var main = _ps.main;
         main.startSpeed = 0.5f;
+        _text.enabled = false;
     }
 }

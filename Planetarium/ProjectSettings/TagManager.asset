@@ -8,6 +8,8 @@ TagManager:
   - Canvas
   - Planet
   - Scrap
+  - UI
+  - UI-Extract
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Extraction
   - 
   - 
   - 
