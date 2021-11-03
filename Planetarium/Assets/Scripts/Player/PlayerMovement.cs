@@ -40,6 +40,12 @@ public class PlayerMovement : MonoBehaviour
     float _groundDragMoving = 1f;
     [SerializeField, Range(0f, 2f)]
     float _airDrag = 0.5f;
+
+    [SerializeField]
+    float _groundDownForceMultiplier = 1f;
+
+    [SerializeField]
+    int _numJumpingTicks = 3;
     #endregion
 
     [Header("Ground Check")]
@@ -49,11 +55,10 @@ public class PlayerMovement : MonoBehaviour
     float _spherecastStartOffset = 0.5f;
 
     #region Movement Flags
-    [Header("Movement Flags")]
+    [Header("Animation Flags")]
     public bool _isSprint;
     public bool _isJumping;
     public bool _isGrounded;
-    bool _inZeroGravity;
     #endregion
 
     [Header("Falling Settings")]
@@ -80,6 +85,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rb;
     private Oxygen _oxygen;
 
+    #region Internal Flags
+    bool _inZeroGravity;
+    bool _movementJumping;
+    #endregion
+
     private Vector3 _moveDirection;
     private Vector3 _gravity;
 
@@ -94,6 +104,8 @@ public class PlayerMovement : MonoBehaviour
         cameraObject = Camera.main.transform;
 
         _playerLayerMask = ~playerLayer;
+
+        _movementJumping = false;
     }
 
     public void HandleAllMovement()
@@ -109,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleRotation();
         }
+        HandleDrag();
         if (_isGrounded)
         {
             _oxygen.RefillOxygen();
@@ -159,9 +172,17 @@ public class PlayerMovement : MonoBehaviour
                 moveAccel *= _airMoveMultiplier;
             }
         }
+        else if (_isGrounded && !_movementJumping)
+        {
+            // Also apply a downward force proportional to velocity
+            _rb.AddForce(-_upAxis * _groundDownForceMultiplier * _rb.velocity.magnitude);
+        }
 
         _rb.AddForce(moveAccel + _gravity);
+    }
 
+    void HandleDrag()
+    {
         // Change drag based on movement state
         if (_inZeroGravity)
         {
@@ -171,8 +192,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.drag = _airDrag;
         }
-        else
-        if (_moveDirection.sqrMagnitude < _groundDragThreshold
+        else if (_moveDirection.sqrMagnitude < _groundDragThreshold
             || Vector3.Dot(_moveDirection, _rb.velocity) < 0f)
         {
             _rb.drag = _groundDragStopping;
@@ -203,14 +223,26 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleJumping()
     {
-        if (_isGrounded)
+        if (!_isGrounded || _movementJumping)
         {
-            Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
-            Vector3 desiredUpVelocity = _upAxis * _jumpVel;
-            _rb.velocity += desiredUpVelocity - upVelocity;
-            _animatorManager.animator.SetBool("isJumping", true);
-            _animatorManager.PlayTargetAnimation("Jumping", false);
+            return;
         }
+        Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
+        Vector3 desiredUpVelocity = _upAxis * _jumpVel;
+        _rb.velocity += desiredUpVelocity - upVelocity;
+        _animatorManager.animator.SetBool("isJumping", true);
+        _animatorManager.PlayTargetAnimation("Jumping", false);
+    }
+
+    IEnumerator JumpingCoroutine()
+    {
+        // TODO: Adjust jump based on input
+        _movementJumping = true;
+        for (int i = 0; i < _numJumpingTicks; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        _movementJumping = false;
     }
 
     private bool CheckGrounded()
