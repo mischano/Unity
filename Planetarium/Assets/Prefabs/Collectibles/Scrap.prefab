@@ -88,12 +88,14 @@ MonoBehaviour:
   extraSprintBoost: 1
   healthBoostAmount: 0
   oxygenBoostAmount: 0
-  scrapBoostAmount: 2
+  scrapBoostAmount: 1
   boostHealth: 0
   boostOxygen: 0
   boostScrap: 1
   boostJump: 0
   boostSprint: 0
+  _player: {fileID: 0}
+  _scrap: {fileID: 0}
 --- !u!114 &2599476059376855131
 MonoBehaviour:
   m_ObjectHideFlags: 0
