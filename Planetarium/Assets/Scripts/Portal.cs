@@ -4,77 +4,149 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
+/* Triggered when the player collects all scraps. 
+ * Called from Scrap.cs */
 [System.Serializable]
 public class OnScrapComplete : UnityEvent<bool> { }
 
+/* Triggered when the player enters/exits the portal. */
+[System.Serializable]
+public class OnPortalEnter : UnityEvent<bool> { }
+
 public class Portal : MonoBehaviour
 {
-    [SerializeField, Range(1f, 5f)]
-    public int teleportTime = 2;
+    [SerializeField]
+    private OnPortalEnter _enterPortal = null;
 
-    private ParticleSystem _ps;
-    private Gradient _gradNew;
+    [SerializeField, Range(1f, 20f)]
+    public int teleportTime = 10;
 
     private GameManager _gameManager;
     private TextMeshProUGUI _text;
-    
-    private float _teleportTime;
+    private Coroutine _corourine;
 
-    private bool _onPortal;
+    private ParticleSystem _ps;
+    private ParticleSystem.MinMaxCurve _trailOldWidth;
+    private ParticleSystem.MinMaxCurve _trailNewWidth;
+    private ParticleSystem.MinMaxCurve _trailOldVelocity;
+    private ParticleSystem.MinMaxGradient _trailOldColor;
+    private Gradient _trailNewColor;
+
     private bool _activatePortal;
 
     private void Awake()
     {
-        _ps = GetComponentInChildren<ParticleSystem>();
         _gameManager = FindObjectOfType<GameManager>();
+        
         _text = GameObject.FindGameObjectWithTag("UI-Extract").GetComponent<TextMeshProUGUI>();
-        _text.enabled = false;
+        _text.enabled = false;  // Disable "Extract" text
 
-
-        _gradNew = new Gradient();
-        _gradNew.SetKeys(
+        _ps = GetComponentInChildren<ParticleSystem>();
+        _trailOldVelocity = _ps.velocityOverLifetime.y;
+        _trailOldWidth = _ps.trails.widthOverTrail;
+        _trailNewWidth = new ParticleSystem.MinMaxCurve(4.2f, 2.2f);
+        _trailOldColor = _ps.trails.colorOverTrail;
+        _trailNewColor = new Gradient();
+        _trailNewColor.SetKeys(
             new GradientColorKey[] { 
             new GradientColorKey(Color.blue, 0.0f), 
             new GradientColorKey(Color.red, 1.0f) }, 
             new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), 
             new GradientAlphaKey(0.0f, 1.0f) }
             );
-
-        _teleportTime = (float)teleportTime;
+        _ps.Stop(); // Disable the particle system at the start
     }
 
+    /* Part of OnScrapComplete Event */
     public void ActivatePortal()
     {
         _activatePortal = true;
-        var color = _ps.colorOverLifetime;
-        color.color= _gradNew;
 
+        _ps.Play(); // Enable particle system when all scraps are collected
     }
     
-    private void OnTriggerStay(Collider other)
+    /* Bool status
+     * true : when player steps on the platform.
+     * false : when player steps off the platform. 
+     */
+    public void HandleParticleSystemProperties(bool status)
     {
-        _onPortal = true;
-        if (other.CompareTag("Player") && _activatePortal && _onPortal)
+        if (status)
         {
-            if (_teleportTime <= 0)
-            {
-                _teleportTime = teleportTime;
-                _onPortal = false;
-                _gameManager.CompleteLevel();
-            }
-            var main = _ps.main;
-            main.startSpeed = 2f;
+            // Change particle velocity.
+            var velocity = _ps.velocityOverLifetime;
+            velocity.y = 1f;
+
+            // change trail width
+            var width = _ps.trails;
+            width.widthOverTrail = _trailNewWidth;
+
+            // Change trail color.
+            var trailColor = _ps.trails;
+            trailColor.colorOverTrail = _trailNewColor;
+            
+            // Start the coroutine when the player steps on the portal.
+            _corourine = StartCoroutine(Countdown());
             _text.enabled = true;
-            _teleportTime -= Time.deltaTime;
+        }
+        else
+        {
+            // Change particle velocity.
+            var velocity = _ps.velocityOverLifetime;
+            velocity.y = _trailOldVelocity;
+
+            // Change  trail width
+            var width = _ps.trails;
+            width.widthOverTrail = _trailOldWidth;
+
+            // Change trail color.
+            var trailColor = _ps.trails;
+            trailColor.colorOverTrail = _trailOldColor;
+            
+            // Stop the coroutine & reset its values if the player
+            // steps off the portal prematurely.
+            StopCoroutine(_corourine);
+            _text.enabled = false;  // Disable the UI text
         }
     }
-
+    
+    /* Start coutdown timer. */
+    private IEnumerator Countdown()
+    {
+        int counter = teleportTime;
+        while (counter > 0)
+        {
+            // Display remaining time on the screen
+            _text.text = "Extracting in " + counter.ToString();
+            yield return new WaitForSeconds(1);
+            counter--;
+        }
+        _gameManager.CompleteLevel(); // If the timer is up, restart the level
+    }
+    
+    /* Triggered when player steps on the portal. */
+    private void OnTriggerEnter(Collider other)
+    {
+        // If the player steps on the portal & all all scraps are collected.
+        if (other.CompareTag("Player") && _activatePortal)
+        {
+            if (_enterPortal != null)
+            {
+                _enterPortal.Invoke(true);
+            }
+        }
+    }
+    
+    /* Triggered when player steps off the portal. */
     private void OnTriggerExit(Collider other)
     {
-        _onPortal = false;
-        _teleportTime = teleportTime;
-        var main = _ps.main;
-        main.startSpeed = 0.5f;
-        _text.enabled = false;
+        // If the player steps off the portal & all scraps are collected.
+        if (other.CompareTag("Player") &&  _activatePortal)
+        {
+            if (_enterPortal != null)
+            {
+                _enterPortal.Invoke(false);
+            }
+        }
     }
 }
