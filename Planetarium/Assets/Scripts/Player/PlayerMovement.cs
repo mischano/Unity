@@ -137,8 +137,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_inZeroGravity)
         {
-            forwardMoveDir = ProjectDirectionOnPlane(forwardMoveDir, _upAxis);
-            lateralMoveDir = ProjectDirectionOnPlane(lateralMoveDir, _upAxis);
+            forwardMoveDir = Vector3.ProjectOnPlane(forwardMoveDir, _upAxis);
+            lateralMoveDir = Vector3.ProjectOnPlane(lateralMoveDir, _upAxis);
         }
 
         // If we're going too fast, don't add speed in that direction.
@@ -209,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
         {
             targetDirection = transform.forward;
         }
-        targetDirection = ProjectDirectionOnPlane(targetDirection, _upAxis);
+        targetDirection = Vector3.ProjectOnPlane(targetDirection, _upAxis);
         targetDirection.Normalize();
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
@@ -264,11 +264,6 @@ public class PlayerMovement : MonoBehaviour
             _inZeroGravity = false;
         }
         return gravity;
-    }
-
-    private Vector3 ProjectDirectionOnPlane(Vector3 direction, Vector3 normal)
-    {
-        return (direction - normal * Vector3.Dot(direction, normal)).normalized;
     }
 
     void HandleZeroGRotation()
