@@ -10,6 +10,7 @@ public class ShieldGenerator : MonoBehaviour
 
     public void OnDeath()
     {
+        _onDeath.Invoke();
         Destroy(_shield);
         Destroy(gameObject, 1.0f);
     }
