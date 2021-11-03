@@ -26,7 +26,9 @@ public class PlayerMovement : MonoBehaviour
     float _maxSprintSpeed = 20f;
 
     [SerializeField, Range(0f, 5f)]
-    float _airMoveMultiplier = 0.4f;
+    float _airMoveMultiplier = 0.1f;
+    [SerializeField, Range(0f, 5f)]
+    float _zeroGMoveMultiplier = 0.4f;
     [SerializeField]
     float _zeroGMoveOxygenDepleteRate = 1.0f;
 
@@ -187,7 +189,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _rb.velocity += _upAxis * _jumpVel;
+            Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
+            Vector3 desiredUpVelocity = _upAxis * _jumpVel;
+            _rb.velocity += desiredUpVelocity - upVelocity;
             _animatorManager.animator.SetBool("isJumping", true);
             _animatorManager.PlayTargetAnimation("Jumping", false);
         }
