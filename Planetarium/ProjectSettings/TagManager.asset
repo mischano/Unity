@@ -10,6 +10,8 @@ TagManager:
   - Scrap
   - UI
   - UI-Extract
+  - CollectibleScrap
+  - UIScrap
   layers:
   - Default
   - TransparentFX

@@ -144,11 +144,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveAccel = _moveDirection * _moveAccel;
         if (!_isGrounded && moveAccel != Vector3.zero)
         {
-            // Handle air movement
-            moveAccel *= _airMoveMultiplier;
+            // Handle air/zeroG movement
             if (_inZeroGravity)
             {
                 _oxygen.TakeDamage(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+                moveAccel *= _zeroGMoveMultiplier;
+            }
+            else
+            {
+                moveAccel *= _airMoveMultiplier;
             }
         }
 

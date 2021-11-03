@@ -9,32 +9,31 @@ public class Scrap : MonoBehaviour
     [SerializeField]
     private OnScrapComplete _onScrapComplete = null;
 
-    [SerializeField]
-    public int maxScrap = 3;
-
-    public int collectedScrap = 0;
+    int _maxScrap;
+    int _collectedScrap = 0;
 
     private TextMeshProUGUI _text;
 
     private void Awake()
     {
-        _text = GameObject.FindGameObjectWithTag("Scrap").GetComponentInChildren<TextMeshProUGUI>();
+        _text = GameObject.FindGameObjectWithTag("UIScrap").GetComponentInChildren<TextMeshProUGUI>();
+        _maxScrap = GameObject.FindGameObjectsWithTag("CollectibleScrap").Length;
     }
-    
+
     private void Update()
     {
-        _text.text = collectedScrap.ToString() + "/" + maxScrap.ToString();
+        _text.text = _collectedScrap.ToString() + "/" + _maxScrap.ToString();
     }
 
     public void AddScrap()
     {
-        if (collectedScrap == maxScrap)
+        if (_collectedScrap == _maxScrap)
         {
             return;
         }
 
-        collectedScrap += 1;
-        if (collectedScrap == maxScrap)
+        _collectedScrap += 1;
+        if (_collectedScrap == _maxScrap)
         {
             if (_onScrapComplete != null)
             {
@@ -45,6 +44,6 @@ public class Scrap : MonoBehaviour
 
     public int getScrap()
     {
-        return(collectedScrap);
+        return (_collectedScrap);
     }
 }
