@@ -6,36 +6,37 @@ using UnityEngine;
 public class EnemyFollowPlayer : MonoBehaviour
 {
     private Rigidbody _rb;
-    public Transform player;
-    private Vector3 playerPos;
+    private GameObject _player;
+    private Vector3 _playerPos;
     private _PlayerHealth _playerAttributes;
+    private CustomGravityRigidbody _cgrb;
 
-    private Transform planet;
     // speed of the moving enemy
     public float speed = 1.5f;
     // enemy will follow the player if within a certain range
     public float followRadius = 20.0f;
+
+    public float rotationSpeed = 300f;
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        playerPos = new Vector3();
-        _playerAttributes = GameObject.FindGameObjectWithTag("Player").
-            GetComponent<_PlayerHealth>();
-        planet = GameObject.FindWithTag("Planet").transform;
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _playerAttributes = _player.GetComponent<_PlayerHealth>();
+        _cgrb = GetComponent<CustomGravityRigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerPos = player.transform.position;
+        _playerPos = _player.transform.position;
         //Debug.Log(playerPos);
-        if ((playerPos - _rb.position).magnitude <= followRadius)
+        if ((_playerPos - _rb.position).magnitude <= followRadius)
         {
             _rb.constraints = RigidbodyConstraints.None;
             followPlayer();
         }
-        else if ((playerPos - _rb.position).magnitude > followRadius)
+        else if ((_playerPos - _rb.position).magnitude > followRadius)
         {
             _rb.constraints = RigidbodyConstraints.FreezeAll;
         }
@@ -44,16 +45,13 @@ public class EnemyFollowPlayer : MonoBehaviour
     void followPlayer()
     {
         // enemy will face the player
-        transform.LookAt(player.transform, Vector3.up);
+        transform.LookAt(_player.transform, Vector3.up);
         // move enemy toward the player
-        Vector3 moveDir = Vector3.MoveTowards(_rb.position, playerPos, speed * Time.deltaTime) ;
+        Vector3 moveDir = Vector3.MoveTowards(_rb.position, _playerPos, speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
-        
-        Vector3 gravityUp = (transform.position - planet.position).normalized;
-        Vector3 localUp = transform.up;
-        transform.rotation = Quaternion.FromToRotation(localUp, gravityUp) * transform.rotation;
-        
-        
+
+        Quaternion targetRotation = Quaternion.LookRotation(moveDir, _cgrb.upAxis);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void OnCollisionEnter(Collision other)
