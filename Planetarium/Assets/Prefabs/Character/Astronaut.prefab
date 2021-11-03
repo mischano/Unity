@@ -802,6 +802,8 @@ MonoBehaviour:
   _groundDragStopping: 5
   _groundDragMoving: 1
   _airDrag: 0.5
+  _groundDownForceMultiplier: 2
+  _numJumpingTicks: 3
   _spherecastDist: 1
   _spherecastStartOffset: 1
   _isSprint: 0

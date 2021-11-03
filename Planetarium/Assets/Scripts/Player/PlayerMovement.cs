@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     float _airDrag = 0.5f;
 
     [SerializeField]
-    float _groundDownForceMultiplier = 1f;
+    float _groundDownForceMultiplier = 2f;
 
     [SerializeField]
     int _numJumpingTicks = 3;
