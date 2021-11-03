@@ -35,7 +35,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
     [SerializeField, Range(0f, 10f)]
-    float _groundDrag = 5f;
+    float _groundDragStopping = 5f;
+    [SerializeField, Range(0f, 2f)]
+    float _groundDragMoving = 1f;
+    [SerializeField, Range(0f, 2f)]
+    float _airDrag = 0.5f;
     #endregion
 
     [Header("Ground Check")]
@@ -158,16 +162,24 @@ public class PlayerMovement : MonoBehaviour
 
         _rb.AddForce(moveAccel + _gravity);
 
-        // Prevent sliding
-        if (_isGrounded &&
-            (_moveDirection.sqrMagnitude < _groundDragThreshold
-            || Vector3.Dot(_moveDirection, _rb.velocity) < 0f))
+        // Change drag based on movement state
+        if (_inZeroGravity)
         {
-            _rb.drag = _groundDrag;
+            _rb.drag = 0f;
+        }
+        else if (!_isGrounded)
+        {
+            _rb.drag = _airDrag;
+        }
+        else
+        if (_moveDirection.sqrMagnitude < _groundDragThreshold
+            || Vector3.Dot(_moveDirection, _rb.velocity) < 0f)
+        {
+            _rb.drag = _groundDragStopping;
         }
         else
         {
-            _rb.drag = 0f;
+            _rb.drag = _groundDragMoving;
         }
     }
 

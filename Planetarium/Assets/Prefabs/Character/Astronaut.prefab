@@ -799,7 +799,9 @@ MonoBehaviour:
   _zeroGMoveMultiplier: 0.4
   _zeroGMoveOxygenDepleteRate: 10
   _groundDragThreshold: 0.1
-  _groundDrag: 5
+  _groundDragStopping: 5
+  _groundDragMoving: 1
+  _airDrag: 0.5
   _spherecastDist: 1
   _spherecastStartOffset: 1
   _isSprint: 0
@@ -887,8 +889,6 @@ MonoBehaviour:
   _onScrapComplete:
     m_PersistentCalls:
       m_Calls: []
-  maxScrap: 1
-  collectedScrap: 0
 --- !u!114 &491049095416860234
 MonoBehaviour:
   m_ObjectHideFlags: 0
