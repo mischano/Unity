@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7898526174332879006}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9, y: 41.006, z: 3.395}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
@@ -133,10 +133,14 @@ MonoBehaviour:
   extraSprintBoost: 1
   healthBoostAmount: 1
   oxygenBoostAmount: 0
+  scrapBoostAmount: 1
   boostHealth: 1
   boostOxygen: 0
+  boostScrap: 0
   boostJump: 0
   boostSprint: 0
+  _player: {fileID: 0}
+  _scrap: {fileID: 0}
 --- !u!114 &7898526174332878992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,3 +166,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7035152c7dae1cd4c952cf4838284e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleAudio: {fileID: 8300000, guid: 374d9a59d92e2ac40820a8bbc5b5e604, type: 3}
