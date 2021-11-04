@@ -18,7 +18,7 @@ public class CollectibleCollider : MonoBehaviour
         // Give the boost only if the collider is the player.
         if (other.gameObject.CompareTag("Player"))
         {
-            AudioSource.PlayClipAtPoint(collectibleAudio, transform.position);
+            AudioSource.PlayClipAtPoint(collectibleAudio, other.gameObject.transform.position);
             collectibleBuff.ApplyBuff();
             collectibleRespawn.DisableObject();
             
