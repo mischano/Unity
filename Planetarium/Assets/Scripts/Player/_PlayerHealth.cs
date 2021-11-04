@@ -22,7 +22,8 @@ public class _PlayerHealth : MonoBehaviour
     public Image[] heartsList;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    
+
+    public AudioClip DeathSFX;
     private bool _isVisible;
 
     private void Awake()
@@ -131,9 +132,15 @@ public class _PlayerHealth : MonoBehaviour
         
         if(currentNumberOfHearts == 0)
         {
-            FindObjectOfType<Animator>().SetTrigger("Death");
-            FindObjectOfType<GameManager>().EndGame();
+            PlayerDeath();
         }
+    }
+
+    public void PlayerDeath()
+    {
+        AudioSource.PlayClipAtPoint(DeathSFX, GameObject.FindWithTag("Player").transform.position);
+        FindObjectOfType<Animator>().SetTrigger("Death");
+        FindObjectOfType<GameManager>().EndGame();
     }
     
 }
