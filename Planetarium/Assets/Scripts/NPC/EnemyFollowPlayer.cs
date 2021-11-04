@@ -44,13 +44,13 @@ public class EnemyFollowPlayer : MonoBehaviour
 
     void followPlayer()
     {
-        // enemy will face the player
-        transform.LookAt(_player.transform, Vector3.up);
         // move enemy toward the player
         Vector3 moveDir = Vector3.MoveTowards(_rb.position, _playerPos, speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
+        Vector3 positionDiff = _playerPos - _rb.position;
+        Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _cgrb.upAxis).normalized;
 
-        Quaternion targetRotation = Quaternion.LookRotation(moveDir, _cgrb.upAxis);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _cgrb.upAxis);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
