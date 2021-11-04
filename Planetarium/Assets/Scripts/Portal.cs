@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
-/* Triggered when the player collects all scraps. 
+/* Triggered when the player collects all scraps.
  * Called from Scrap.cs */
 [System.Serializable]
 public class OnScrapComplete : UnityEvent<bool> { }
@@ -37,7 +37,7 @@ public class Portal : MonoBehaviour
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        
+
         _text = GameObject.FindGameObjectWithTag("UI-Extract").GetComponent<TextMeshProUGUI>();
         _text.enabled = false;  // Disable "Extract" text
 
@@ -48,10 +48,10 @@ public class Portal : MonoBehaviour
         _trailOldColor = _ps.trails.colorOverTrail;
         _trailNewColor = new Gradient();
         _trailNewColor.SetKeys(
-            new GradientColorKey[] { 
-            new GradientColorKey(Color.blue, 0.0f), 
-            new GradientColorKey(Color.red, 1.0f) }, 
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), 
+            new GradientColorKey[] {
+            new GradientColorKey(Color.blue, 0.0f),
+            new GradientColorKey(Color.red, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f),
             new GradientAlphaKey(0.0f, 1.0f) }
             );
         _ps.Stop(); // Disable the particle system at the start
@@ -64,10 +64,10 @@ public class Portal : MonoBehaviour
 
         _ps.Play(); // Enable particle system when all scraps are collected
     }
-    
+
     /* Bool status
      * true : when player steps on the platform.
-     * false : when player steps off the platform. 
+     * false : when player steps off the platform.
      */
     public void HandleParticleSystemProperties(bool status)
     {
@@ -84,7 +84,7 @@ public class Portal : MonoBehaviour
             // Change trail color.
             var trailColor = _ps.trails;
             trailColor.colorOverTrail = _trailNewColor;
-            
+
             // Start the coroutine when the player steps on the portal.
             _corourine = StartCoroutine(Countdown());
             _text.enabled = true;
@@ -102,14 +102,14 @@ public class Portal : MonoBehaviour
             // Change trail color.
             var trailColor = _ps.trails;
             trailColor.colorOverTrail = _trailOldColor;
-            
+
             // Stop the coroutine & reset its values if the player
             // steps off the portal prematurely.
             StopCoroutine(_corourine);
             _text.enabled = false;  // Disable the UI text
         }
     }
-    
+
     /* Start coutdown timer. */
     private IEnumerator Countdown()
     {
@@ -123,7 +123,7 @@ public class Portal : MonoBehaviour
         }
         _gameManager.CompleteLevel(); // If the timer is up, restart the level
     }
-    
+
     /* Triggered when player steps on the portal. */
     private void OnTriggerEnter(Collider other)
     {
@@ -136,12 +136,12 @@ public class Portal : MonoBehaviour
             }
         }
     }
-    
+
     /* Triggered when player steps off the portal. */
     private void OnTriggerExit(Collider other)
     {
         // If the player steps off the portal & all scraps are collected.
-        if (other.CompareTag("Player") &&  _activatePortal)
+        if (other.CompareTag("Player") && _activatePortal)
         {
             if (_enterPortal != null)
             {
