@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     bool gameHasEnded = false;
     
-    public float restartDelay = 0;
+    public float restartDelay = 2;
 
     public void CompleteLevel ()
     {

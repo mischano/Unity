@@ -9,7 +9,7 @@ public class _PlayerHealth : MonoBehaviour
 
     // Amount of hearts the player currently owns.
     [SerializeField, Range(1, 9f)]
-    public int currentNumberOfHearts = 3;
+    public static int currentNumberOfHearts = 3;
 
     // Max number of hearts the player can have.
     [SerializeField, Range(1, 9)]
@@ -73,6 +73,7 @@ public class _PlayerHealth : MonoBehaviour
                 heartsList[i].enabled = false;
             }
         }
+        
     }
     
     /* Handles changing the color of heart sprites when
@@ -130,7 +131,9 @@ public class _PlayerHealth : MonoBehaviour
         
         if(currentNumberOfHearts == 0)
         {
+            FindObjectOfType<Animator>().SetTrigger("Death");
             FindObjectOfType<GameManager>().EndGame();
         }
     }
+    
 }
