@@ -3,6 +3,7 @@
  *  TODO: modify to allow laser "beams" instead of spheres
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,14 +14,20 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [SerializeField] Transform _spawnPointParent;
     [SerializeField] float _speed;             // speed of projectile
-
+    private AudioSource _laserSFX;
     const float INFINITY = 100f;
+
+    private void Awake()
+    {
+        _laserSFX = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             FireProjectile();
+            _laserSFX.Play();
         }
     }
 
