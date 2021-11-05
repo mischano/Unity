@@ -14,25 +14,36 @@ public class Health : MonoBehaviour
     [SerializeField]
     UnityEvent _onDeath = null;
 
+    bool _isDead;
+
     void Awake()
     {
         _health = _maxHealth;
-        
+        _isDead = false;
     }
 
     public void TakeDamage(float amount)
     {
+        if (_isDead)
+        {
+            return;
+        }
+
         _health -= amount;
-        if (_health <= Mathf.Epsilon && _onDeath != null)
+
+        if (_health <= Mathf.Epsilon)
         {
             _health = 0f;
-            _onDeath.Invoke();
+            _isDead = true;
+            if (_onDeath != null)
+            {
+                _onDeath.Invoke();
+            }
         }
+
         if (_onHealthChanged != null)
         {
             _onHealthChanged.Invoke(_health / _maxHealth);
         }
     }
-
-    
 }
