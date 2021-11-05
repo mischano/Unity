@@ -801,6 +801,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  DamageSFX: {fileID: 8300000, guid: bdeb010978200654eb0a589e8e352bbd, type: 3}
 --- !u!114 &9067039581169869975
 MonoBehaviour:
   m_ObjectHideFlags: 0

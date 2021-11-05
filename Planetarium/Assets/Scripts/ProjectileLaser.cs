@@ -16,9 +16,11 @@ public class ProjectileLaser : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Health healthScript = collision.gameObject.GetComponent<Health>();
+        DamageFlash flash = collision.transform.GetChild(1).GetComponent<DamageFlash>();
         if (healthScript != null)
         {
             healthScript.TakeDamage(_damage);
+            flash.FlashStart();
         }
         Destroy(this.gameObject);
     }

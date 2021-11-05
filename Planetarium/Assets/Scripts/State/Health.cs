@@ -17,6 +17,7 @@ public class Health : MonoBehaviour
     void Awake()
     {
         _health = _maxHealth;
+        
     }
 
     public void TakeDamage(float amount)
@@ -32,4 +33,6 @@ public class Health : MonoBehaviour
             _onHealthChanged.Invoke(_health / _maxHealth);
         }
     }
+
+    
 }
