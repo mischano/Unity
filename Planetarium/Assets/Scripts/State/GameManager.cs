@@ -10,9 +10,15 @@ public class GameManager : MonoBehaviour
     
     public float restartDelay = 2;
 
+    private int _numberOfScenes = 2;
     public void CompleteLevel ()
     {
-        EndGame();
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex > _numberOfScenes)
+        {
+            nextSceneIndex = _numberOfScenes;
+        }
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
     public void EndGame () 
