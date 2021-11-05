@@ -26,16 +26,19 @@ public class _PlayerHealth : MonoBehaviour
     public AudioClip DeathSFX;
     private bool _isVisible;
 
+    private GameObject _player;
+
     private void Awake()
     {
         InvokeRepeating("GlowHealth", 0, 0.5f);
+        _player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
     {
         HandleHealth();
     }
-    
+
     /* Handles the player health attributes */
     private void HandleHealth()
     {
@@ -74,9 +77,9 @@ public class _PlayerHealth : MonoBehaviour
                 heartsList[i].enabled = false;
             }
         }
-        
+
     }
-    
+
     /* Handles changing the color of heart sprites when
      * player's health is low */
     private void GlowHealth()
@@ -123,14 +126,14 @@ public class _PlayerHealth : MonoBehaviour
     {
         currentNumberOfHearts += amount;
     }
-    
+
     /*decreases the number of hearts.
      Called from EnemyFollowPlayer*/
     public void TakeDamage(int amount)
     {
         currentNumberOfHearts -= amount;
-        
-        if(currentNumberOfHearts == 0)
+
+        if (currentNumberOfHearts == 0)
         {
             PlayerDeath();
         }
@@ -138,9 +141,11 @@ public class _PlayerHealth : MonoBehaviour
 
     public void PlayerDeath()
     {
-        AudioSource.PlayClipAtPoint(DeathSFX, GameObject.FindWithTag("Player").transform.position);
+        _player.GetComponent<PlayerMovement>().isDead = true;
+        _player.GetComponent<PlayerShoot>().isDead = true;
+        AudioSource.PlayClipAtPoint(DeathSFX, _player.transform.position);
         FindObjectOfType<Animator>().SetTrigger("Death");
         FindObjectOfType<GameManager>().EndGame();
     }
-    
+
 }

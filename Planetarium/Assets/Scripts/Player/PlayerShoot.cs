@@ -17,15 +17,26 @@ public class PlayerShoot : MonoBehaviour
     private AudioSource _laserSFX;
     const float INFINITY = 100f;
 
+    public bool isDead;
+    private bool fireInput;
+
     private void Awake()
     {
         _laserSFX = GetComponent<AudioSource>();
+        isDead = false;
+        fireInput = false;
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        fireInput |= Input.GetButtonDown("Fire1");
+    }
+
+    private void FixedUpdate()
+    {
+        if (fireInput && !isDead)
         {
+            fireInput = false;
             FireProjectile();
             _laserSFX.Play();
         }

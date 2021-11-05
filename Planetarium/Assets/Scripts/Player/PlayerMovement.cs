@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     bool _inZeroGravity;
     bool _movementJumping;
     #endregion
+    public bool isDead;
 
     private Vector3 _moveDirection;
     private Vector3 _gravity;
@@ -106,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         _playerLayerMask = ~playerLayer;
 
         _movementJumping = false;
+        isDead = false;
     }
 
     public void HandleAllMovement()
@@ -132,6 +134,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (isDead)
+        {
+            return;
+        }
         Vector3 forwardMoveDir = cameraObject.forward * inputManager._verticalInput;
         Vector3 lateralMoveDir = cameraObject.right * inputManager._horizontalInput;
 
@@ -205,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetDirection;
         targetDirection = cameraObject.forward * inputManager._verticalInput
             + cameraObject.right * inputManager._horizontalInput;
-        if (targetDirection.sqrMagnitude < 0.05f)
+        if (targetDirection.sqrMagnitude < 0.05f || isDead)
         {
             targetDirection = transform.forward;
         }
