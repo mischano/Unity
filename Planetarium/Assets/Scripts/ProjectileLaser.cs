@@ -16,11 +16,22 @@ public class ProjectileLaser : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Health healthScript = collision.gameObject.GetComponent<Health>();
-        DamageFlash flash = collision.transform.GetChild(1).GetComponent<DamageFlash>();
+        DamageFlash flash = collision.gameObject.GetComponent<DamageFlash>();
+        
+
         if (healthScript != null)
         {
             healthScript.TakeDamage(_damage);
-            flash.FlashStart();
+            if (flash != null)
+            {
+                flash.FlashStart();
+            }
+            else
+            {
+                // child object of enemy prefab MUST be first object in tree
+                DamageFlash childFlash = collision.transform.GetChild(0).GetComponent<DamageFlash>();
+                childFlash.FlashStart();
+            }
         }
         Destroy(this.gameObject);
     }
