@@ -12,25 +12,25 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
 
     [SerializeField, Range(3f, 200f)]
-    public float _moveAccel = 8f;
+    public float moveAccel = 50f;
 
     [SerializeField, Range(1f, 10000f)]
-    public float _rotationSpeed = 500f;
+    public float rotationSpeed = 500f;
 
     [SerializeField, Range(0.1f, 200f)]
-    public float _jumpVel = 10f;
+    public float jumpVel = 18f;
 
     [SerializeField, Range(1f, 200f)]
-    float _maxSpeed = 10f;
+    float _maxSpeed = 5f;
     [SerializeField, Range(1f, 200f)]
-    float _maxSprintSpeed = 20f;
+    float _maxSprintSpeed = 10f;
 
     [SerializeField, Range(0f, 5f)]
-    float _airMoveMultiplier = 0.1f;
+    float _airMoveMultiplier = 0.4f;
     [SerializeField, Range(0f, 5f)]
     float _zeroGMoveMultiplier = 0.4f;
     [SerializeField]
-    float _zeroGMoveOxygenDepleteRate = 1.0f;
+    float _zeroGMoveOxygenDepleteRate = 10f;
 
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 2f)]
     float _groundDragMoving = 1f;
     [SerializeField, Range(0f, 2f)]
-    float _airDrag = 0.5f;
+    float _airDrag = 1f;
 
     [SerializeField]
     float _groundDownForceMultiplier = 2f;
@@ -50,25 +50,25 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField]
-    float _spherecastDist = 0.5f;
+    float _spherecastDist = 1f;
     [SerializeField]
-    float _spherecastStartOffset = 0.5f;
+    float _spherecastStartOffset = 1f;
 
     #region Movement Flags
     [Header("Animation Flags")]
-    public bool _isSprint;
-    public bool _isJumping;
-    public bool _isGrounded;
+    public bool isSprint;
+    public bool isJumping; // TODO unify this with private _movementJumping
+    public bool isGrounded;
     #endregion
 
     [Header("Falling Settings")]
-    public float _inAirTime;
+    public float inAirTime;
     public LayerMask playerLayer;
     private LayerMask _playerLayerMask;
 
-    private Transform cameraObject;
-    private InputManager inputManager;
-    private PlayerManager playerManager;
+    private Transform _cameraObject;
+    private InputManager _inputManager;
+    private PlayerManager _playerManager;
     [Header("Visual")]
     private AnimatorManager _animatorManager;
     [SerializeField]
@@ -96,13 +96,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = GetComponent<InputManager>();
-        playerManager = GetComponent<PlayerManager>();
+        _inputManager = GetComponent<InputManager>();
+        _playerManager = GetComponent<PlayerManager>();
         _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
         _oxygen = GetComponent<Oxygen>();
-        cameraObject = Camera.main.transform;
+        _cameraObject = Camera.main.transform;
 
         _playerLayerMask = ~playerLayer;
 
@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
     public void HandleAllMovement()
     {
         _gravity = GetGravity();
-        _isGrounded = CheckGrounded();
+        isGrounded = CheckGrounded();
         HandleMovement();
         if (_inZeroGravity)
         {
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             HandleRotation();
         }
         HandleDrag();
-        if (_isGrounded)
+        if (isGrounded)
         {
             _oxygen.RefillOxygen();
         }
@@ -138,8 +138,8 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        Vector3 forwardMoveDir = cameraObject.forward * inputManager._verticalInput;
-        Vector3 lateralMoveDir = cameraObject.right * inputManager._horizontalInput;
+        Vector3 forwardMoveDir = _cameraObject.forward * _inputManager._verticalInput;
+        Vector3 lateralMoveDir = _cameraObject.right * _inputManager._horizontalInput;
 
         if (!_inZeroGravity)
         {
@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // If we're going too fast, don't add speed in that direction.
-        float max = _isSprint ? _maxSprintSpeed : _maxSpeed;
+        float max = isSprint ? _maxSprintSpeed : _maxSpeed;
         if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
         {
             forwardMoveDir = Vector3.zero;
@@ -161,27 +161,27 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = forwardMoveDir + lateralMoveDir;
         _moveDirection = Vector3.ClampMagnitude(_moveDirection, 1.0f);
 
-        Vector3 moveAccel = _moveDirection * _moveAccel;
-        if (!_isGrounded && moveAccel != Vector3.zero)
+        Vector3 accel = _moveDirection * moveAccel;
+        if (!isGrounded && accel != Vector3.zero)
         {
             // Handle air/zeroG movement
             if (_inZeroGravity)
             {
                 _oxygen.TakeDamage(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
-                moveAccel *= _zeroGMoveMultiplier;
+                accel *= _zeroGMoveMultiplier;
             }
             else
             {
-                moveAccel *= _airMoveMultiplier;
+                accel *= _airMoveMultiplier;
             }
         }
-        else if (_isGrounded && !_movementJumping)
+        else if (isGrounded && !_movementJumping)
         {
             // Also apply a downward force proportional to velocity
             _rb.AddForce(-_upAxis * _groundDownForceMultiplier * _rb.velocity.magnitude);
         }
 
-        _rb.AddForce(moveAccel + _gravity);
+        _rb.AddForce(accel + _gravity);
     }
 
     void HandleDrag()
@@ -191,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.drag = 0f;
         }
-        else if (!_isGrounded)
+        else if (!isGrounded)
         {
             _rb.drag = _airDrag;
         }
@@ -208,9 +208,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleRotation()
     {
-        Vector3 targetDirection;
-        targetDirection = cameraObject.forward * inputManager._verticalInput
-            + cameraObject.right * inputManager._horizontalInput;
+        Vector3 targetDirection = _moveDirection;
+        // targetDirection = _cameraObject.forward * _inputManager._verticalInput
+        //     + _cameraObject.right * _inputManager._horizontalInput;
         if (targetDirection.sqrMagnitude < 0.05f || isDead)
         {
             targetDirection = transform.forward;
@@ -219,19 +219,19 @@ public class PlayerMovement : MonoBehaviour
         targetDirection.Normalize();
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, _upAxis);
-        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+        Quaternion newRotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         // This doesn't interpolate between FixedUpdates because _rb is not kinematic
         _rb.MoveRotation(newRotation);
     }
 
     public void HandleJumping()
     {
-        if (!_isGrounded || _movementJumping)
+        if (!isGrounded || _movementJumping)
         {
             return;
         }
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
-        Vector3 desiredUpVelocity = _upAxis * _jumpVel;
+        Vector3 desiredUpVelocity = _upAxis * jumpVel;
         _rb.velocity += desiredUpVelocity - upVelocity;
         _animatorManager.animator.SetBool("isJumping", true);
         _animatorManager.PlayTargetAnimation("Jumping", false);
@@ -289,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float rotateAmount = axisExtra * _zeroGRotationSpeed;
-        Quaternion targetUpRotation = Quaternion.FromToRotation(transform.up, cameraObject.up) * transform.rotation;
+        Quaternion targetUpRotation = Quaternion.FromToRotation(transform.up, _cameraObject.up) * transform.rotation;
         Quaternion newUpRotation = Quaternion.Slerp(transform.rotation, targetUpRotation, rotateAmount);
 
         _upAxis = newUpRotation * transform.up;

@@ -59,7 +59,7 @@ public class InputManager : MonoBehaviour
     }
     private void HandleSprintingInput()
     {
-        playerMovement._isSprint = _leftShift;
+        playerMovement.isSprint = _leftShift;
     }
 
     private float HandleMovementAnimationType()
