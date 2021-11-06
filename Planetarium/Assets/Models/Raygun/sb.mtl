@@ -1,0 +1,18 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 01.07.2013 12:06:28
+
+newmtl 04___Default
+	Ns 55.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0540 0.0540 0.0540
+	Ke 0.0000 0.0000 0.0000
+	map_Ka E:\my models\scifi blaster gun\defuse.jpg
+	map_Kd E:\my models\scifi blaster gun\defuse.jpg
+	map_bump E:\my models\scifi blaster gun\bump_heights.JPG
+	bump E:\my models\scifi blaster gun\bump_heights.JPG
