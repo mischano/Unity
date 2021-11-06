@@ -59,8 +59,12 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Flags
     [Header("Animation Flags")]
     public bool isSprint;
-    public bool isJumping; // TODO unify this with private _movementJumping
+    // public bool isJumping; // TODO unify this with private _movementJumping
+    public bool isJumping;
     public bool isGrounded;
+    public bool isFalling => !isGrounded && !isJumping;
+    public bool isWalking => _isMoving && !isSprint;
+    bool _isMoving;
     #endregion
 
     [Header("Falling Settings")]
@@ -89,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region Internal Flags
     bool _inZeroGravity;
-    bool _movementJumping;
     #endregion
     public bool isDead;
 
@@ -108,8 +111,9 @@ public class PlayerMovement : MonoBehaviour
 
         _playerLayerMask = ~playerLayer;
 
-        _movementJumping = false;
+        isJumping = false;
         isDead = false;
+        _isMoving = false;
     }
 
     public void HandleAllMovement()
@@ -142,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector3 forwardMoveDir = _cameraObject.forward * _inputManager._verticalInput;
         Vector3 lateralMoveDir = _cameraObject.right * _inputManager._horizontalInput;
+        _isMoving = forwardMoveDir != Vector3.zero || lateralMoveDir != Vector3.zero;
 
         if (!_inZeroGravity)
         {
@@ -177,13 +182,13 @@ public class PlayerMovement : MonoBehaviour
                 accel *= _airMoveMultiplier;
             }
         }
-        else if (isGrounded && !_movementJumping)
+        else if (isGrounded && !isJumping)
         {
             // Also apply a downward force proportional to velocity
             _rb.AddForce(-_upAxis * _groundDownForceMultiplier * _rb.velocity.magnitude);
         }
 
-        _rb.AddForce(accel + _gravity);
+        _rb.AddForce(accel);
     }
 
     void HandleDrag()
@@ -228,16 +233,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleJumping()
     {
-        if (!isGrounded || _movementJumping)
+        if (!isGrounded || isJumping)
         {
             return;
         }
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
         Vector3 desiredUpVelocity = _upAxis * jumpVel;
-        // _rb.velocity += desiredUpVelocity - upVelocity;
         _rb.AddForce(desiredUpVelocity - upVelocity, ForceMode.VelocityChange);
-        _animatorManager.animator.SetBool("isJumping", true);
-        _animatorManager.PlayTargetAnimation("Jumping", false);
         StopCoroutine(JumpingCoroutine());
         StartCoroutine(JumpingCoroutine());
     }
@@ -245,19 +247,19 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator JumpingCoroutine()
     {
         float velPerTick = _jumpHoldVel / (float)_numJumpingTicks;
-        _movementJumping = true;
+        isJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
             if (!Input.GetButton("Jump"))
             {
-                _movementJumping = false;
+                isJumping = false;
                 yield break;
             }
             // Still holding jump
             _rb.AddForce(_upAxis * velPerTick, ForceMode.VelocityChange);
             yield return new WaitForFixedUpdate();
         }
-        _movementJumping = false;
+        isJumping = false;
     }
 
     private bool CheckGrounded()
