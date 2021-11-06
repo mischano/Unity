@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Flags
     [Header("Animation Flags")]
     public bool isSprint;
-    // public bool isJumping; // TODO unify this with private _movementJumping
     public bool isJumping;
     public bool isGrounded;
     public bool isFalling => !isGrounded && !isJumping;
@@ -76,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     private InputManager _inputManager;
     private PlayerManager _playerManager;
     [Header("Visual")]
-    private AnimatorManager _animatorManager;
+    // private AnimatorManager _animatorManager;
     [SerializeField]
     private GameObject _visualObject;
 
@@ -103,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _inputManager = GetComponent<InputManager>();
         _playerManager = GetComponent<PlayerManager>();
-        _animatorManager = _visualObject.GetComponent<AnimatorManager>();
+        // _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
         _oxygen = GetComponent<Oxygen>();
@@ -156,19 +155,21 @@ public class PlayerMovement : MonoBehaviour
 
         // If we're going too fast, don't add speed in that direction.
         float max = isSprint ? _maxSprintSpeed : _maxSpeed;
-        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
-        {
-            forwardMoveDir = Vector3.zero;
-        }
-        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
-        {
-            lateralMoveDir = Vector3.zero;
-        }
 
         _moveDirection = forwardMoveDir + lateralMoveDir;
         _moveDirection = Vector3.ClampMagnitude(_moveDirection, 1.0f);
 
-        Vector3 accel = _moveDirection * moveAccel;
+        Vector3 accel = _moveDirection;
+        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
+        {
+            accel -= forwardMoveDir;
+        }
+        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
+        {
+            accel -= lateralMoveDir;
+        }
+        accel *= moveAccel;
+
         if (!isGrounded && accel != Vector3.zero)
         {
             // Handle air/zeroG movement
@@ -216,9 +217,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection = _moveDirection;
-        // targetDirection = _cameraObject.forward * _inputManager._verticalInput
-        //     + _cameraObject.right * _inputManager._horizontalInput;
-        if (targetDirection.sqrMagnitude < 0.05f || isDead)
+        if (targetDirection == Vector3.zero || isDead)
         {
             targetDirection = transform.forward;
         }

@@ -804,7 +804,7 @@ MonoBehaviour:
   _groundDragStopping: 5
   _groundDragMoving: 1
   _airDrag: 1
-  _groundDownForceMultiplier: 2
+  _groundDownForceMultiplier: 4
   _numJumpingTicks: 30
   _spherecastDist: 1
   _spherecastStartOffset: 1
@@ -832,7 +832,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2401773406258079115}
-  _isInteracting: 0
 --- !u!114 &6163363032806416647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3818,7 +3817,7 @@ Animator:
   m_GameObject: {fileID: 7062958889879867107}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7a3bd64912e1656449df2d6a94a4d524, type: 3}
-  m_Controller: {fileID: 9100000, guid: f5dd06d564c530d40a5dc9571ee51854, type: 2}
+  m_Controller: {fileID: 9100000, guid: 90ffa2a20b06f514b9cedcb7d45170b6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

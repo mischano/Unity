@@ -9,7 +9,6 @@ public class PlayerManager : MonoBehaviour
     InputManager inputManager;
     PlayerMovement playerMovement;
 
-    public bool _isInteracting;
 
     private void Awake()
     {
@@ -31,11 +30,9 @@ public class PlayerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        _isInteracting = animator.GetBool("isInteracting");
         animator.SetBool("isWalking", playerMovement.isWalking);
         animator.SetBool("isSprinting", playerMovement.isSprint);
         animator.SetBool("isJumping", playerMovement.isJumping);
-        animator.SetBool("isGrounded", playerMovement.isGrounded);
         animator.SetBool("isFalling", playerMovement.isFalling);
     }
 }

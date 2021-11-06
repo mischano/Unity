@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2056442549654111986, guid: 916863a51cc8e4341a8ac8540f22226f, type: 3}
       propertyPath: gravity
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2056442549654111986, guid: 916863a51cc8e4341a8ac8540f22226f, type: 3}
       propertyPath: outerRadius
@@ -592,7 +592,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384568357}
-  m_LocalRotation: {x: 0.5240974, y: -0.000000026417794, z: -0.0000000162571, w: -0.85165834}
+  m_LocalRotation: {x: 0.5240974, y: -0.00000014033662, z: -0.000000086360984, w: -0.85165834}
   m_LocalPosition: {x: 3, y: 0.100893974, z: -5.2495527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1619,11 +1619,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362208223814130530, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000026417796
+      value: 0.00000014033664
       objectReference: {fileID: 0}
     - target: {fileID: 8362208223814130530, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000016257099
+      value: 0.00000008636098
       objectReference: {fileID: 0}
     - target: {fileID: 8362208224081520857, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1647,11 +1647,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362208224081520857, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000026417796
+      value: -0.00000014033664
       objectReference: {fileID: 0}
     - target: {fileID: 8362208224081520857, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000016257099
+      value: -0.00000008636098
       objectReference: {fileID: 0}
     - target: {fileID: 8362208224249849339, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_FollowOffset.y
@@ -1687,27 +1687,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 30.18077
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.10548973
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8516584
+      value: 0.92316794
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5240973
+      value: 0.38439697
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000026417796
+      value: 0.000000015247503
       objectReference: {fileID: 0}
     - target: {fileID: 8362208225213167067, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000016257099
+      value: -0.000000006348899
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2138986493, guid: 61d3ac70aa574a443a22e5c0e5cea8aa, type: 3}
@@ -2226,6 +2226,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2056442549654111986, guid: 916863a51cc8e4341a8ac8540f22226f, type: 3}
+      propertyPath: gravity
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2056442549654111986, guid: 916863a51cc8e4341a8ac8540f22226f, type: 3}
       propertyPath: outerRadius
       value: 9
