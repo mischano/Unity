@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 500f;
 
     [SerializeField, Range(0.1f, 200f)]
-    public float jumpVel = 18f;
+    public float jumpVel = 10f;
 
     [SerializeField, Range(1f, 200f)]
     float _maxSpeed = 5f;
@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     float _airMoveMultiplier = 0.4f;
     [SerializeField, Range(0f, 5f)]
     float _zeroGMoveMultiplier = 0.4f;
+    [SerializeField, Range(0f, 200f)]
+    float _jumpHoldVel = 13f;
     [SerializeField]
     float _zeroGMoveOxygenDepleteRate = 10f;
 
@@ -45,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     float _groundDownForceMultiplier = 2f;
 
     [SerializeField]
-    int _numJumpingTicks = 3;
+    int _numJumpingTicks = 30;
     #endregion
 
     [Header("Ground Check")]
@@ -232,17 +234,27 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
         Vector3 desiredUpVelocity = _upAxis * jumpVel;
-        _rb.velocity += desiredUpVelocity - upVelocity;
+        // _rb.velocity += desiredUpVelocity - upVelocity;
+        _rb.AddForce(desiredUpVelocity - upVelocity, ForceMode.VelocityChange);
         _animatorManager.animator.SetBool("isJumping", true);
         _animatorManager.PlayTargetAnimation("Jumping", false);
+        StopCoroutine(JumpingCoroutine());
+        StartCoroutine(JumpingCoroutine());
     }
 
     IEnumerator JumpingCoroutine()
     {
-        // TODO: Adjust jump based on input
+        float velPerTick = _jumpHoldVel / (float)_numJumpingTicks;
         _movementJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
+            if (!Input.GetButton("Jump"))
+            {
+                _movementJumping = false;
+                yield break;
+            }
+            // Still holding jump
+            _rb.AddForce(_upAxis * velPerTick, ForceMode.VelocityChange);
             yield return new WaitForFixedUpdate();
         }
         _movementJumping = false;
@@ -295,6 +307,16 @@ public class PlayerMovement : MonoBehaviour
         _upAxis = newUpRotation * transform.up;
         _rb.MoveRotation(newUpRotation);
     }
+
+    // void JumpAdjustGravity()
+    // {
+    //     // If we aren't falling (have upwards velocity)
+    //     if (!_inZeroGravity && Vector3.Dot(_rb.velocity, _upAxis) > 0f)
+    //     {
+    //         // Reduce gravity by adding force opposite to gravity
+    //         _rb.AddForce(-_gravity * (1 - _holdingJumpGravityMultiplier), ForceMode.Acceleration);
+    //     }
+    // }
 
     // private void OnCollisionEnter(Collision collision)
     // {
