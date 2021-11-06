@@ -120,7 +120,9 @@ public class PlayerMovement : MonoBehaviour
         _gravity = GetGravity();
         isGrounded = CheckGrounded();
         GetMoveDirection();
+
         HandleMovement();
+
         if (_inZeroGravity)
         {
             HandleZeroGRotation();
@@ -140,8 +142,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GetMoveDirection()
     {
-        _forwardMoveDir = _cameraObject.forward * _inputManager._verticalInput;
-        _lateralMoveDir = _cameraObject.right * _inputManager._horizontalInput;
+        float horizontalInput = _inputManager.horizontalInput;
+        float verticalInput = _inputManager.verticalInput;
+        _forwardMoveDir = _cameraObject.forward * verticalInput;
+        _lateralMoveDir = _cameraObject.right * horizontalInput;
         _isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
 
         if (!_inZeroGravity)
@@ -253,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
-            if (!Input.GetButton("Jump"))
+            if (!_inputManager.jump)
             {
                 isJumping = false;
                 yield break;
