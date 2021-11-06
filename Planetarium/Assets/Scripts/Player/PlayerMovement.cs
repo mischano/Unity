@@ -75,7 +75,6 @@ public class PlayerMovement : MonoBehaviour
     private InputManager _inputManager;
     private PlayerManager _playerManager;
     [Header("Visual")]
-    // private AnimatorManager _animatorManager;
     [SerializeField]
     private GameObject _visualObject;
 
@@ -96,13 +95,14 @@ public class PlayerMovement : MonoBehaviour
     public bool isDead;
 
     private Vector3 _moveDirection;
+    private Vector3 _forwardMoveDir;
+    private Vector3 _lateralMoveDir;
     private Vector3 _gravity;
 
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
         _playerManager = GetComponent<PlayerManager>();
-        // _animatorManager = _visualObject.GetComponent<AnimatorManager>();
 
         _rb = GetComponent<Rigidbody>();
         _oxygen = GetComponent<Oxygen>();
@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _gravity = GetGravity();
         isGrounded = CheckGrounded();
+        GetMoveDirection();
         HandleMovement();
         if (_inZeroGravity)
         {
@@ -137,36 +138,39 @@ public class PlayerMovement : MonoBehaviour
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 
+    void GetMoveDirection()
+    {
+        _forwardMoveDir = _cameraObject.forward * _inputManager._verticalInput;
+        _lateralMoveDir = _cameraObject.right * _inputManager._horizontalInput;
+        _isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
+
+        if (!_inZeroGravity)
+        {
+            _forwardMoveDir = Vector3.ProjectOnPlane(_forwardMoveDir, _upAxis);
+            _lateralMoveDir = Vector3.ProjectOnPlane(_lateralMoveDir, _upAxis);
+        }
+
+        _moveDirection = _forwardMoveDir + _lateralMoveDir;
+        _moveDirection = Vector3.ClampMagnitude(_moveDirection, 1.0f);
+    }
+
     private void HandleMovement()
     {
         if (isDead)
         {
             return;
         }
-        Vector3 forwardMoveDir = _cameraObject.forward * _inputManager._verticalInput;
-        Vector3 lateralMoveDir = _cameraObject.right * _inputManager._horizontalInput;
-        _isMoving = forwardMoveDir != Vector3.zero || lateralMoveDir != Vector3.zero;
-
-        if (!_inZeroGravity)
-        {
-            forwardMoveDir = Vector3.ProjectOnPlane(forwardMoveDir, _upAxis);
-            lateralMoveDir = Vector3.ProjectOnPlane(lateralMoveDir, _upAxis);
-        }
-
-        // If we're going too fast, don't add speed in that direction.
-        float max = isSprint ? _maxSprintSpeed : _maxSpeed;
-
-        _moveDirection = forwardMoveDir + lateralMoveDir;
-        _moveDirection = Vector3.ClampMagnitude(_moveDirection, 1.0f);
 
         Vector3 accel = _moveDirection;
-        if (Vector3.Dot(forwardMoveDir, _rb.velocity) > max)
+        // If we're going too fast, don't add speed in that direction.
+        float max = isSprint ? _maxSprintSpeed : _maxSpeed;
+        if (Vector3.Dot(_forwardMoveDir, _rb.velocity) > max)
         {
-            accel -= forwardMoveDir;
+            accel -= _forwardMoveDir;
         }
-        if (Vector3.Dot(lateralMoveDir, _rb.velocity) > max)
+        if (Vector3.Dot(_lateralMoveDir, _rb.velocity) > max)
         {
-            accel -= lateralMoveDir;
+            accel -= _lateralMoveDir;
         }
         accel *= moveAccel;
 
@@ -309,76 +313,11 @@ public class PlayerMovement : MonoBehaviour
         _rb.MoveRotation(newUpRotation);
     }
 
-    // void JumpAdjustGravity()
-    // {
-    //     // If we aren't falling (have upwards velocity)
-    //     if (!_inZeroGravity && Vector3.Dot(_rb.velocity, _upAxis) > 0f)
-    //     {
-    //         // Reduce gravity by adding force opposite to gravity
-    //         _rb.AddForce(-_gravity * (1 - _holdingJumpGravityMultiplier), ForceMode.Acceleration);
-    //     }
-    // }
-
-    // private void OnCollisionEnter(Collision collision)
-    // {
-    //     EvaluateCollision(collision);
-    // }
-
-    // private void OnCollisionStay(Collision collision)
-    // {
-    //     EvaluateCollision(collision);
-    // }
-
-    // private void EvaluateCollision(Collision collision)
-    // {
-    //     for (int i = 0; i < collision.contactCount; i++)
-    //     {
-    //         Vector3 normal = collision.GetContact(i).normal;
-    //         _isGrounded |= normal.y >= 0.9f;
-    //         Debug.Log($"_isGrounded: {_isGrounded}");
-    //     }
-
-    // }
-
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        // Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
         Gizmos.DrawRay(transform.position, _upAxis);
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, _moveDirection);
-        // Debug.Log($"{_freelook.m_YAxis.m_MinValue}, {_freelook.m_YAxis.m_MaxValue}, {_freelook.m_YAxis.Value}");
     }
-
-    //private void HandleFallingAndLanding()
-    //{
-    //    RaycastHit hit;
-    //    Vector3 rayCastOrigin = transform.position;
-
-    //    if (!_isGrounded)
-    //    {
-    //        if (!playerManager._isInteracting)
-    //        {
-    //            animatorManager.PlayTargetAnimation("Falling", true);
-    //        }
-
-    //        // _inAirTime += Time.deltaTime;
-    //        playerRigidbody.AddForce(GetGravity());
-    //    }
-    //    Debug.Log((Physics.Raycast(playerRigidbody.position, -upAxis, out hit, 0.2f, _groundLayer)));
-
-    //    if (Physics.Raycast(playerRigidbody.position, -upAxis, out hit, 0.2f, _groundLayer))
-    //    {
-    //        if (!_isGrounded && playerManager._isInteracting)
-    //        {
-    //            animatorManager.PlayTargetAnimation("Landing", true);
-    //        }
-    //        _isGrounded = true;
-    //    }
-    //    else
-    //    {
-    //        _isGrounded = false;
-    //    }
-    //}
-
 }
