@@ -62,6 +62,7 @@ public class PlayerShoot : MonoBehaviour
         _spawnPointParent.rotation = Quaternion.LookRotation(direction);
 
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
+        clone.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
         clone.GetComponent<Rigidbody>().velocity = (targetPoint - _spawnPoint.position).normalized * _speed;
     }
 

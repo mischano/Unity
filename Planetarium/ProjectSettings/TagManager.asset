@@ -12,6 +12,7 @@ TagManager:
   - UI-Extract
   - CollectibleScrap
   - UIScrap
+  - VFX Spark
   layers:
   - Default
   - TransparentFX
