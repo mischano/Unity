@@ -130,6 +130,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_2d42ef4ab90140fb89f77760d39706d0: {r: 0.023300946, g: 1.4951919, b: 3.7049234, a: 0}
+    - Color_6f558b0c67ad487e8977264133642b01: {r: 1.034908, g: 2.525176, b: 5.278032, a: 0}
     - Color_fade6ca908f6403da90d47cd420d53ff: {r: 0, g: 1.1853716, b: 2.828427, a: 0}
     - Vector2_7bde5335009d4b6b9576f1cc7513adfa: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_8bf5a12edfd24b8ea9ecac5ffc455571: {r: 0.4, g: 4.3, b: 0, a: 0}
