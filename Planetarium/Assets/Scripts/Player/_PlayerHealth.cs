@@ -9,7 +9,7 @@ public class _PlayerHealth : MonoBehaviour
 
     // Amount of hearts the player currently owns.
     [SerializeField, Range(1, 9f)]
-    public int currentNumberOfHearts = 3;
+    public static int currentNumberOfHearts = 3;
 
     // Max number of hearts the player can have.
     [SerializeField, Range(1, 9)]
@@ -22,19 +22,23 @@ public class _PlayerHealth : MonoBehaviour
     public Image[] heartsList;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    
+
+    public AudioClip DeathSFX;
     private bool _isVisible;
+
+    private GameObject _player;
 
     private void Awake()
     {
         InvokeRepeating("GlowHealth", 0, 0.5f);
+        _player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
     {
         HandleHealth();
     }
-    
+
     /* Handles the player health attributes */
     private void HandleHealth()
     {
@@ -73,8 +77,9 @@ public class _PlayerHealth : MonoBehaviour
                 heartsList[i].enabled = false;
             }
         }
+
     }
-    
+
     /* Handles changing the color of heart sprites when
      * player's health is low */
     private void GlowHealth()
@@ -121,16 +126,26 @@ public class _PlayerHealth : MonoBehaviour
     {
         currentNumberOfHearts += amount;
     }
-    
+
     /*decreases the number of hearts.
      Called from EnemyFollowPlayer*/
     public void TakeDamage(int amount)
     {
         currentNumberOfHearts -= amount;
-        
-        if(currentNumberOfHearts == 0)
+
+        if (currentNumberOfHearts == 0)
         {
-            FindObjectOfType<GameManager>().EndGame();
+            PlayerDeath();
         }
     }
+
+    public void PlayerDeath()
+    {
+        _player.GetComponent<PlayerMovement>().isDead = true;
+        _player.GetComponent<PlayerShoot>().isDead = true;
+        AudioSource.PlayClipAtPoint(DeathSFX, _player.transform.position);
+        FindObjectOfType<Animator>().SetTrigger("Death");
+        FindObjectOfType<GameManager>().EndGame();
+    }
+
 }

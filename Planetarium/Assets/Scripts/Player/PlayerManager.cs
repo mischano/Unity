@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
     private void LateUpdate()
     {
         _isInteracting = animator.GetBool("isInteracting");
-        playerMovement._isJumping = animator.GetBool("isJumping");
-        animator.SetBool("isGrounded", playerMovement._isGrounded);
+        playerMovement.isJumping = animator.GetBool("isJumping");
+        animator.SetBool("isGrounded", playerMovement.isGrounded);
     }
 }

@@ -16,7 +16,7 @@ public class EnemyFollowPlayer : MonoBehaviour
     // enemy will follow the player if within a certain range
     public float followRadius = 20.0f;
 
-    public float rotationSpeed = 300f;
+    public float rotationSpeed = 700;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,8 +26,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         _cgrb = GetComponent<CustomGravityRigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         _playerPos = _player.transform.position;
         //Debug.Log(playerPos);
@@ -51,7 +50,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _cgrb.upAxis).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _cgrb.upAxis);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void OnCollisionEnter(Collision other)

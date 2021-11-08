@@ -791,32 +791,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bb686f9d71c064ea38e613a888bdba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveAccel: 50
-  _rotationSpeed: 500
-  _jumpVel: 18
+  moveAccel: 50
+  rotationSpeed: 500
+  jumpVel: 10
   _maxSpeed: 5
   _maxSprintSpeed: 10
   _airMoveMultiplier: 0.4
   _zeroGMoveMultiplier: 0.4
+  _jumpHoldVel: 13
   _zeroGMoveOxygenDepleteRate: 10
   _groundDragThreshold: 0.1
   _groundDragStopping: 5
   _groundDragMoving: 1
   _airDrag: 1
   _groundDownForceMultiplier: 2
-  _numJumpingTicks: 3
+  _numJumpingTicks: 30
   _spherecastDist: 1
   _spherecastStartOffset: 1
-  _isSprint: 0
-  _isJumping: 0
-  _isGrounded: 0
-  _inAirTime: 0
+  isSprint: 0
+  isJumping: 0
+  isGrounded: 0
+  inAirTime: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
   _visualObject: {fileID: 7062958889879867107}
   _freelook: {fileID: 8362208224887847047}
   _zeroGRotationSpeed: 0.5
+  isDead: 0
 --- !u!114 &7498839711831742367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,6 +880,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 500713809127596178}
   _spawnPointParent: {fileID: 1602041737818765615}
   _speed: 100
+  isDead: 0
 --- !u!114 &2167918156391942895
 MonoBehaviour:
   m_ObjectHideFlags: 0
