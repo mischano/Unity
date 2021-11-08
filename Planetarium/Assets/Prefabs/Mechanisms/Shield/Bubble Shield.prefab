@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6837450447126273441}
   - component: {fileID: 1405999582596315229}
   - component: {fileID: 413476658322569555}
+  - component: {fileID: -4240368273283228857}
   m_Layer: 0
   m_Name: Bubble Shield
   m_TagString: Untagged
@@ -107,3 +108,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50868da8a3cbad84c8714f19c4f64911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &-4240368273283228857
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413476658322569552}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.010000003
+  m_Center: {x: 0.0000000013969839, y: 0, z: -0.0000000018626451}
