@@ -15,6 +15,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Transform _spawnPointParent;
     [SerializeField] float _speed;             // speed of projectile
     private AudioSource _laserSFX;
+    private Rigidbody _rb;
+
     const float INFINITY = 100f;
 
     public bool isDead;
@@ -62,12 +64,16 @@ public class PlayerShoot : MonoBehaviour
         _spawnPointParent.rotation = Quaternion.LookRotation(direction);
 
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
-        clone.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
-        clone.GetComponent<Rigidbody>().velocity = (targetPoint - _spawnPoint.position).normalized * _speed;
+        _rb = clone.GetComponent<Rigidbody>();
+        _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        _rb.velocity = (targetPoint - _spawnPoint.position).normalized * _speed; 
+        
+        //clone.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
+        //clone.GetComponent<Rigidbody>().velocity = (targetPoint - _spawnPoint.position).normalized * _speed;
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(_spawnPoint.position, 0.02f);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawSphere(_spawnPoint.position, 0.02f);
+    //}
 }
