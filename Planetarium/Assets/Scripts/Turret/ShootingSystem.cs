@@ -6,7 +6,6 @@ public class ShootingSystem : MonoBehaviour
 {
     public int damage;
     public float fireRate;
-    public float fieldOfView;
     public GameObject projectile;
     public GameObject target;
     public Transform projectileSpawn;
