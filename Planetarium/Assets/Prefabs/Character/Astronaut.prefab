@@ -880,6 +880,9 @@ MonoBehaviour:
   _spawnPoint: {fileID: 500713809127596178}
   _spawnPointParent: {fileID: 1602041737818765615}
   _speed: 100
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   isDead: 0
 --- !u!114 &2167918156391942895
 MonoBehaviour:

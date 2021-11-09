@@ -14,19 +14,25 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [SerializeField] Transform _spawnPointParent;
     [SerializeField] float _speed;             // speed of projectile
+
+    [SerializeField] LayerMask _playerLayer;
+    LayerMask _notPlayer;
+
     private AudioSource _laserSFX;
     private Rigidbody _rb;
 
-    const float INFINITY = 100f;
+    [SerializeField] float _aimNothingDistance = 100f;
 
     public bool isDead;
     private bool fireInput;
+    Vector3 _aimTarget;
 
     private void Awake()
     {
         _laserSFX = GetComponent<AudioSource>();
         isDead = false;
         fireInput = false;
+        _notPlayer = ~_playerLayer;
     }
 
     private void Update()
@@ -46,30 +52,32 @@ public class PlayerShoot : MonoBehaviour
 
     void FireProjectile()
     {
-        Ray crosshairRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
-        RaycastHit hit;
-        Vector3 targetPoint, direction;
-        if (Physics.Raycast(crosshairRay, out hit))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            // We aren't aiming at anything, so aim at a point far away.
-            targetPoint = Camera.main.transform.position + crosshairRay.direction * INFINITY;
-        }
+        GetAimTarget();
 
-        direction = targetPoint - _spawnPointParent.position;
+        Vector3 direction = _aimTarget - _spawnPointParent.position;
 
         _spawnPointParent.rotation = Quaternion.LookRotation(direction);
 
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
         _rb = clone.GetComponent<Rigidbody>();
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        _rb.velocity = (targetPoint - _spawnPoint.position).normalized * _speed; 
-        
-        //clone.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
-        //clone.GetComponent<Rigidbody>().velocity = (targetPoint - _spawnPoint.position).normalized * _speed;
+        _rb.velocity = (_aimTarget - _spawnPoint.position).normalized * _speed;
+    }
+
+    void GetAimTarget()
+    {
+        Ray crosshairRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
+        RaycastHit hit;
+
+        if (Physics.Raycast(crosshairRay, out hit, Mathf.Infinity, _notPlayer))
+        {
+            _aimTarget = hit.point;
+        }
+        else
+        {
+            // We aren't aiming at anything, so aim at a point far away.
+            _aimTarget = Camera.main.transform.position + crosshairRay.direction * _aimNothingDistance;
+        }
     }
 
     //void OnDrawGizmos()
