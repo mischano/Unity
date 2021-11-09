@@ -282,14 +282,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetGravity()
     {
         Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
-        if (gravity == Vector3.zero)
-        {
-            _inZeroGravity = true;
-        }
-        else
-        {
-            _inZeroGravity = false;
-        }
+        _inZeroGravity = gravity == Vector3.zero;
         return gravity;
     }
 
@@ -323,5 +316,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawRay(transform.position, _upAxis);
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, _moveDirection);
+        Gizmos.DrawRay(transform.position + _upAxis * _spherecastStartOffset, -_upAxis * _spherecastDist);
     }
 }
