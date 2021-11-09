@@ -12,7 +12,7 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] GameObject _projectile;
     [SerializeField] Transform _spawnPoint;
-    [SerializeField] Transform _spawnPointParent;
+    [SerializeField] Transform _aimTarget;
     [SerializeField] float _speed;             // speed of projectile
 
     [SerializeField] LayerMask _playerLayer;
@@ -25,7 +25,6 @@ public class PlayerShoot : MonoBehaviour
 
     public bool isDead;
     private bool fireInput;
-    Vector3 _aimTarget;
 
     private void Awake()
     {
@@ -38,6 +37,7 @@ public class PlayerShoot : MonoBehaviour
     private void Update()
     {
         fireInput |= Input.GetButtonDown("Fire1");
+        UpdateAimTargetPos();
     }
 
     private void FixedUpdate()
@@ -52,31 +52,26 @@ public class PlayerShoot : MonoBehaviour
 
     void FireProjectile()
     {
-        GetAimTarget();
-
-        Vector3 direction = _aimTarget - _spawnPointParent.position;
-
-        _spawnPointParent.rotation = Quaternion.LookRotation(direction);
-
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
         _rb = clone.GetComponent<Rigidbody>();
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        _rb.velocity = (_aimTarget - _spawnPoint.position).normalized * _speed;
+        Vector3 direction = _aimTarget.position - _spawnPoint.position;
+        _rb.velocity = direction.normalized * _speed;
     }
 
-    void GetAimTarget()
+    void UpdateAimTargetPos()
     {
         Ray crosshairRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
         RaycastHit hit;
 
         if (Physics.Raycast(crosshairRay, out hit, Mathf.Infinity, _notPlayer))
         {
-            _aimTarget = hit.point;
+            _aimTarget.position = hit.point;
         }
         else
         {
             // We aren't aiming at anything, so aim at a point far away.
-            _aimTarget = Camera.main.transform.position + crosshairRay.direction * _aimNothingDistance;
+            _aimTarget.position = Camera.main.transform.position + crosshairRay.direction * _aimNothingDistance;
         }
     }
 

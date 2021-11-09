@@ -14,7 +14,7 @@ public class Scrap : MonoBehaviour
 
     private TextMeshProUGUI _text;
 
-    private void Awake()
+    private void Start()
     {
         _text = GameObject.FindGameObjectWithTag("UIScrap").GetComponentInChildren<TextMeshProUGUI>();
         _maxScrap = GameObject.FindGameObjectsWithTag("CollectibleScrap").Length;
