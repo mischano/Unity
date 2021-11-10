@@ -115,6 +115,11 @@ public class PlayerMovement : MonoBehaviour
         _isMoving = false;
     }
 
+    void FixedUpdate()
+    {
+        HandleAllMovement();
+    }
+
     public void HandleAllMovement()
     {
         _gravity = GetGravity();
@@ -142,10 +147,8 @@ public class PlayerMovement : MonoBehaviour
 
     void GetMoveDirection()
     {
-        float horizontalInput = _inputManager.horizontalInput;
-        float verticalInput = _inputManager.verticalInput;
-        _forwardMoveDir = _cameraObject.forward * verticalInput;
-        _lateralMoveDir = _cameraObject.right * horizontalInput;
+        _forwardMoveDir = _cameraObject.forward * _inputManager.movementInput.y;
+        _lateralMoveDir = _cameraObject.right * _inputManager.movementInput.x;
         _isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
 
         if (!_inZeroGravity)
@@ -257,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
-            if (!_inputManager.jump)
+            if (!Input.GetButton("Jump"))
             {
                 isJumping = false;
                 yield break;

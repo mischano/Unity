@@ -77,17 +77,9 @@
             "id": "d6e5c2ae-1d96-4946-9324-b29f93dc5907",
             "actions": [
                 {
-                    "name": "SprintPress",
+                    "name": "Dash",
                     "type": "Button",
                     "id": "b475222c-499b-459a-bf71-f0bb12217e19",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SprintRelease",
-                    "type": "Button",
-                    "id": "ef2fb629-6c85-426b-8053-26a54aecc72d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -96,6 +88,14 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "ee9dbf44-0ed6-4e36-a9f7-6b34265fb837",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "d789b1c9-9b43-4656-9b41-5f7c09940966",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -109,18 +109,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "SprintPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8f4eb2a-6469-4264-9476-b78464c59510",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SprintRelease",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -132,6 +121,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a68358e-01e3-417a-bcde-7ae444709bc1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -90,17 +90,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             ""id"": ""d6e5c2ae-1d96-4946-9324-b29f93dc5907"",
             ""actions"": [
                 {
-                    ""name"": ""SprintPress"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""b475222c-499b-459a-bf71-f0bb12217e19"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""SprintRelease"",
-                    ""type"": ""Button"",
-                    ""id"": ""ef2fb629-6c85-426b-8053-26a54aecc72d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -109,6 +101,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""ee9dbf44-0ed6-4e36-a9f7-6b34265fb837"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""d789b1c9-9b43-4656-9b41-5f7c09940966"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -122,18 +122,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SprintPress"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c8f4eb2a-6469-4264-9476-b78464c59510"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SprintRelease"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -147,6 +136,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a68358e-01e3-417a-bcde-7ae444709bc1"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -158,9 +158,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
         // Player Actions
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
-        m_PlayerActions_SprintPress = m_PlayerActions.FindAction("SprintPress", throwIfNotFound: true);
-        m_PlayerActions_SprintRelease = m_PlayerActions.FindAction("SprintRelease", throwIfNotFound: true);
+        m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActions_Fire = m_PlayerActions.FindAction("Fire", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -243,16 +243,16 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     // Player Actions
     private readonly InputActionMap m_PlayerActions;
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
-    private readonly InputAction m_PlayerActions_SprintPress;
-    private readonly InputAction m_PlayerActions_SprintRelease;
+    private readonly InputAction m_PlayerActions_Dash;
     private readonly InputAction m_PlayerActions_Jump;
+    private readonly InputAction m_PlayerActions_Fire;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @SprintPress => m_Wrapper.m_PlayerActions_SprintPress;
-        public InputAction @SprintRelease => m_Wrapper.m_PlayerActions_SprintRelease;
+        public InputAction @Dash => m_Wrapper.m_PlayerActions_Dash;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
+        public InputAction @Fire => m_Wrapper.m_PlayerActions_Fire;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -262,28 +262,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsActionsCallbackInterface != null)
             {
-                @SprintPress.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintPress;
-                @SprintPress.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintPress;
-                @SprintPress.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintPress;
-                @SprintRelease.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintRelease;
-                @SprintRelease.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintRelease;
-                @SprintRelease.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprintRelease;
+                @Dash.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDash;
                 @Jump.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
+                @Fire.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @SprintPress.started += instance.OnSprintPress;
-                @SprintPress.performed += instance.OnSprintPress;
-                @SprintPress.canceled += instance.OnSprintPress;
-                @SprintRelease.started += instance.OnSprintRelease;
-                @SprintRelease.performed += instance.OnSprintRelease;
-                @SprintRelease.canceled += instance.OnSprintRelease;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
             }
         }
     }
@@ -294,8 +294,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     }
     public interface IPlayerActionsActions
     {
-        void OnSprintPress(InputAction.CallbackContext context);
-        void OnSprintRelease(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
 }
