@@ -13,11 +13,12 @@ public class OxygenBar : MonoBehaviour
     [SerializeField] float _tweenLength; // How long tween should take in seconds
     [SerializeField] float _hideTweenLength; // How long fade out should take in seconds
     [SerializeField] float _timeVisible; // How long to show the bar on health changed
+    [SerializeField] Oxygen _oxygen;
     CanvasGroup _cg;
     float _oxygenFraction;
     float _timeSinceLastChange;
     bool _isVisible;
-    
+
     void Start()
     {
         _cg = GetComponent<CanvasGroup>();
@@ -29,7 +30,7 @@ public class OxygenBar : MonoBehaviour
     void Update()
     {
         _timeSinceLastChange += Time.fixedDeltaTime;
-        if (_isVisible && _timeSinceLastChange > _timeVisible)
+        if (_isVisible && _oxygen.isFull && _timeSinceLastChange > _timeVisible)
         {
             HideOxygenBar();
         }

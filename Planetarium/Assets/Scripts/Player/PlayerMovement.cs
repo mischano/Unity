@@ -31,8 +31,9 @@ public class PlayerMovement : MonoBehaviour
     float _zeroGMoveMultiplier = 0.4f;
     [SerializeField, Range(0f, 200f)]
     float _jumpHoldVel = 13f;
+
     [SerializeField]
-    float _zeroGMoveOxygenDepleteRate = 10f;
+    float _dashVel = 20f;
 
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
@@ -71,9 +72,13 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask playerLayer;
     private LayerMask _playerLayerMask;
 
+    // Component references
     private Transform _cameraObject;
     private InputManager _inputManager;
     private PlayerManager _playerManager;
+    private Oxygen _oxygen;
+    private Rigidbody _rb;
+
     [Header("Visual")]
     [SerializeField]
     private GameObject _visualObject;
@@ -86,8 +91,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float _zeroGRotationSpeed = 1f;
 
-    private Rigidbody _rb;
-    private Oxygen _oxygen;
+    [Header("Oxygen")]
+    [SerializeField]
+    float _zeroGMoveOxygenDepleteRate = 10f;
+    [SerializeField]
+    float _groundOxygenReplenishRate = 100f;
+    [SerializeField]
+    float _airJumpOxygenCost = 50f;
+    [SerializeField]
+    float _dashOxygenCost = 50f;
 
     #region Internal Flags
     bool _inZeroGravity;
@@ -113,6 +125,13 @@ public class PlayerMovement : MonoBehaviour
         isJumping = false;
         isDead = false;
         _isMoving = false;
+        // We can change this in other scripts e.g. based on shooting state
+        isSprint = true;
+    }
+
+    void FixedUpdate()
+    {
+        HandleAllMovement();
     }
 
     public void HandleAllMovement()
@@ -134,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
         HandleDrag();
         if (isGrounded)
         {
-            _oxygen.RefillOxygen();
+            _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
         }
         // _visualObject gets interpolated thanks to InterpolatedTransform
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
@@ -142,10 +161,8 @@ public class PlayerMovement : MonoBehaviour
 
     void GetMoveDirection()
     {
-        float horizontalInput = _inputManager.horizontalInput;
-        float verticalInput = _inputManager.verticalInput;
-        _forwardMoveDir = _cameraObject.forward * verticalInput;
-        _lateralMoveDir = _cameraObject.right * horizontalInput;
+        _forwardMoveDir = _cameraObject.forward * _inputManager.movementInput.y;
+        _lateralMoveDir = _cameraObject.right * _inputManager.movementInput.x;
         _isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
 
         if (!_inZeroGravity)
@@ -183,7 +200,11 @@ public class PlayerMovement : MonoBehaviour
             // Handle air/zeroG movement
             if (_inZeroGravity)
             {
-                _oxygen.TakeDamage(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+                if (_oxygen.isEmpty)
+                {
+                    return;
+                }
+                _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
             }
             else
@@ -238,26 +259,49 @@ public class PlayerMovement : MonoBehaviour
         _rb.MoveRotation(newRotation);
     }
 
-    public void HandleJumping()
+    public void HandleJumpInput()
     {
-        if (!isGrounded || isJumping)
+        if (isJumping || isDead)
         {
             return;
         }
+        if (isGrounded)
+        {
+            HandleJumping();
+            StopCoroutine(HandleGroundJumpHold());
+            StartCoroutine(HandleGroundJumpHold());
+        }
+        else
+        {
+            HandleAirJumping();
+        }
+    }
+
+    public void HandleJumping()
+    {
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
         Vector3 desiredUpVelocity = _upAxis * jumpVel;
         _rb.AddForce(desiredUpVelocity - upVelocity, ForceMode.VelocityChange);
-        StopCoroutine(JumpingCoroutine());
-        StartCoroutine(JumpingCoroutine());
     }
 
-    IEnumerator JumpingCoroutine()
+    void HandleAirJumping()
+    {
+        if (_oxygen.isEmpty)
+        {
+            return;
+        }
+        _oxygen.RemoveOxygen(_airJumpOxygenCost);
+        HandleJumping();
+        // TODO air hiss effect
+    }
+
+    IEnumerator HandleGroundJumpHold()
     {
         float velPerTick = _jumpHoldVel / (float)_numJumpingTicks;
         isJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
-            if (!_inputManager.jump)
+            if (!Input.GetButton("Jump"))
             {
                 isJumping = false;
                 yield break;
@@ -267,6 +311,34 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         isJumping = false;
+    }
+
+    public void HandleDashInput()
+    {
+        if (_oxygen.isEmpty || isDead)
+        {
+            return;
+        }
+        _oxygen.RemoveOxygen(_dashOxygenCost);
+        HandleDash();
+    }
+
+    void HandleDash()
+    {
+        Vector3 targetDirection = _moveDirection;
+        if (targetDirection == Vector3.zero)
+        {
+            targetDirection = transform.forward;
+        }
+        if (!_inZeroGravity)
+        {
+            targetDirection = Vector3.ProjectOnPlane(targetDirection, _upAxis);
+        }
+
+        // Remove velocity not in target direction
+        _rb.velocity = Vector3.Project(_rb.velocity, targetDirection);
+        _rb.AddForce(targetDirection.normalized * _dashVel, ForceMode.VelocityChange);
+        // TODO effects
     }
 
     private bool CheckGrounded()

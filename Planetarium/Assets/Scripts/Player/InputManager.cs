@@ -8,75 +8,69 @@ public class InputManager : MonoBehaviour
 {
     public PlayerControls playerControls;
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private PlayerMovement _playerMovement;
+    private PlayerShoot _playerShoot;
 
     #region User Input WASD
     [Header("User Input (WASD)")]
 
     public Vector2 movementInput;
-
-    public float horizontalInput;
-    public float verticalInput;
     #endregion
 
     #region User Input Actions
     [Header("User Input Actions")]
 
-    public bool sprint;
     public bool jump;
+    public bool fire;
     #endregion
 
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-    }
-
-    public void HandleAllInputs()
-    {
-        HandleMovementInput();
-        HandleSprintingInput();
-        HandleJumpingInput();
-    }
-
-    private void HandleJumpingInput()
-    {
-        if (jump && !playerMovement.isJumping)
-        {
-            jump = false;
-            playerMovement.HandleJumping();
-        }
-    }
-
-    private void HandleMovementInput()
-    {
-        verticalInput = movementInput.y;
-        horizontalInput = movementInput.x;
-    }
-
-    private void HandleSprintingInput()
-    {
-        playerMovement.isSprint = sprint;
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerShoot = GetComponent<PlayerShoot>();
     }
 
     private void OnEnable()
     {
         if (playerControls == null)
         {
-            playerControls = new PlayerControls();
-
-            // Store user input (WASD) in movementInput vector.
-            playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
-
-            // Store user input (Left Shit) in sprint bool.
-            playerControls.PlayerActions.SprintPress.performed += i => sprint = true;
-            playerControls.PlayerActions.SprintRelease.canceled += i => sprint = false;
-
-            // Store user input (Space) in jump bool.
-            playerControls.PlayerActions.Jump.performed += i => jump = true;
-            playerControls.PlayerActions.Jump.canceled += i => jump = false;
+            SetupPlayerControls();
         }
 
         playerControls.Enable();
+    }
+
+    void SetupPlayerControls()
+    {
+        playerControls = new PlayerControls();
+
+        // WASD: movementInput
+        playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+
+        // Left shift: dash
+        playerControls.PlayerActions.Dash.performed += i =>
+        {
+            _playerMovement.HandleDashInput();
+        };
+
+        // Space: jump
+        playerControls.PlayerActions.Jump.performed += i =>
+        {
+            jump = true;
+            _playerMovement.HandleJumpInput();
+        };
+        playerControls.PlayerActions.Jump.canceled += i => jump = false;
+
+        // Left mouse: fire
+        playerControls.PlayerActions.Fire.performed += i =>
+        {
+            fire = true;
+            _playerShoot.HandleFiring();
+        };
+        playerControls.PlayerActions.Fire.canceled += i =>
+        {
+            fire = false;
+        };
     }
 
     private void OnDisable()

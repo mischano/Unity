@@ -23,15 +23,6 @@ public class Oxygen : MonoBehaviour
         _oxygen = maxOxygen;
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Debug.Log("Fire2");
-            TakeDamage(5);
-        }
-    }
-
     private void HandleOxygenChange()
     {
         if (onOxygenChanged != null)
@@ -40,7 +31,7 @@ public class Oxygen : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    public void RemoveOxygen(float amount)
     {
         _oxygen -= amount;
         if (_oxygen <= Mathf.Epsilon)

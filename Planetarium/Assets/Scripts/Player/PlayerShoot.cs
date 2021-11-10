@@ -36,18 +36,21 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        fireInput |= Input.GetButtonDown("Fire1");
         UpdateAimTargetPos();
     }
 
-    private void FixedUpdate()
+    public void HandleFiring()
     {
-        if (fireInput && !isDead)
+        if (CanFire())
         {
-            fireInput = false;
             FireProjectile();
             _laserSFX.Play();
         }
+    }
+
+    bool CanFire()
+    {
+        return !isDead;
     }
 
     void FireProjectile()
