@@ -524,12 +524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af62b1f021a32e47bf5c3b4cf56a5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 3848527509574296687}
+  _playerMovement: {fileID: 0}
   movementInput: {x: 0, y: 0}
-  horizontalInput: 0
-  verticalInput: 0
-  sprint: 0
+  dash: 0
   jump: 0
+  fire: 0
 --- !u!114 &3848527509574297488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,6 +969,7 @@ MonoBehaviour:
   _tweenLength: 0.1
   _hideTweenLength: 0.1
   _timeVisible: 5
+  _oxygen: {fileID: 3848527509574297493}
 --- !u!225 &3848527509847992204
 CanvasGroup:
   m_ObjectHideFlags: 0

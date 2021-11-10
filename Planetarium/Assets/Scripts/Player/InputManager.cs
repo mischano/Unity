@@ -31,15 +31,6 @@ public class InputManager : MonoBehaviour
         _playerShoot = GetComponent<PlayerShoot>();
     }
 
-    private void HandleJumpingInput()
-    {
-        if (jump && !_playerMovement.isJumping)
-        {
-            jump = false;
-            _playerMovement.HandleJumping();
-        }
-    }
-
     private void OnEnable()
     {
         if (playerControls == null)
@@ -73,7 +64,7 @@ public class InputManager : MonoBehaviour
         playerControls.PlayerActions.Jump.performed += i =>
         {
             jump = true;
-            HandleJumpingInput();
+            _playerMovement.HandleJumpInput();
         };
         playerControls.PlayerActions.Jump.canceled += i => jump = false;
 

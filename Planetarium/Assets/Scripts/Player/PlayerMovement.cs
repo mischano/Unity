@@ -31,8 +31,6 @@ public class PlayerMovement : MonoBehaviour
     float _zeroGMoveMultiplier = 0.4f;
     [SerializeField, Range(0f, 200f)]
     float _jumpHoldVel = 13f;
-    [SerializeField]
-    float _zeroGMoveOxygenDepleteRate = 10f;
 
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
@@ -71,9 +69,13 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask playerLayer;
     private LayerMask _playerLayerMask;
 
+    // Component references
     private Transform _cameraObject;
     private InputManager _inputManager;
     private PlayerManager _playerManager;
+    private Oxygen _oxygen;
+    private Rigidbody _rb;
+
     [Header("Visual")]
     [SerializeField]
     private GameObject _visualObject;
@@ -86,8 +88,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float _zeroGRotationSpeed = 1f;
 
-    private Rigidbody _rb;
-    private Oxygen _oxygen;
+    [Header("Oxygen")]
+    [SerializeField]
+    float _zeroGMoveOxygenDepleteRate = 10f;
+    [SerializeField]
+    float _groundOxygenReplenishRate = 100f;
+    [SerializeField]
+    float _airJumpOxygenCost = 50f;
 
     #region Internal Flags
     bool _inZeroGravity;
@@ -139,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         HandleDrag();
         if (isGrounded)
         {
-            _oxygen.RefillOxygen();
+            _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
         }
         // _visualObject gets interpolated thanks to InterpolatedTransform
         _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
@@ -186,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
             // Handle air/zeroG movement
             if (_inZeroGravity)
             {
-                _oxygen.TakeDamage(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+                _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
             }
             else
@@ -241,20 +248,43 @@ public class PlayerMovement : MonoBehaviour
         _rb.MoveRotation(newRotation);
     }
 
-    public void HandleJumping()
+    public void HandleJumpInput()
     {
-        if (!isGrounded || isJumping)
+        if (isJumping)
         {
             return;
         }
+        if (isGrounded)
+        {
+            HandleJumping();
+            StopCoroutine(HandleGroundJumpHold());
+            StartCoroutine(HandleGroundJumpHold());
+        }
+        else
+        {
+            HandleAirJumping();
+        }
+    }
+
+    public void HandleJumping()
+    {
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
         Vector3 desiredUpVelocity = _upAxis * jumpVel;
         _rb.AddForce(desiredUpVelocity - upVelocity, ForceMode.VelocityChange);
-        StopCoroutine(JumpingCoroutine());
-        StartCoroutine(JumpingCoroutine());
     }
 
-    IEnumerator JumpingCoroutine()
+    void HandleAirJumping()
+    {
+        if (_oxygen.isEmpty)
+        {
+            return;
+        }
+        _oxygen.RemoveOxygen(_airJumpOxygenCost);
+        HandleJumping();
+        // TODO air hiss effect
+    }
+
+    IEnumerator HandleGroundJumpHold()
     {
         float velPerTick = _jumpHoldVel / (float)_numJumpingTicks;
         isJumping = true;
