@@ -23,8 +23,8 @@ public class ProjectileLaser : MonoBehaviour
         Health healthScript = collision.gameObject.GetComponent<Health>();
         DamageFlash flash = collision.gameObject.GetComponent<DamageFlash>();
 
-        /* I couldn't destroy instantiated VFX properly, 
-         * so I am having an active VFX the entire time, 
+        /* I couldn't destroy instantiated VFX properly,
+         * so I am having an active VFX the entire time,
          * and just transforming it's position :(
          * Hopefully, I will fix this issue.  */
         ve.transform.position = collision.contacts[0].point;
@@ -37,7 +37,7 @@ public class ProjectileLaser : MonoBehaviour
             {
                 flash.FlashStart();
             }
-            else
+            else if (collision.transform.childCount > 0)
             {
                 // child object of enemy prefab MUST be first object in tree
                 DamageFlash childFlash = collision.transform.GetChild(0).GetComponent<DamageFlash>();
