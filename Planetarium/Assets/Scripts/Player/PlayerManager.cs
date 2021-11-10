@@ -22,5 +22,6 @@ public class PlayerManager : MonoBehaviour
         animator.SetBool("isSprinting", playerMovement.isSprint);
         animator.SetBool("isJumping", playerMovement.isJumping);
         animator.SetBool("isFalling", playerMovement.isFalling);
+        animator.SetBool("isMoving", playerMovement.isMoving);
     }
 }
