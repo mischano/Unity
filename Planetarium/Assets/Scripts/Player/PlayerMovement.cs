@@ -63,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isJumping;
     public bool isGrounded;
     public bool isFalling => !isGrounded && !isJumping;
-    public bool isWalking => _isMoving && !isSprint;
-    bool _isMoving;
+    public bool isWalking => isMoving && !isSprint;
+    public bool isMoving;
     #endregion
 
     [Header("Falling Settings")]
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
         isJumping = false;
         isDead = false;
-        _isMoving = false;
+        isMoving = false;
         // We can change this in other scripts e.g. based on shooting state
         isSprint = true;
     }
@@ -163,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _forwardMoveDir = _cameraObject.forward * _inputManager.movementInput.y;
         _lateralMoveDir = _cameraObject.right * _inputManager.movementInput.x;
-        _isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
+        isMoving = _forwardMoveDir != Vector3.zero || _lateralMoveDir != Vector3.zero;
 
         if (!_inZeroGravity)
         {
