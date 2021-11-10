@@ -20,7 +20,6 @@ public class InputManager : MonoBehaviour
     #region User Input Actions
     [Header("User Input Actions")]
 
-    public bool dash;
     public bool jump;
     public bool fire;
     #endregion
@@ -51,13 +50,7 @@ public class InputManager : MonoBehaviour
         // Left shift: dash
         playerControls.PlayerActions.Dash.performed += i =>
         {
-            dash = true;
-            _playerMovement.isSprint = dash;
-        };
-        playerControls.PlayerActions.Dash.canceled += i =>
-        {
-            dash = false;
-            _playerMovement.isSprint = dash;
+            _playerMovement.HandleDashInput();
         };
 
         // Space: jump

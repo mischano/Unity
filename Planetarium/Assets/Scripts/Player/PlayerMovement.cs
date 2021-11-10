@@ -32,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 200f)]
     float _jumpHoldVel = 13f;
 
+    [SerializeField]
+    float _dashVel = 20f;
+
     [SerializeField, Range(0f, 1f)]
     float _groundDragThreshold = 0.1f;
     [SerializeField, Range(0f, 10f)]
@@ -95,6 +98,8 @@ public class PlayerMovement : MonoBehaviour
     float _groundOxygenReplenishRate = 100f;
     [SerializeField]
     float _airJumpOxygenCost = 50f;
+    [SerializeField]
+    float _dashOxygenCost = 50f;
 
     #region Internal Flags
     bool _inZeroGravity;
@@ -120,6 +125,8 @@ public class PlayerMovement : MonoBehaviour
         isJumping = false;
         isDead = false;
         _isMoving = false;
+        // We can change this in other scripts e.g. based on shooting state
+        isSprint = true;
     }
 
     void FixedUpdate()
@@ -193,6 +200,10 @@ public class PlayerMovement : MonoBehaviour
             // Handle air/zeroG movement
             if (_inZeroGravity)
             {
+                if (_oxygen.isEmpty)
+                {
+                    return;
+                }
                 _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
             }
@@ -250,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleJumpInput()
     {
-        if (isJumping)
+        if (isJumping || isDead)
         {
             return;
         }
@@ -300,6 +311,34 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         isJumping = false;
+    }
+
+    public void HandleDashInput()
+    {
+        if (_oxygen.isEmpty || isDead)
+        {
+            return;
+        }
+        _oxygen.RemoveOxygen(_dashOxygenCost);
+        HandleDash();
+    }
+
+    void HandleDash()
+    {
+        Vector3 targetDirection = _moveDirection;
+        if (targetDirection == Vector3.zero)
+        {
+            targetDirection = transform.forward;
+        }
+        if (!_inZeroGravity)
+        {
+            targetDirection = Vector3.ProjectOnPlane(targetDirection, _upAxis);
+        }
+
+        // Remove velocity not in target direction
+        _rb.velocity = Vector3.Project(_rb.velocity, targetDirection);
+        _rb.AddForce(targetDirection.normalized * _dashVel, ForceMode.VelocityChange);
+        // TODO effects
     }
 
     private bool CheckGrounded()
