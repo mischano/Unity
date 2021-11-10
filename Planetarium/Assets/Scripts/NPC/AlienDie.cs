@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class AlienDie : MonoBehaviour
 {
+    public GameObject brokenAlien;
+
     public void Die()
     {
-        // TODO Add effects, death animation, whatever.
-        Destroy(gameObject, 0.2f);
+        // Instantiate broken alien pieces.
+        var _brokenAlien = Instantiate(brokenAlien, transform.position, transform.rotation);
+        
+        // Offset is used to give an explosion force 
+        // for broken alien. 
+        Destroy(gameObject, 0.05f); 
+        Destroy(_brokenAlien, 5f);
     }
 }

@@ -20,11 +20,16 @@ public class ProjectileLaser : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collided!");
         Health healthScript = collision.gameObject.GetComponent<Health>();
         DamageFlash flash = collision.gameObject.GetComponent<DamageFlash>();
+
+        /* I couldn't destroy instantiated VFX properly, 
+         * so I am having an active VFX the entire time, 
+         * and just transforming it's position :(
+         * Hopefully, I will fix this issue.  */
         ve.transform.position = collision.contacts[0].point;
         ve.Play();
+
         if (healthScript != null)
         {
             healthScript.TakeDamage(_damage);

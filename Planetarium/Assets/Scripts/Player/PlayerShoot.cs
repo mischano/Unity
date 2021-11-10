@@ -74,9 +74,4 @@ public class PlayerShoot : MonoBehaviour
             _aimTarget.position = Camera.main.transform.position + crosshairRay.direction * _aimNothingDistance;
         }
     }
-
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawSphere(_spawnPoint.position, 0.02f);
-    //}
 }
