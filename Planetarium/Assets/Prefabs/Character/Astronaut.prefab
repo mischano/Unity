@@ -391,6 +391,7 @@ MonoBehaviour:
   _groundOxygenReplenishRate: 100
   _airJumpOxygenCost: 50
   _dashOxygenCost: 50
+  _dashAudio: {fileID: 8300000, guid: e4352d4833b68234886b5fba1a7a8f34, type: 3}
   isDead: 0
 --- !u!114 &3848527509574296686
 MonoBehaviour:
@@ -453,6 +454,7 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  _laserSfx: {fileID: 8300000, guid: cfbf2803826bc27469e41f6d77d1ef3c, type: 3}
   _aimNothingDistance: 100
   isDead: 0
 --- !u!114 &3848527509574297490
@@ -538,11 +540,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cfbf2803826bc27469e41f6d77d1ef3c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f6e7aa845a9219947a4a3a3ca6bc24c6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.269
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -584,7 +586,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0

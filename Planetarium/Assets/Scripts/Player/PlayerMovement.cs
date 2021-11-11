@@ -101,8 +101,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float _dashOxygenCost = 50f;
 
+    [Header("Audio")]
+    AudioSource _audioSource;
+    [SerializeField] AudioClip _dashAudio;
+    bool _playingZeroGMoveEffects;
+
     #region Internal Flags
     bool _inZeroGravity;
+    bool _zeroGMoving;
     #endregion
     public bool isDead;
 
@@ -115,9 +121,10 @@ public class PlayerMovement : MonoBehaviour
     {
         _inputManager = GetComponent<InputManager>();
         _playerManager = GetComponent<PlayerManager>();
-
         _rb = GetComponent<Rigidbody>();
         _oxygen = GetComponent<Oxygen>();
+        _audioSource = GetComponent<AudioSource>();
+
         _cameraObject = Camera.main.transform;
 
         _playerLayerMask = ~playerLayer;
@@ -127,11 +134,26 @@ public class PlayerMovement : MonoBehaviour
         isMoving = false;
         // We can change this in other scripts e.g. based on shooting state
         isSprint = true;
+
+        _playingZeroGMoveEffects = false;
+        _zeroGMoving = false;
     }
 
     void FixedUpdate()
     {
         HandleAllMovement();
+
+        if (_zeroGMoving && !_playingZeroGMoveEffects)
+        {
+            StartZeroGMoveEffects();
+        }
+        else if (!_zeroGMoving && _playingZeroGMoveEffects)
+        {
+            StopZeroGMoveEffects();
+        }
+
+        // _visualObject gets interpolated thanks to InterpolatedTransform
+        _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 
     public void HandleAllMovement()
@@ -155,8 +177,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
         }
-        // _visualObject gets interpolated thanks to InterpolatedTransform
-        _visualObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 
     void GetMoveDirection()
@@ -195,7 +215,9 @@ public class PlayerMovement : MonoBehaviour
         }
         accel *= moveAccel;
 
-        if (!isGrounded && accel != Vector3.zero)
+        _zeroGMoving = false;
+
+        if (!isGrounded && _moveDirection != Vector3.zero)
         {
             // Handle air/zeroG movement
             if (_inZeroGravity)
@@ -206,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
+                _zeroGMoving = true;
             }
             else
             {
@@ -292,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
         }
         _oxygen.RemoveOxygen(_airJumpOxygenCost);
         HandleJumping();
-        // TODO air hiss effect
+        PlayDashEffects();
     }
 
     IEnumerator HandleGroundJumpHold()
@@ -338,7 +361,25 @@ public class PlayerMovement : MonoBehaviour
         // Remove velocity not in target direction
         _rb.velocity = Vector3.Project(_rb.velocity, targetDirection);
         _rb.AddForce(targetDirection.normalized * _dashVel, ForceMode.VelocityChange);
-        // TODO effects
+        PlayDashEffects();
+    }
+
+    void PlayDashEffects()
+    {
+        // TODO particles
+        _audioSource.PlayOneShot(_dashAudio);
+    }
+
+    void StartZeroGMoveEffects()
+    {
+        _audioSource.Play();
+        _playingZeroGMoveEffects = true;
+    }
+
+    void StopZeroGMoveEffects()
+    {
+        _audioSource.Stop();
+        _playingZeroGMoveEffects = false;
     }
 
     private bool CheckGrounded()

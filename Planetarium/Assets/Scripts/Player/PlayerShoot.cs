@@ -18,7 +18,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] LayerMask _playerLayer;
     LayerMask _notPlayer;
 
-    private AudioSource _laserSFX;
+    [SerializeField] AudioClip _laserSfx;
+    private AudioSource _audioSource;
     private Rigidbody _rb;
 
     [SerializeField] float _aimNothingDistance = 100f;
@@ -28,7 +29,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Awake()
     {
-        _laserSFX = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
         isDead = false;
         fireInput = false;
         _notPlayer = ~_playerLayer;
@@ -44,7 +45,7 @@ public class PlayerShoot : MonoBehaviour
         if (CanFire())
         {
             FireProjectile();
-            _laserSFX.Play();
+            _audioSource.PlayOneShot(_laserSfx);
         }
     }
 

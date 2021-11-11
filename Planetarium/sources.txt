@@ -1,3 +1,5 @@
+Scripts
+---
 Custom gravity scripts: https://catlikecoding.com/unity/tutorials/movement/custom-gravity/
 FixedInterpolation scripts (very helpful article): https://www.kinematicsoup.com/news/2016/8/9/rrypp5tkubynjwxhxjzd42s3o034o8
 Projectiles: https://www.studica.com/blog/how-to-create-a-projectile-in-unity
@@ -6,5 +8,12 @@ https://www.youtube.com/watch?v=jdAbVkre8cw
 
 Assets
 ---
+Models
+--
 LAR Scifi Blaster: https://www.turbosquid.com/3d-models/3d-model-sci-fi/751107
 Stylized Astronaut: https://assetstore.unity.com/packages/3d/characters/humanoids/sci-fi/stylized-astronaut-114298
+
+SFX
+--
+Air hiss: https://freesound.org/people/typeoo/sounds/521506/
+Air hiss loop: https://freesound.org/people/typeoo/sounds/521505/
