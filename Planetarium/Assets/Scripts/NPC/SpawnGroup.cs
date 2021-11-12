@@ -9,12 +9,15 @@ public class SpawnGroup : MonoBehaviour
     void Start()
     {
         _spawnPoints = GetComponentsInChildren<SpawnPoint>();
+        
     }
 
     public void SpawnAll()
     {
+        
         foreach (SpawnPoint sp in _spawnPoints)
         {
+            
             sp.Spawn();
         }
     }
