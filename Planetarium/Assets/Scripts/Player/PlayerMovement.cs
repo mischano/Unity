@@ -173,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
             HandleRotation();
         }
         HandleDrag();
+ 
         if (isGrounded)
         {
             _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
@@ -389,7 +390,14 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
         RaycastHit hit;
-        return Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
+        
+        bool result;
+        result =  Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
+        if (result && !isGrounded)
+        {
+            // play dust particle effect
+        }
+        return result; 
     }
 
     private Vector3 GetGravity()
