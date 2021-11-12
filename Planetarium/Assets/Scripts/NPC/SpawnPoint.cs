@@ -10,6 +10,7 @@ public class SpawnPoint : MonoBehaviour
     {
         // TODO Sound/particle effects
         Instantiate(_toSpawn, transform.position, transform.rotation);
+        
     }
 
     void OnDrawGizmos()
