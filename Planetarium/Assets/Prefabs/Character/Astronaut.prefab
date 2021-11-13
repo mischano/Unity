@@ -835,7 +835,7 @@ MonoBehaviour:
   _oxygenBar: {fileID: 3848527509143489048}
   _tweenLength: 0.1
   _hideTweenLength: 0.1
-  _timeVisible: 5
+  _timeVisible: 0.5
   _oxygen: {fileID: 3848527509574297493}
 --- !u!225 &3848527509847992204
 CanvasGroup:

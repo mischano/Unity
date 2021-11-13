@@ -12,11 +12,11 @@ public class OxygenBar : MonoBehaviour
     [SerializeField] Slider _oxygenBar;
     [SerializeField] float _tweenLength; // How long tween should take in seconds
     [SerializeField] float _hideTweenLength; // How long fade out should take in seconds
-    [SerializeField] float _timeVisible; // How long to show the bar on health changed
+    [SerializeField] float _timeVisible; // How long to show the bar when full
     [SerializeField] Oxygen _oxygen;
     CanvasGroup _cg;
     float _oxygenFraction;
-    float _timeSinceLastChange;
+    float _timeFull;
     bool _isVisible;
 
     void Start()
@@ -24,17 +24,20 @@ public class OxygenBar : MonoBehaviour
         _cg = GetComponent<CanvasGroup>();
         _isVisible = false;
         _cg.alpha = 0f;
-        _timeSinceLastChange = _timeVisible + 1f;
+        _timeFull = 0f;
     }
 
     void Update()
     {
-        _timeSinceLastChange += Time.fixedDeltaTime;
-        if (_isVisible && _oxygen.isFull && _timeSinceLastChange > _timeVisible)
+        if (_isVisible && _oxygen.isFull)
         {
-            HideOxygenBar();
+            _timeFull += Time.deltaTime;
+            if (_timeFull > _timeVisible)
+            {
+                HideOxygenBar();
+            }
         }
-        else if (!_isVisible && _timeSinceLastChange <= _timeVisible)
+        else if (!_isVisible && !_oxygen.isFull)
         {
             ShowOxygenBar();
         }
@@ -45,7 +48,6 @@ public class OxygenBar : MonoBehaviour
     {
         StopCoroutine(LerpHideOxygenBar());
         StartCoroutine(TweenToOxygen(fillAmount));
-        _timeSinceLastChange = 0f;
     }
 
     IEnumerator TweenToOxygen(float toFill)
@@ -70,6 +72,7 @@ public class OxygenBar : MonoBehaviour
         // Show immediately, no lerp
         _isVisible = true;
         _cg.alpha = 1f;
+        _timeFull = 0f;
     }
 
     void HideOxygenBar()
