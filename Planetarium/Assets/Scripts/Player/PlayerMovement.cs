@@ -97,9 +97,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float _groundOxygenReplenishRate = 100f;
     [SerializeField]
-    float _airJumpOxygenCost = 50f;
+    float _airJumpOxygenCost = 70f;
     [SerializeField]
-    float _dashOxygenCost = 50f;
+    float _dashOxygenCost = 70f;
 
     [Header("Audio")]
     AudioSource _audioSource;
@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
             HandleRotation();
         }
         HandleDrag();
- 
+
         if (isGrounded)
         {
             _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
@@ -203,18 +203,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector3 accel = _moveDirection;
-        // If we're going too fast, don't add speed in that direction.
-        float max = isSprint ? _maxSprintSpeed : _maxSpeed;
-        if (Vector3.Dot(_forwardMoveDir, _rb.velocity) > max)
-        {
-            accel -= _forwardMoveDir;
-        }
-        if (Vector3.Dot(_lateralMoveDir, _rb.velocity) > max)
-        {
-            accel -= _lateralMoveDir;
-        }
-        accel *= moveAccel;
+        Vector3 accel = GetAccel();
 
         _zeroGMoving = false;
 
@@ -243,6 +232,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _rb.AddForce(accel);
+    }
+
+    Vector3 GetAccel()
+    {
+        // Source (hehe): https://adrianb.io/2015/02/14/bunnyhop.html
+        float max = isSprint ? _maxSprintSpeed : _maxSpeed;
+
+        float projVel = Vector3.Dot(_rb.velocity, _moveDirection);
+        float accelVel = moveAccel;
+
+        if (projVel + accelVel > max)
+        {
+            accelVel = max - projVel;
+        }
+
+        return _moveDirection * accelVel;
     }
 
     void HandleDrag()
@@ -310,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleAirJumping()
     {
-        if (_oxygen.isEmpty)
+        if (_oxygen.oxygen < _airJumpOxygenCost || isDead)
         {
             return;
         }
@@ -339,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleDashInput()
     {
-        if (_oxygen.isEmpty || isDead)
+        if (_oxygen.oxygen < _dashOxygenCost || isDead)
         {
             return;
         }
@@ -390,14 +395,14 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
         RaycastHit hit;
-        
+
         bool result;
-        result =  Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
+        result = Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
         if (result && !isGrounded)
         {
             // play dust particle effect
         }
-        return result; 
+        return result;
     }
 
     private Vector3 GetGravity()

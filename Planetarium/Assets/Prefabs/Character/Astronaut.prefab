@@ -361,9 +361,9 @@ MonoBehaviour:
   moveAccel: 50
   rotationSpeed: 500
   jumpVel: 10
-  _maxSpeed: 5
-  _maxSprintSpeed: 10
-  _airMoveMultiplier: 0.4
+  _maxSpeed: 100
+  _maxSprintSpeed: 200
+  _airMoveMultiplier: 0.2
   _zeroGMoveMultiplier: 0.4
   _jumpHoldVel: 13
   _dashVel: 20
@@ -388,8 +388,8 @@ MonoBehaviour:
   _zeroGRotationSpeed: 0.5
   _zeroGMoveOxygenDepleteRate: 10
   _groundOxygenReplenishRate: 100
-  _airJumpOxygenCost: 50
-  _dashOxygenCost: 50
+  _airJumpOxygenCost: 70
+  _dashOxygenCost: 70
   _dashAudio: {fileID: 8300000, guid: e4352d4833b68234886b5fba1a7a8f34, type: 3}
   isDead: 0
 --- !u!114 &3848527509574296686
@@ -837,6 +837,10 @@ MonoBehaviour:
   _hideTweenLength: 0.1
   _timeVisible: 0.5
   _oxygen: {fileID: 3848527509574297493}
+  _fillImage: {fileID: 3848527509780784367}
+  _normalColor: {r: 0.30980393, g: 0.827451, b: 0.99607843, a: 1}
+  _lowColor: {r: 1, g: 0.400387, b: 0, a: 1}
+  _lowThreshold: 0.7
 --- !u!225 &3848527509847992204
 CanvasGroup:
   m_ObjectHideFlags: 0

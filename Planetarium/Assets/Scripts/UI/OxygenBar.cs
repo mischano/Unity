@@ -14,6 +14,10 @@ public class OxygenBar : MonoBehaviour
     [SerializeField] float _hideTweenLength; // How long fade out should take in seconds
     [SerializeField] float _timeVisible; // How long to show the bar when full
     [SerializeField] Oxygen _oxygen;
+    [SerializeField] Image _fillImage;
+    [SerializeField] Color _normalColor;
+    [SerializeField] Color _lowColor;
+    [SerializeField, Range(0f, 1f)] float _lowThreshold;
     CanvasGroup _cg;
     float _oxygenFraction;
     float _timeFull;
@@ -25,6 +29,7 @@ public class OxygenBar : MonoBehaviour
         _isVisible = false;
         _cg.alpha = 0f;
         _timeFull = 0f;
+        // _fillImage.color = _normalColor;
     }
 
     void Update()
@@ -48,6 +53,14 @@ public class OxygenBar : MonoBehaviour
     {
         StopCoroutine(LerpHideOxygenBar());
         StartCoroutine(TweenToOxygen(fillAmount));
+        if (fillAmount < _lowThreshold)
+        {
+            _fillImage.color = _lowColor;
+        }
+        else
+        {
+            _fillImage.color = _normalColor;
+        }
     }
 
     IEnumerator TweenToOxygen(float toFill)
@@ -70,6 +83,7 @@ public class OxygenBar : MonoBehaviour
     void ShowOxygenBar()
     {
         // Show immediately, no lerp
+        StopCoroutine(LerpHideOxygenBar());
         _isVisible = true;
         _cg.alpha = 1f;
         _timeFull = 0f;

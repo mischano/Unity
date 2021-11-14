@@ -5,6 +5,7 @@ FixedInterpolation scripts (very helpful article): https://www.kinematicsoup.com
 Projectiles: https://www.studica.com/blog/how-to-create-a-projectile-in-unity
 Main menu: https://www.instructables.com/How-to-make-a-main-menu-in-Unity/
 https://www.youtube.com/watch?v=jdAbVkre8cw
+Movement acceleration: https://adrianb.io/2015/02/14/bunnyhop.html
 
 Assets
 ---

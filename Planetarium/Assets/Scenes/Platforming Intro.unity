@@ -556,6 +556,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3784506295681496944, guid: f9c8dad1ba979a24a9a4470c1d1214dc, type: 3}
   m_PrefabInstance: {fileID: 1767585126}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1008543907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3848527509780784367, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+  m_PrefabInstance: {fileID: 1511095921}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1069979945 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6927945249282648750, guid: 700f6615a17818f4f984ae34207db99e, type: 3}
@@ -1154,6 +1165,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3848527509143489048, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509143489048, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 1008543907}
     - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1237,6 +1256,18 @@ PrefabInstance:
     - target: {fileID: 3848527509921509861, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438187579262849058, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438187579262849058, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438187579262849058, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448179274466, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.w
