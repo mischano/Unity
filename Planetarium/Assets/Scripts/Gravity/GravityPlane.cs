@@ -6,21 +6,34 @@ using UnityEngine;
 public class GravityPlane : GravitySource
 {
     [SerializeField] float gravity = 9.81f;
-    [SerializeField, Min(0f)] float range = 1f;
+    [SerializeField, Min(0f)] float outerFalloffDist = 1f, outerDist = 1f;
+
+    float _outerFalloffFactor;
+
+    void Awake()
+    {
+        OnValidate();
+    }
+
+    void OnValidate()
+    {
+        outerFalloffDist = Mathf.Max(outerFalloffDist, outerDist);
+        _outerFalloffFactor = 1f / (outerFalloffDist - outerDist);
+    }
 
     public override Vector3 GetGravity(Vector3 position)
     {
         Vector3 up = transform.up;
         // Using dot product as projected distance from plane
         float distance = Vector3.Dot(up, position - transform.position);
-        if (distance > range)
+        if (distance > outerFalloffDist)
         {
             return Vector3.zero;
         }
         float g = -gravity;
-        if (distance > 0f)
+        if (distance > outerDist)
         {
-            g *= 1f - distance / range;
+            g *= 1f - (distance - outerDist) * _outerFalloffFactor;
         }
         return g * up;
     }
@@ -28,15 +41,18 @@ public class GravityPlane : GravitySource
     void OnDrawGizmos()
     {
         Vector3 scale = transform.localScale;
-        scale.y = range;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, scale);
-        Vector3 size = new Vector3(transform.localScale.x, 0f, transform.localScale.z);
+        Vector3 size = new Vector3(2 * transform.localScale.x, 0f, 2 * transform.localScale.z);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(Vector3.zero, size);
-        if (range > 0f)
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(Vector3.up * outerDist, size);
+
+        if (outerFalloffDist > outerDist)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireCube(Vector3.up, size);
+            Gizmos.DrawWireCube(Vector3.up * outerFalloffDist, size);
         }
     }
 }
