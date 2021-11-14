@@ -386,7 +386,8 @@ MonoBehaviour:
   _visualObject: {fileID: 4407908355706341446}
   _freelook: {fileID: 7825743449252974855}
   _zeroGRotationSpeed: 0.5
-  _zeroGMoveOxygenDepleteRate: 10
+  _zeroGOxygenDrain: 1
+  _zeroGMoveOxygenDrain: 10
   _groundOxygenReplenishRate: 100
   _airJumpOxygenCost: 70
   _dashOxygenCost: 70
@@ -485,6 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxOxygen: 100
+  _numTicksBeforeDamage: 100
   onOxygenChanged:
     m_PersistentCalls:
       m_Calls:

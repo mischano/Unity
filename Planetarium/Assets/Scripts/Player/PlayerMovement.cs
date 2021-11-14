@@ -93,7 +93,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Oxygen")]
     [SerializeField]
-    float _zeroGMoveOxygenDepleteRate = 10f;
+    float _zeroGOxygenDrain = 1f;
+    [SerializeField]
+    float _zeroGMoveOxygenDrain = 10f;
     [SerializeField]
     float _groundOxygenReplenishRate = 100f;
     [SerializeField]
@@ -178,6 +180,10 @@ public class PlayerMovement : MonoBehaviour
         {
             _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
         }
+        else if (_inZeroGravity)
+        {
+            _oxygen.RemoveOxygen(_zeroGOxygenDrain * Time.deltaTime);
+        }
     }
 
     void GetMoveDirection()
@@ -216,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     return;
                 }
-                _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+                _oxygen.RemoveOxygen(_zeroGMoveOxygenDrain * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
                 _zeroGMoving = true;
             }

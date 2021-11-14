@@ -325,11 +325,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4035218803484013400, guid: e007727bd65f2ae45b9509ef87824664, type: 3}
       propertyPath: outerDist
-      value: 15
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4035218803484013400, guid: e007727bd65f2ae45b9509ef87824664, type: 3}
       propertyPath: outerFalloffDist
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4035218803484013401, guid: e007727bd65f2ae45b9509ef87824664, type: 3}
       propertyPath: m_Name
@@ -1380,7 +1380,7 @@ MonoBehaviour:
   - {fileID: 2136794563}
   fullHeart: {fileID: 21300000, guid: 916f9c9dbd67c1a4783714423ec1d668, type: 3}
   emptyHeart: {fileID: 21300000, guid: 57daf334b5a3b4b43bb48c1d75ce1a5d, type: 3}
-  DeathSFX: {fileID: 0}
+  DeathSFX: {fileID: 8300000, guid: 5563d852e91fdad49b91ac6f5504e746, type: 3}
 --- !u!1001 &1649862868
 PrefabInstance:
   m_ObjectHideFlags: 0
