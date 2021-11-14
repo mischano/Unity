@@ -7,6 +7,7 @@ public class CustomGravityRigidbody : MonoBehaviour
 {
     Rigidbody body;
     public Vector3 upAxis;
+    public Vector3 gravity;
 
     void Awake()
     {
@@ -17,6 +18,7 @@ public class CustomGravityRigidbody : MonoBehaviour
 
     void FixedUpdate()
     {
-        body.AddForce(CustomGravity.GetGravity(body.position, out upAxis), ForceMode.Acceleration);
+        gravity = CustomGravity.GetGravity(body.position, out upAxis);
+        body.AddForce(gravity, ForceMode.Acceleration);
     }
 }
