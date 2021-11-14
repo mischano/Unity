@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Settings
     [Header("Movement Settings")]
 
-    [SerializeField, Range(3f, 200f)]
-    public float moveAccel = 50f;
+    [SerializeField]
+    public float moveAccel = 2500f;
 
     [SerializeField, Range(1f, 10000f)]
     public float rotationSpeed = 500f;
@@ -240,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         float max = isSprint ? _maxSprintSpeed : _maxSpeed;
 
         float projVel = Vector3.Dot(_rb.velocity, _moveDirection);
-        float accelVel = moveAccel;
+        float accelVel = moveAccel * Time.deltaTime;
 
         if (projVel + accelVel > max)
         {
