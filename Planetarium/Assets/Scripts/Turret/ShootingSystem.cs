@@ -10,6 +10,7 @@ public class ShootingSystem : MonoBehaviour
     public GameObject target;
     public Transform projectileSpawn;
     public float speed;
+    public float range;
 
     List<GameObject> m_lastProjectiles = new List<GameObject>();
     float m_fireTimer = 0.0f;
@@ -20,7 +21,7 @@ public class ShootingSystem : MonoBehaviour
     {
         m_fireTimer += Time.deltaTime;
 
-        if (m_fireTimer >= fireRate)
+        if (Vector3.Distance(transform.position, target.transform.position) <= range && m_fireTimer >= fireRate)
         {
             SpawnProjectile();
 
