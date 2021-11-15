@@ -42,7 +42,7 @@ public class OxygenBar : MonoBehaviour
                 HideOxygenBar();
             }
         }
-        else if (!_isVisible && !_oxygen.isFull)
+        else if (!_oxygen.isFull)
         {
             ShowOxygenBar();
         }
