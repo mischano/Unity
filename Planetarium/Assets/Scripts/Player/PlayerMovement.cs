@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerManager _playerManager;
     private Oxygen _oxygen;
     private Rigidbody _rb;
+    private CustomGravityRigidbody _cgrb;
 
     [Header("Visual")]
     [SerializeField]
@@ -124,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         _inputManager = GetComponent<InputManager>();
         _playerManager = GetComponent<PlayerManager>();
         _rb = GetComponent<Rigidbody>();
+        _cgrb = GetComponent<CustomGravityRigidbody>();
         _oxygen = GetComponent<Oxygen>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -413,9 +415,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 GetGravity()
     {
-        Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
-        _inZeroGravity = gravity == Vector3.zero;
-        return gravity;
+        _inZeroGravity = _cgrb.gravity == Vector3.zero;
+        _upAxis = _cgrb.upAxis;
+        return _cgrb.gravity;
     }
 
     void HandleZeroGRotation()
