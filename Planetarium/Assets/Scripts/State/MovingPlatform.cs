@@ -8,6 +8,8 @@ public class MovingPlatform : MonoBehaviour
     public float _speed = 3.0f;
     private float rotationSpeed = 2f;
     private bool _active;
+
+    private bool _resetting;
     // starting point of the platforms
     private Vector3 initialPoint;
     private Rigidbody _rb;
@@ -18,6 +20,7 @@ public class MovingPlatform : MonoBehaviour
     {
         // platforms are not moving
         _active = false;
+        _resetting = false;
         // intitial point of platforms 
         initialPoint = transform.position;
         _rb = GetComponent<Rigidbody>();
@@ -27,17 +30,24 @@ public class MovingPlatform : MonoBehaviour
 
     private void LateUpdate()
     {
-        // if player is on one of the platforms
-        if (_active)
+        if (_active)  // if player is on the platform
         {
-            // move toward end position
-            MovePlatform();
+            if (!_resetting) // if platform is moving TOWARD endpoint
+            {
+                MovePlatform();
+            }
+            else
+            {
+                ResetPosition(); // go back to initial point if resetting
+            }
+            
+            
         }
         else
         {
-            // reset platforms to original position
-            ResetPosition();
+            ResetPosition(); // go back to initial position if player is not on platform (after oscillation)
         }
+        
     }
 
     private void OnCollisionEnter(Collision other)
@@ -47,23 +57,13 @@ public class MovingPlatform : MonoBehaviour
             _rb.constraints = RigidbodyConstraints.None;
             _active = true;
         }
-            
     }
-
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _active = false;
-            if (transform.position == initialPoint)
-            {
-                _rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
-        }
-    }
+    
 
     private void MovePlatform()
     {
+        // handles movement toward the endpoint
+        _resetting = false;
         Vector3 moveDir = Vector3.MoveTowards(transform.position, endPosition, _speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
         Vector3 positionDiff = endPosition - _rb.position;
@@ -71,10 +71,19 @@ public class MovingPlatform : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _rb.transform.up);
         _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        
+        Debug.Log(transform.position == endPosition);
+        if (transform.position == endPosition)
+        {
+            _resetting = true;
+            ResetPosition();
+        }
+      
     }
 
     private void ResetPosition()
     {
+       
         Vector3 moveDir = Vector3.MoveTowards(transform.position, initialPoint, _speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
         Vector3 positionDiff = initialPoint - _rb.position;
@@ -82,6 +91,19 @@ public class MovingPlatform : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _rb.transform.up);
         _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        
+
+        if (transform.position == initialPoint) 
+        {
+            
+            if (!_active)
+            {
+                
+                _rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                MovePlatform();
+            }
+        }
     }
 }
