@@ -6,9 +6,7 @@ using UnityEngine.PlayerLoop;
 public class MovingPlatform : MonoBehaviour
 {
     public float _speed = 3.0f;
-    private float rotationSpeed = 2f;
     private bool _active;
-
     private bool _resetting;
     // starting point of the platforms
     private Vector3 initialPoint;
@@ -40,21 +38,17 @@ public class MovingPlatform : MonoBehaviour
             {
                 ResetPosition(); // go back to initial point if resetting
             }
-            
-            
         }
         else
         {
             ResetPosition(); // go back to initial position if player is not on platform (after oscillation)
         }
-        
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _rb.constraints = RigidbodyConstraints.None;
             _active = true;
         }
     }
@@ -66,13 +60,7 @@ public class MovingPlatform : MonoBehaviour
         _resetting = false;
         Vector3 moveDir = Vector3.MoveTowards(transform.position, endPosition, _speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
-        Vector3 positionDiff = endPosition - _rb.position;
-        Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _rb.transform.up).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _rb.transform.up);
-        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         
-        Debug.Log(transform.position == endPosition);
         if (transform.position == endPosition)
         {
             _resetting = true;
@@ -83,27 +71,13 @@ public class MovingPlatform : MonoBehaviour
 
     private void ResetPosition()
     {
-       
+        // reset platform to original position
         Vector3 moveDir = Vector3.MoveTowards(transform.position, initialPoint, _speed * Time.deltaTime);
         _rb.MovePosition(moveDir);
-        Vector3 positionDiff = initialPoint - _rb.position;
-        Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _rb.transform.up).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _rb.transform.up);
-        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-
-        if (transform.position == initialPoint) 
+        
+        if (transform.position == initialPoint)
         {
-            
-            if (!_active)
-            {
-                
-                _rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
-            else
-            {
-                MovePlatform();
-            }
+            MovePlatform();
         }
     }
 }
