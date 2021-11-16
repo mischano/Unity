@@ -32,10 +32,11 @@ public class MovingPlatform : MonoBehaviour
     {
         if (_active)  // if player is on the platform
         {
+            _rb.constraints = RigidbodyConstraints.None;
            
             if (!_resetting) // if platform is moving TOWARD endpoint
             {
-                _rb.constraints = RigidbodyConstraints.None;
+                
                 MovePlatform();
                 
             }
