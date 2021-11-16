@@ -17768,6 +17768,34 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 351477470}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ActivatePortal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Portal, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _onScrapComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3848527509780784366, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -18105,7 +18133,7 @@ MonoBehaviour:
         m_CallState: 2
   _camera: {fileID: 530861928}
   message1: a little more, just a little more... and...~ugh, who am I kidding? this
-    is useless.~I wont be able to get home until this piece of junk is fully repaired.~I'm
+    is useless.~I won't be able to get home until this piece of junk is fully repaired.~I'm
     going to need to find the parts I lost in the crash~There should be some around
     here... I should look around.
   message2: move your mouse to look around...
