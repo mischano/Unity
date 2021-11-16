@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3d8cedef95ab9774da7f542d434c0f08
+guid: 17d81eeb731d9d74f94fddb523e9e8f9
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 1595273631397_0
-    second: {fileID: 2100000, guid: 52f3c186722de6f47a4dd6f28dde912a, type: 2}
+      name: PlatformBasis6x6
+    second: {fileID: 2100000, guid: 0c4ef8101d6a0324f9698ada2c7cbcf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlatformFloor6x6
+    second: {fileID: 2100000, guid: 0d3e22dd50079b345a1c5774b271c63f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

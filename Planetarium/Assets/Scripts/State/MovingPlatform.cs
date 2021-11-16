@@ -14,6 +14,8 @@ public class MovingPlatform : MonoBehaviour
     // Object and position component of end spot for moving platforms
     public GameObject endSpot;
     private Vector3 endPosition;
+    private float waitTime = 2.0f;
+    
     private void Start()
     {
         // platforms are not moving
@@ -26,13 +28,16 @@ public class MovingPlatform : MonoBehaviour
         endPosition = endSpot.transform.position;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (_active)  // if player is on the platform
         {
+           
             if (!_resetting) // if platform is moving TOWARD endpoint
             {
+                _rb.constraints = RigidbodyConstraints.None;
                 MovePlatform();
+                
             }
             else
             {
@@ -41,10 +46,11 @@ public class MovingPlatform : MonoBehaviour
         }
         else
         {
-            ResetPosition(); // go back to initial position if player is not on platform (after oscillation)
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
+   
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -52,6 +58,8 @@ public class MovingPlatform : MonoBehaviour
             _active = true;
         }
     }
+
+    
     
 
     private void MovePlatform()
@@ -64,9 +72,8 @@ public class MovingPlatform : MonoBehaviour
         if (transform.position == endPosition)
         {
             _resetting = true;
-            ResetPosition();
+            Invoke("ResetPosition", waitTime);
         }
-      
     }
 
     private void ResetPosition()
@@ -77,7 +84,7 @@ public class MovingPlatform : MonoBehaviour
         
         if (transform.position == initialPoint)
         {
-            MovePlatform();
+            Invoke("MovePlatform", waitTime);
         }
     }
 }
