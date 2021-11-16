@@ -7,21 +7,23 @@ public class GameManager : MonoBehaviour
 {
 
     bool gameHasEnded = false;
-    
+
     public float restartDelay = 2;
+    [SerializeField] string nextSceneName;
 
     private int _numberOfScenes = 2;
-    public void CompleteLevel ()
+    public void CompleteLevel()
     {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex > _numberOfScenes)
-        {
-            nextSceneIndex = _numberOfScenes;
-        }
-        SceneManager.LoadScene(nextSceneIndex);
+        // int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        // if (nextSceneIndex > _numberOfScenes)
+        // {
+        //     nextSceneIndex = _numberOfScenes;
+        // }
+        // SceneManager.LoadScene(nextSceneIndex);
+        SceneManager.LoadScene(nextSceneName);
     }
 
-    public void EndGame () 
+    public void EndGame()
     {
         if (gameHasEnded == false)
         {
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Restart ()
+    void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
