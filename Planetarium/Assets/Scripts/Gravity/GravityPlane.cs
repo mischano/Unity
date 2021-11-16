@@ -40,9 +40,9 @@ public class GravityPlane : GravitySource
 
     void OnDrawGizmos()
     {
-        Vector3 scale = transform.localScale;
+        Vector3 scale = Vector3.one;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, scale);
-        Vector3 size = new Vector3(2 * transform.localScale.x, 0f, 2 * transform.localScale.z);
+        Vector3 size = new Vector3(10 * transform.localScale.x, 0f, 10 * transform.localScale.z);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(Vector3.zero, size);
 

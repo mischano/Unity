@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bb686f9d71c064ea38e613a888bdba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAccel: 50
+  moveAccel: 2500
   rotationSpeed: 500
   jumpVel: 10
   _maxSpeed: 100
@@ -602,7 +602,8 @@ MonoBehaviour:
   _visualObject: {fileID: 4407908355706341446}
   _freelook: {fileID: 7825743449252974855}
   _zeroGRotationSpeed: 0.5
-  _zeroGMoveOxygenDepleteRate: 10
+  _zeroGOxygenDrain: 1
+  _zeroGMoveOxygenDrain: 10
   _groundOxygenReplenishRate: 100
   _airJumpOxygenCost: 70
   _dashOxygenCost: 70
@@ -701,6 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxOxygen: 100
+  _numTicksBeforeDamage: 100
   onOxygenChanged:
     m_PersistentCalls:
       m_Calls:

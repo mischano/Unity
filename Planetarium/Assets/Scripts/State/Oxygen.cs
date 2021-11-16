@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Oxygen : MonoBehaviour
 {
     private float _oxygen;
+    uint _numTicksEmpty;
     public float oxygen
     {
         get => _oxygen;
@@ -18,14 +19,20 @@ public class Oxygen : MonoBehaviour
     public float maxOxygen = 100f;
 
     [SerializeField]
+    uint _numTicksBeforeDamage = 50;
+
+    [SerializeField]
     public OnOxygenChangedEvent onOxygenChanged = null;
 
     [SerializeField]
     public UnityEvent onDeath = null;
 
+    _PlayerHealth _pHealth;
+
     private void Awake()
     {
         _oxygen = maxOxygen;
+        _pHealth = GetComponent<_PlayerHealth>();
     }
 
     private void HandleOxygenChange()
@@ -46,8 +53,24 @@ public class Oxygen : MonoBehaviour
             {
                 onDeath.Invoke();
             }
+
+            _numTicksEmpty++;
+            if (_numTicksEmpty > _numTicksBeforeDamage)
+            {
+                _numTicksEmpty -= _numTicksBeforeDamage;
+                PlayerTakeDamage();
+            }
         }
         HandleOxygenChange();
+    }
+
+    void PlayerTakeDamage()
+    {
+        if (_pHealth == null)
+        {
+            return;
+        }
+        _pHealth.TakeDamage(1);
     }
 
     public void AddOxygen(float amount)

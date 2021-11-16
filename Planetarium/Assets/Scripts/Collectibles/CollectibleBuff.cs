@@ -40,19 +40,18 @@ public class CollectibleBuff : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
-        
+
         _playerHealth = _player.GetComponent<_PlayerHealth>();
         _scrap = _player.GetComponent<Scrap>();
         _oxygen = _player.GetComponent<Oxygen>();
     }
-    
+
     /* Apply the proper boost to player based on enabled boosts. */
     public void ApplyBuff()
     {
         if (boostHealth)
         {
             _playerHealth.AddHealth(healthBoostAmount);
-
         }
         else if (boostOxygen)
         {

@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Settings
     [Header("Movement Settings")]
 
-    [SerializeField, Range(3f, 200f)]
-    public float moveAccel = 50f;
+    [SerializeField]
+    public float moveAccel = 2500f;
 
     [SerializeField, Range(1f, 10000f)]
     public float rotationSpeed = 500f;
@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerManager _playerManager;
     private Oxygen _oxygen;
     private Rigidbody _rb;
+    private CustomGravityRigidbody _cgrb;
 
     [Header("Visual")]
     [SerializeField]
@@ -93,7 +94,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Oxygen")]
     [SerializeField]
-    float _zeroGMoveOxygenDepleteRate = 10f;
+    float _zeroGOxygenDrain = 1f;
+    [SerializeField]
+    float _zeroGMoveOxygenDrain = 10f;
     [SerializeField]
     float _groundOxygenReplenishRate = 100f;
     [SerializeField]
@@ -122,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         _inputManager = GetComponent<InputManager>();
         _playerManager = GetComponent<PlayerManager>();
         _rb = GetComponent<Rigidbody>();
+        _cgrb = GetComponent<CustomGravityRigidbody>();
         _oxygen = GetComponent<Oxygen>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -178,6 +182,10 @@ public class PlayerMovement : MonoBehaviour
         {
             _oxygen.AddOxygen(_groundOxygenReplenishRate * Time.deltaTime);
         }
+        else if (_inZeroGravity)
+        {
+            _oxygen.RemoveOxygen(_zeroGOxygenDrain * Time.deltaTime);
+        }
     }
 
     void GetMoveDirection()
@@ -216,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     return;
                 }
-                _oxygen.RemoveOxygen(_zeroGMoveOxygenDepleteRate * Time.deltaTime);
+                _oxygen.RemoveOxygen(_zeroGMoveOxygenDrain * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
                 _zeroGMoving = true;
             }
@@ -240,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
         float max = isSprint ? _maxSprintSpeed : _maxSpeed;
 
         float projVel = Vector3.Dot(_rb.velocity, _moveDirection);
-        float accelVel = moveAccel;
+        float accelVel = moveAccel * Time.deltaTime;
 
         if (projVel + accelVel > max)
         {
@@ -407,9 +415,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 GetGravity()
     {
-        Vector3 gravity = CustomGravity.GetGravity(_rb.position, out _upAxis);
-        _inZeroGravity = gravity == Vector3.zero;
-        return gravity;
+        _inZeroGravity = _cgrb.gravity == Vector3.zero;
+        _upAxis = _cgrb.upAxis;
+        return _cgrb.gravity;
     }
 
     void HandleZeroGRotation()

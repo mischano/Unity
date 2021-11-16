@@ -7,20 +7,27 @@ public class ShootingSystem : MonoBehaviour
     public int damage;
     public float fireRate;
     public GameObject projectile;
-    public GameObject target;
     public Transform projectileSpawn;
     public float speed;
+    public float range;
 
     List<GameObject> m_lastProjectiles = new List<GameObject>();
     float m_fireTimer = 0.0f;
     private Rigidbody _rb;
+
+    GameObject _target;
+
+    void Start()
+    {
+        _target = GameObject.FindWithTag("Player");
+    }
 
     // Update is called once per frame
     void Update()
     {
         m_fireTimer += Time.deltaTime;
 
-        if (m_fireTimer >= fireRate)
+        if (Vector3.Distance(transform.position, _target.transform.position) <= range && m_fireTimer >= fireRate)
         {
             SpawnProjectile();
 
