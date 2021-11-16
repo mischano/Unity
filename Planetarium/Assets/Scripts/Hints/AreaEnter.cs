@@ -11,13 +11,14 @@ public class AreaEnter : MonoBehaviour
     [SerializeField]
     private OnAreaEnter _enterArea = null;
 
-    public string displayText;
+    public string message;
+    public bool isTyped;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Player"))
         {
-            _enterArea.Invoke(displayText);
+            _enterArea.Invoke(message, isTyped, 0);
             Destroy(gameObject);
         }
     }

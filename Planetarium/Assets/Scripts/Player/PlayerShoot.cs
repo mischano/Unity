@@ -26,13 +26,11 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] float _aimNothingDistance = 100f;
 
     public bool isDead;
-    private bool fireInput;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         isDead = false;
-        fireInput = false;
         _notPlayer = ~_playerLayer;
     }
 
