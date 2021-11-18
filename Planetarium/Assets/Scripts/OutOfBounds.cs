@@ -20,5 +20,5 @@ public class OutOfBounds : MonoBehaviour
             other.transform.SetPositionAndRotation(_gm.lastCheckpoint, _gm.lastCheckpointRotation);
         }
     }
-    }
+    
 }
