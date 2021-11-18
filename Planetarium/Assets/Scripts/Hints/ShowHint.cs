@@ -23,8 +23,8 @@ public class ShowHint : MonoBehaviour
     public float timePerCharacter = 0.5f;
     
     // Time to clear the textbox.
-    [SerializeField, Range(1, 8)]
-    public int clearTextIn = 4;
+    [SerializeField, Range(1, 4)]
+    public float clearTextIn = 4;
 
     public bool aHintBeingDisplayed;
     
@@ -134,7 +134,7 @@ public class ShowHint : MonoBehaviour
                 // Keep the paragraph displayed for a certain time,
                 // then clear the textbox to display the next pa-
                 // ragraph. 
-                yield return new WaitForSeconds(clearTextIn);
+                yield return new WaitForSeconds(_fadeoutTime);
                 _text.text = "";
             }
             _audioSource.Pause();

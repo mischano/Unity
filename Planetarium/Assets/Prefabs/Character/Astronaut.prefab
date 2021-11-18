@@ -216,6 +216,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeoutTime: 5
+  timePerCharacter: 0.065
+  clearTextIn: 4
+  aHintBeingDisplayed: 0
+  _talking: {fileID: 8300000, guid: eb3c555406e9d6b4b894a9c233265f8f, type: 3}
 --- !u!1 &3848527508986333143
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +515,8 @@ GameObject:
   - component: {fileID: 3848527509574297490}
   - component: {fileID: 3848527509574297493}
   - component: {fileID: 3848527509574297492}
+  - component: {fileID: 8974536526388429608}
+  - component: {fileID: 4647016092929233773}
   m_Layer: 3
   m_Name: AstronautSimulated
   m_TagString: Player
@@ -651,6 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upAxis: {x: 0, y: 0, z: 0}
+  gravity: {x: 0, y: 0, z: 0}
 --- !u!114 &3848527509574297491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,6 +824,47 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8974536526388429608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848527509574297494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a77cf36c64d4b46bf0ab9e8f464f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNumberOfHearts: 5
+  glowHeartsAt: 3
+  heartsList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  fullHeart: {fileID: 21300000, guid: 916f9c9dbd67c1a4783714423ec1d668, type: 3}
+  emptyHeart: {fileID: 21300000, guid: 57daf334b5a3b4b43bb48c1d75ce1a5d, type: 3}
+  DeathSFX: {fileID: 0}
+--- !u!114 &4647016092929233773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848527509574297494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b6024f746c8db4ea43ef17bc7b6c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dust: {fileID: 7689819719864082170, guid: 277e7097cc4e31b488911bd3ca6dec72, type: 3}
+  origin: {fileID: 4408228719601682298}
 --- !u!1 &3848527509722596041
 GameObject:
   m_ObjectHideFlags: 0

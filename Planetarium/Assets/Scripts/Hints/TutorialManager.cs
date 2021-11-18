@@ -15,6 +15,9 @@ public class TutorialManager : MonoBehaviour
     public string message2;
     public string message3;
 
+    [SerializeField, Range(0, 4)]
+    public int clearTextIn = 1;
+    
     private ShowHint _showHint;
     private Dictionary<string, bool> _hints = new Dictionary<string, bool>();
 
@@ -49,9 +52,10 @@ public class TutorialManager : MonoBehaviour
                 {
                     GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
                 }
+                // typed is true only for the 1st message. 
                 bool typed = (index == 1 ? true : false);
                 _hints[pair.Key] = true;
-                _enterArea.Invoke(pair.Key, typed, 0);
+                _enterArea.Invoke(pair.Key, typed, clearTextIn);
                 index++;
                 return;
             }

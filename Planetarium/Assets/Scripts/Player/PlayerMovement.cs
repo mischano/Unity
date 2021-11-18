@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private InputManager _inputManager;
     private PlayerManager _playerManager;
     private Oxygen _oxygen;
+    private PlayerEffects _playerEffects;
     private Rigidbody _rb;
     private CustomGravityRigidbody _cgrb;
 
@@ -127,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _cgrb = GetComponent<CustomGravityRigidbody>();
         _oxygen = GetComponent<Oxygen>();
+        _playerEffects = GetComponent<PlayerEffects>();
         _audioSource = GetComponent<AudioSource>();
 
         _cameraObject = Camera.main.transform;
@@ -408,7 +410,7 @@ public class PlayerMovement : MonoBehaviour
         result = Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
         if (result && !isGrounded)
         {
-            // play dust particle effect
+            _playerEffects.JumpDustVFX();
         }
         return result;
     }
