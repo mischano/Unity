@@ -11,6 +11,7 @@ public class Checkpoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             gm.lastCheckpoint = this.transform.position;
+            gm.lastCheckpointRotation = this.transform.rotation;
         }
     }
 
