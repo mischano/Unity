@@ -83,6 +83,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Visual")]
     [SerializeField]
     private GameObject _visualObject;
+    [SerializeField]
+    ParticleSystem _zeroGMoveParticle;
+    float _originalRateOverDistance;
 
     [Header("Camera")]
     [SerializeField]
@@ -141,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
         _playingZeroGMoveEffects = false;
         _zeroGMoving = false;
+
+        _originalRateOverDistance = _zeroGMoveParticle.emission.rateOverDistance.constant;
     }
 
     void FixedUpdate()
@@ -388,11 +393,15 @@ public class PlayerMovement : MonoBehaviour
     {
         _audioSource.Play();
         _playingZeroGMoveEffects = true;
+        var emission = _zeroGMoveParticle.emission;
+        emission.rateOverDistance = _originalRateOverDistance;
     }
 
     void StopZeroGMoveEffects()
     {
         _audioSource.Stop();
+        var emission = _zeroGMoveParticle.emission;
+        emission.rateOverDistance = 0f;
         _playingZeroGMoveEffects = false;
     }
 
