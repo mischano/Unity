@@ -8,10 +8,12 @@ public class PlayerManager : MonoBehaviour
     Animator animator;
     InputManager inputManager;
     PlayerMovement playerMovement;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        transform.position = _gameManager.lastCheckpoint;
         // TODO: When we make a pause menu, handle cursor locking there.
         Cursor.lockState = CursorLockMode.Locked;
     }

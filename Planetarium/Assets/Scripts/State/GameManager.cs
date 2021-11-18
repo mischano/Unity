@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] string nextSceneName;
 
     private int _numberOfScenes = 2;
+    public Vector3 lastCheckpoint;
     public void CompleteLevel()
     {
         // int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
