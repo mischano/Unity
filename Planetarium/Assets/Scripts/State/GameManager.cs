@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] string nextSceneName;
 
     private int _numberOfScenes = 2;
+    public Vector3 lastCheckpoint;
+    public Quaternion lastCheckpointRotation;
+    private Rigidbody _player;
     public void CompleteLevel()
     {
         // int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
@@ -34,7 +37,12 @@ public class GameManager : MonoBehaviour
 
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (lastCheckpoint != null)
+        {
+            // if a checkpoint has been passed, set the player to spawn there on death
+            _player.transform.position = lastCheckpoint;
+        }
     }
 
 }
