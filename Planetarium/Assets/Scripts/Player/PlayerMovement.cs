@@ -87,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     ParticleSystem _zeroGMoveParticle;
     float _originalRateOverDistance;
+    [SerializeField]
+    ParticleSystem _dashParticle;
+    float _dashParticleRate;
 
     [Header("Camera")]
     [SerializeField]
@@ -148,6 +151,11 @@ public class PlayerMovement : MonoBehaviour
         _zeroGMoving = false;
 
         _originalRateOverDistance = _zeroGMoveParticle.emission.rateOverDistance.constant;
+        var dashParticleEmission = _dashParticle.emission;
+        _dashParticleRate = dashParticleEmission.rateOverTime.constant;
+        dashParticleEmission.rateOverTime = 0f;
+        _dashParticle.Play();
+        StopZeroGMoveEffects();
     }
 
     void FixedUpdate()
@@ -387,8 +395,17 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayDashEffects()
     {
-        // TODO particles
+        StopCoroutine(DashEffectCoroutine());
+        StartCoroutine(DashEffectCoroutine());
         _audioSource.PlayOneShot(_dashAudio);
+    }
+
+    IEnumerator DashEffectCoroutine()
+    {
+        var emission = _dashParticle.emission;
+        emission.rateOverTime = _dashParticleRate;
+        yield return new WaitForSeconds(0.2f);
+        emission.rateOverTime = 0f;
     }
 
     void StartZeroGMoveEffects()
@@ -427,7 +444,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetGravity()
     {
         _inZeroGravity = _cgrb.gravity == Vector3.zero;
-        _upAxis = _cgrb.upAxis;
+        if (!_inZeroGravity)
+        {
+            _upAxis = _cgrb.upAxis;
+        }
         return _cgrb.gravity;
     }
 
@@ -451,8 +471,9 @@ public class PlayerMovement : MonoBehaviour
         Quaternion targetUpRotation = Quaternion.FromToRotation(transform.up, _cameraObject.up) * transform.rotation;
         Quaternion newUpRotation = Quaternion.Slerp(transform.rotation, targetUpRotation, rotateAmount);
 
-        _upAxis = newUpRotation * transform.up;
         _rb.MoveRotation(newUpRotation);
+
+        _upAxis = transform.up;
     }
 
     void OnDrawGizmos()
