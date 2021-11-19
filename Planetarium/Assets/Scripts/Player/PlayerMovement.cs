@@ -444,7 +444,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetGravity()
     {
         _inZeroGravity = _cgrb.gravity == Vector3.zero;
-        _upAxis = _cgrb.upAxis;
+        if (!_inZeroGravity)
+        {
+            _upAxis = _cgrb.upAxis;
+        }
         return _cgrb.gravity;
     }
 
@@ -468,8 +471,9 @@ public class PlayerMovement : MonoBehaviour
         Quaternion targetUpRotation = Quaternion.FromToRotation(transform.up, _cameraObject.up) * transform.rotation;
         Quaternion newUpRotation = Quaternion.Slerp(transform.rotation, targetUpRotation, rotateAmount);
 
-        _upAxis = newUpRotation * transform.up;
         _rb.MoveRotation(newUpRotation);
+
+        _upAxis = transform.up;
     }
 
     void OnDrawGizmos()
