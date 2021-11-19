@@ -87,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     ParticleSystem _zeroGMoveParticle;
     float _originalRateOverDistance;
+    [SerializeField]
+    ParticleSystem _dashParticle;
+    float _dashParticleRate;
 
     [Header("Camera")]
     [SerializeField]
@@ -148,6 +151,11 @@ public class PlayerMovement : MonoBehaviour
         _zeroGMoving = false;
 
         _originalRateOverDistance = _zeroGMoveParticle.emission.rateOverDistance.constant;
+        var dashParticleEmission = _dashParticle.emission;
+        _dashParticleRate = dashParticleEmission.rateOverTime.constant;
+        dashParticleEmission.rateOverTime = 0f;
+        _dashParticle.Play();
+        StopZeroGMoveEffects();
     }
 
     void FixedUpdate()
@@ -387,8 +395,17 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayDashEffects()
     {
-        // TODO particles
+        StopCoroutine(DashEffectCoroutine());
+        StartCoroutine(DashEffectCoroutine());
         _audioSource.PlayOneShot(_dashAudio);
+    }
+
+    IEnumerator DashEffectCoroutine()
+    {
+        var emission = _dashParticle.emission;
+        emission.rateOverTime = _dashParticleRate;
+        yield return new WaitForSeconds(0.2f);
+        emission.rateOverTime = 0f;
     }
 
     void StartZeroGMoveEffects()
