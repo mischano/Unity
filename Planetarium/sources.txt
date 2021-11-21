@@ -6,6 +6,7 @@ Projectiles: https://www.studica.com/blog/how-to-create-a-projectile-in-unity
 Main menu: https://www.instructables.com/How-to-make-a-main-menu-in-Unity/
 https://www.youtube.com/watch?v=jdAbVkre8cw
 Movement acceleration: https://adrianb.io/2015/02/14/bunnyhop.html
+Pause Manager: https://assetstore.unity.com/packages/tools/utilities/pause-manager-167753
 
 Assets
 ---
@@ -18,3 +19,7 @@ SFX
 --
 Air hiss: https://freesound.org/people/typeoo/sounds/521506/
 Air hiss loop: https://freesound.org/people/typeoo/sounds/521505/
+
+Particle effects
+--
+Simple FX - Cartoon Particles: https://assetstore.unity.com/packages/vfx/particles/simple-fx-cartoon-particles-67834

@@ -50,12 +50,20 @@ public class InputManager : MonoBehaviour
         // Left shift: dash
         playerControls.PlayerActions.Dash.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             _playerMovement.HandleDashInput();
         };
 
         // Space: jump
         playerControls.PlayerActions.Jump.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             jump = true;
             _playerMovement.HandleJumpInput();
         };
@@ -64,6 +72,10 @@ public class InputManager : MonoBehaviour
         // Left mouse: fire
         playerControls.PlayerActions.Fire.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             fire = true;
             _playerShoot.HandleFiring();
         };
