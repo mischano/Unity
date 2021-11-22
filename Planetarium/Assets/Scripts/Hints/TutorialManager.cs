@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class TutorialManager : MonoBehaviour
@@ -53,7 +52,7 @@ public class TutorialManager : MonoBehaviour
                     GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
                 }
                 // typed is true only for the 1st message. 
-                bool typed = (index == 1 ? true : false);
+                bool typed = index == 1;
                 _hints[pair.Key] = true;
                 _enterArea.Invoke(pair.Key, typed, clearTextIn);
                 index++;

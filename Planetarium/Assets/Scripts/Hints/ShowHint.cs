@@ -15,9 +15,11 @@ public class OnAreaEnter : UnityEvent<string, bool, int> { }
 public class ShowHint : MonoBehaviour
 {
     // Time to fadeout the textbox and the text.
-    [SerializeField, Range(5, 20)]
-    public int fadeoutTime = 5;
-    
+    [SerializeField, Range(1, 20)]
+    public int fadeoutTime = 2;
+
+    public bool isTyped;
+
     // Time to write a single character. 
     [SerializeField, Range(0.01f, 0.5f)]
     public float timePerCharacter = 0.5f;
@@ -27,7 +29,6 @@ public class ShowHint : MonoBehaviour
     public float clearTextIn = 4;
 
     public bool aHintBeingDisplayed;
-    
     private AudioSource _audioSource;
     public AudioClip _talking;
     
@@ -48,6 +49,11 @@ public class ShowHint : MonoBehaviour
         // the player collides with a hint box.
         _cg.alpha = 0f;
         _text.alpha = 0f;
+    }
+    
+    public void DisplayHintWithMessage(string message)
+    {
+        DisplayHint(message, isTyped, fadeoutTime);
     }
 
     /* Called from AreaEnter.cs in hint object as an event. */

@@ -1,14 +1,20 @@
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class CollectibleCollision : UnityEvent<bool> { }
 
 public class CollectibleCollider : MonoBehaviour
 {
-    private CollectibleBuff collectibleBuff;
-    private CollectibleRespawn collectibleRespawn;
     public AudioClip collectibleAudio;
+    private CollectibleBuff _collectibleBuff;
+
+    [SerializeField]
+    private UnityEvent _collectibleCollision = null;
+
     private void Awake()
     {
-        collectibleBuff = GetComponent<CollectibleBuff>();
-        collectibleRespawn = GetComponent<CollectibleRespawn>();
+        _collectibleBuff = GetComponent<CollectibleBuff>();
         
     }
     
@@ -19,9 +25,15 @@ public class CollectibleCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             AudioSource.PlayClipAtPoint(collectibleAudio, other.gameObject.transform.position);
-            collectibleBuff.ApplyBuff();
-            collectibleRespawn.DisableObject();
+            _collectibleBuff.ApplyBuff();
             
+            // Set collected to true for listening event.
+            if (_collectibleCollision != null)
+            {
+                _collectibleCollision.Invoke();
+            }
+
+            Destroy(gameObject);
         }
     }
 

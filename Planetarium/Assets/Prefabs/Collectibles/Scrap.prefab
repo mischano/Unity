@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 2599476059376855129}
   - component: {fileID: 2599476059376855133}
   - component: {fileID: 2599476059376855128}
-  - component: {fileID: 2599476059376855131}
-  - component: {fileID: 2599476059376855130}
+  - component: {fileID: 1768377920064367775}
   - component: {fileID: 5043038957045885578}
   m_Layer: 0
   m_Name: Scrap
@@ -97,7 +96,7 @@ MonoBehaviour:
   boostSprint: 0
   _player: {fileID: 0}
   _scrap: {fileID: 0}
---- !u!114 &2599476059376855131
+--- !u!114 &1768377920064367775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,19 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectibleAudio: {fileID: 8300000, guid: 263ae6c6ad020634b9930d9c035df9d3, type: 3}
---- !u!114 &2599476059376855130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2599476059376855135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3596ba1a58f3844eb10b498fa1956b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnTime: 60
+  _collectibleCollision:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!82 &5043038957045885578
 AudioSource:
   m_ObjectHideFlags: 0

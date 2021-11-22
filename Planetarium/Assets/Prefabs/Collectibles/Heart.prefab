@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 7410053288266282780}
   - component: {fileID: 7898526174332878994}
   - component: {fileID: 7898526174332878995}
-  - component: {fileID: 7898526174332878992}
   - component: {fileID: 7898526174332878993}
+  - component: {fileID: 3311259800223707600}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -141,19 +141,6 @@ MonoBehaviour:
   boostSprint: 0
   _player: {fileID: 0}
   _scrap: {fileID: 0}
---- !u!114 &7898526174332878992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7898526174332879006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3596ba1a58f3844eb10b498fa1956b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnTime: 60
 --- !u!114 &7898526174332878993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,3 +154,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectibleAudio: {fileID: 8300000, guid: 374d9a59d92e2ac40820a8bbc5b5e604, type: 3}
+  _collectibleCollision:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3311259800223707600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898526174332879006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.9339623, g: 0.13656995, b: 0.4047835, a: 1}
+  outlineWidth: 1.54
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

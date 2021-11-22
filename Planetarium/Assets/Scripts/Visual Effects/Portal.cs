@@ -16,12 +16,15 @@ public class OnPortalEnter : UnityEvent<bool> { }
 public class Portal : MonoBehaviour
 {
     [SerializeField]
+    public UnityEvent usePortal; 
+
+    [SerializeField]
     private OnPortalEnter _enterPortal = null;
 
     [SerializeField, Range(1f, 20f)]
     public int teleportTime = 10;
 
-    private GameManager _gameManager;
+    // private GameManager _gameManager;
     private TextMeshProUGUI _text;
     private Coroutine _corourine;
 
@@ -33,10 +36,11 @@ public class Portal : MonoBehaviour
     private Gradient _trailNewColor;
 
     private bool _activatePortal;
+    private static bool _canTeleport = true;
 
     private void Awake()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        // _gameManager = FindObjectOfType<GameManager>();
 
         _text = GameObject.FindGameObjectWithTag("UI-Extract").GetComponent<TextMeshProUGUI>();
         _text.enabled = false;  // Disable "Extract" text
@@ -69,45 +73,59 @@ public class Portal : MonoBehaviour
      * true : when player steps on the platform.
      * false : when player steps off the platform.
      */
-    public void HandleParticleSystemProperties(bool status)
+    public void HandleTeleport(bool status)
     {
         if (status)
         {
-            // Change particle velocity.
-            var velocity = _ps.velocityOverLifetime;
-            velocity.y = 1f;
-
-            // change trail width
-            var width = _ps.trails;
-            width.widthOverTrail = _trailNewWidth;
-
-            // Change trail color.
-            var trailColor = _ps.trails;
-            trailColor.colorOverTrail = _trailNewColor;
-
-            // Start the coroutine when the player steps on the portal.
-            _corourine = StartCoroutine(Countdown());
-            _text.enabled = true;
+            HandleEnterPortal();
         }
         else
         {
-            // Change particle velocity.
-            var velocity = _ps.velocityOverLifetime;
-            velocity.y = _trailOldVelocity;
-
-            // Change  trail width
-            var width = _ps.trails;
-            width.widthOverTrail = _trailOldWidth;
-
-            // Change trail color.
-            var trailColor = _ps.trails;
-            trailColor.colorOverTrail = _trailOldColor;
-
-            // Stop the coroutine & reset its values if the player
-            // steps off the portal prematurely.
-            StopCoroutine(_corourine);
-            _text.enabled = false;  // Disable the UI text
+            HandleExitPortal();
         }
+    }
+
+    private void HandleEnterPortal()
+    {
+        // Change particle velocity.
+        var velocity = _ps.velocityOverLifetime;
+        velocity.y = 1f;
+
+        // change trail width
+        var width = _ps.trails;
+        width.widthOverTrail = _trailNewWidth;
+
+        // Change trail color.
+        var trailColor = _ps.trails;
+        trailColor.colorOverTrail = _trailNewColor;
+
+        // Start the coroutine when the player steps on the portal.
+        _corourine = StartCoroutine(Countdown());
+        _text.enabled = true;
+    }
+    
+    private void HandleExitPortal()
+    {
+        // Change particle velocity.
+        var velocity = _ps.velocityOverLifetime;
+        velocity.y = _trailOldVelocity;
+
+        // Change  trail width
+        var width = _ps.trails;
+        width.widthOverTrail = _trailOldWidth;
+
+        // Change trail color.
+        var trailColor = _ps.trails;
+        trailColor.colorOverTrail = _trailOldColor;
+
+        // Stop the coroutine & reset its values if the player
+        // steps off the portal prematurely.
+        if (_corourine != null)
+        {
+            StopCoroutine(_corourine);
+        }
+        _text.enabled = false;  // Disable the UI text
+
     }
 
     /* Start coutdown timer. */
@@ -117,18 +135,26 @@ public class Portal : MonoBehaviour
         while (counter > 0)
         {
             // Display remaining time on the screen
-            _text.text = "Extracting in " + counter.ToString();
+            _text.text = "Teleporting in " + counter.ToString();
             yield return new WaitForSeconds(1);
             counter--;
         }
-        _gameManager.CompleteLevel(); // If the timer is up, restart the level
+        usePortal.Invoke();
+        StartCoroutine(HandleWait());
+    }
+    
+    private IEnumerator HandleWait()
+    {
+        _canTeleport = false;
+        yield return new WaitForSeconds(1);
+        _canTeleport = true;
     }
 
     /* Triggered when player steps on the portal. */
     private void OnTriggerEnter(Collider other)
     {
         // If the player steps on the portal & all all scraps are collected.
-        if (other.CompareTag("Player") && _activatePortal)
+        if (other.CompareTag("Player") && _activatePortal && _canTeleport)
         {
             if (_enterPortal != null)
             {
