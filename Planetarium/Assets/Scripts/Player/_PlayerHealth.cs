@@ -84,6 +84,10 @@ public class _PlayerHealth : MonoBehaviour
      * player's health is low */
     private void GlowHealth()
     {
+        if (heartsList.Length <= 0)
+        {
+            return;
+        }
         // Return if the player doesn't have low health.
         if (currentNumberOfHearts > glowHeartsAt)
         {

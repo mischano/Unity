@@ -957,6 +957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sensValueText: {fileID: 1892110548244801559}
+  _slider: {fileID: 291385544225274293}
 --- !u!1 &5511133828616261922
 GameObject:
   m_ObjectHideFlags: 0

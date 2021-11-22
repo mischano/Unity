@@ -12,7 +12,7 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
-        // TODO save value between scene load (make a PersistentState class)
+        _sensitivity = PersistentState.GetMouseSensitivity();
         SetSensitivity(_sensitivity);
         _slider.value = _sensitivity;
     }
@@ -20,7 +20,9 @@ public class SettingsManager : MonoBehaviour
     public void SetSensitivity(float val)
     {
         _sensitivity = val;
-        GameObject.Find("AstronautSimulated")?.GetComponent<InputManager>()?.SetSensitivity(val);
+        PersistentState.SetMouseSensitivity(_sensitivity);
+
+        GameObject.Find("AstronautSimulated")?.GetComponent<InputManager>()?.SetSensitivity(_sensitivity);
         _sensValueText.text = _sensitivity.ToString("0.00");
     }
 }
