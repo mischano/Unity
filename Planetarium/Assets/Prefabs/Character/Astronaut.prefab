@@ -642,10 +642,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af62b1f021a32e47bf5c3b4cf56a5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMovement: {fileID: 0}
   movementInput: {x: 0, y: 0}
   jump: 0
   fire: 0
+  _cam: {fileID: 7825743449252974855}
 --- !u!114 &3848527509574297488
 MonoBehaviour:
   m_ObjectHideFlags: 0
