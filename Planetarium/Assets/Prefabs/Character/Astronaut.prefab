@@ -642,10 +642,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af62b1f021a32e47bf5c3b4cf56a5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMovement: {fileID: 0}
   movementInput: {x: 0, y: 0}
   jump: 0
   fire: 0
+  _cam: {fileID: 7825743449252974855}
 --- !u!114 &3848527509574297488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,7 +852,7 @@ MonoBehaviour:
   - {fileID: 0}
   fullHeart: {fileID: 21300000, guid: 916f9c9dbd67c1a4783714423ec1d668, type: 3}
   emptyHeart: {fileID: 21300000, guid: 57daf334b5a3b4b43bb48c1d75ce1a5d, type: 3}
-  DeathSFX: {fileID: 0}
+  DeathSFX: {fileID: 8300000, guid: 5563d852e91fdad49b91ac6f5504e746, type: 3}
 --- !u!114 &4647016092929233773
 MonoBehaviour:
   m_ObjectHideFlags: 0

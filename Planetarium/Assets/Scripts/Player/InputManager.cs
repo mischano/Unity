@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
+using Cinemachine;
 
 public class InputManager : MonoBehaviour
 {
     public PlayerControls playerControls;
-    [SerializeField]
     private PlayerMovement _playerMovement;
     private PlayerShoot _playerShoot;
 
@@ -23,6 +23,9 @@ public class InputManager : MonoBehaviour
     public bool jump;
     public bool fire;
     #endregion
+
+    [SerializeField]
+    CinemachineFreeLook _cam;
 
     private void Awake()
     {
@@ -50,12 +53,20 @@ public class InputManager : MonoBehaviour
         // Left shift: dash
         playerControls.PlayerActions.Dash.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             _playerMovement.HandleDashInput();
         };
 
         // Space: jump
         playerControls.PlayerActions.Jump.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             jump = true;
             _playerMovement.HandleJumpInput();
         };
@@ -64,6 +75,10 @@ public class InputManager : MonoBehaviour
         // Left mouse: fire
         playerControls.PlayerActions.Fire.performed += i =>
         {
+            if (PauseManagement.Core.PauseManager.IsPaused)
+            {
+                return;
+            }
             fire = true;
             _playerShoot.HandleFiring();
         };
@@ -76,5 +91,14 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         playerControls.Disable();
+    }
+
+    public void SetSensitivity(float val)
+    {
+        const float xAxisMultiplier = 300f;
+        const float yAxisMultiplier = 1f;
+
+        _cam.m_XAxis.m_MaxSpeed = val * xAxisMultiplier;
+        _cam.m_YAxis.m_MaxSpeed = val * yAxisMultiplier;
     }
 }

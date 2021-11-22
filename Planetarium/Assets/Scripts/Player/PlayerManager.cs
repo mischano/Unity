@@ -15,8 +15,6 @@ public class PlayerManager : MonoBehaviour
         //_gameManager = FindObjectOfType<GameManager>();
         playerMovement = GetComponent<PlayerMovement>();
         // transform.position = _gameManager.lastCheckpoint;
-        // TODO: When we make a pause menu, handle cursor locking there.
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void LateUpdate()
