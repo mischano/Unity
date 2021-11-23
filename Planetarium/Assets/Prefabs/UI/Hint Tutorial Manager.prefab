@@ -65,4 +65,4 @@ MonoBehaviour:
     here... I should look around.
   message2: move your mouse to look around...
   message3: press wasd to move around and space to jump
-  clearTextIn: 1
+  clearTextIn: 2
