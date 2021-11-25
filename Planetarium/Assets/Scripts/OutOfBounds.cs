@@ -9,6 +9,7 @@ public class OutOfBounds : MonoBehaviour
     private GameManager _gm;
     [SerializeField] private ParticleSystem respawnParticle;
     [SerializeField] private ResetsOnRespawn objectResetsOnRespawn;
+    [SerializeField] private AudioClip respawnAudio;
     
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class OutOfBounds : MonoBehaviour
         {
             respawnParticle.Play();
             other.transform.SetPositionAndRotation(_gm.lastCheckpoint, _gm.lastCheckpointRotation);
+            AudioSource.PlayClipAtPoint(respawnAudio, _gm.lastCheckpoint);
             ResetObjects();
         }
     }
