@@ -43993,6 +43993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 561443291}
+  objectResetsOnRespawn: {fileID: 0}
 --- !u!64 &754225256
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -44663,6 +44664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 561443291}
+  objectResetsOnRespawn: {fileID: 0}
 --- !u!64 &822881605
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -45722,6 +45724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 561443291}
+  objectResetsOnRespawn: {fileID: 0}
 --- !u!64 &942159145
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -47331,6 +47334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 1357593341}
+  objectResetsOnRespawn: {fileID: 1759208432}
 --- !u!64 &1240650676
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -59039,6 +59043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 561443291}
+  objectResetsOnRespawn: {fileID: 0}
 --- !u!64 &1483410973
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -61275,6 +61280,35 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8346220228813657600, guid: d7576ab459e80de4f9a49ba7c995ef8d, type: 3}
   m_PrefabInstance: {fileID: 398928472}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1759208427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4596803274659936244, guid: 8f60c69a54f18ff4aacc59a47483e302, type: 3}
+  m_PrefabInstance: {fileID: 1377228032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1759208431 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5907787040304931110, guid: 8f60c69a54f18ff4aacc59a47483e302, type: 3}
+  m_PrefabInstance: {fileID: 1377228032}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759208427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070ec1cca0034b42aedb0914bdb79563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1759208432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759208427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bb622fd3478784fb41a125701d178b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platform: {fileID: 1759208431}
 --- !u!4 &1762193534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8346220228813657600, guid: d7576ab459e80de4f9a49ba7c995ef8d, type: 3}
@@ -62365,6 +62399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnParticle: {fileID: 561443291}
+  objectResetsOnRespawn: {fileID: 0}
 --- !u!64 &1876944570
 MeshCollider:
   m_ObjectHideFlags: 0
