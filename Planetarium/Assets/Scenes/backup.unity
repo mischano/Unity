@@ -69570,6 +69570,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JumpPad
       objectReference: {fileID: 0}
+    - target: {fileID: 6518522016263405167, guid: f1494f1f68423ed4894edbdb058bdaba, type: 3}
+      propertyPath: _force
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1494f1f68423ed4894edbdb058bdaba, type: 3}
 --- !u!1001 &6927945249893783308
