@@ -380,11 +380,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetDirection = _moveDirection;
         if (targetDirection == Vector3.zero)
         {
-            targetDirection = transform.forward;
-        }
-        if (!_inZeroGravity)
-        {
-            targetDirection = Vector3.ProjectOnPlane(targetDirection, _upAxis);
+            targetDirection = _cameraObject.forward;
         }
 
         // Remove velocity not in target direction
