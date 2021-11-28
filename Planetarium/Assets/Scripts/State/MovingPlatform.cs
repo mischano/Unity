@@ -60,9 +60,6 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    
-    
-
     private void MovePlatform()
     {
         // handles movement toward the endpoint
@@ -87,5 +84,10 @@ public class MovingPlatform : MonoBehaviour
         {
             Invoke("MovePlatform", waitTime);
         }
+    }
+    
+    public void SetMovementInactive()
+    {
+        _active = false;
     }
 }
