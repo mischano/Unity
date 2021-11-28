@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Restart()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // TODO check checkpoint and set player position on scene load
