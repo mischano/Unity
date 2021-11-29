@@ -56,6 +56,7 @@ public class PlayerShoot : MonoBehaviour
     void FireProjectile()
     {
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
+        clone.tag = "Bullet";
         _rb = clone.GetComponent<Rigidbody>();
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         Vector3 direction = _headAimTarget.position - _spawnPoint.position;

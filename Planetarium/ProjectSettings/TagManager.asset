@@ -13,6 +13,7 @@ TagManager:
   - CollectibleScrap
   - UIScrap
   - VFX Spark
+  - Bullet
   layers:
   - Default
   - TransparentFX
