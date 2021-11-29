@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     float _jumpHoldVel = 13f;
 
     [SerializeField]
+    float _jetpackVel = 10f;
+    [SerializeField]
     float _dashVel = 20f;
 
     [SerializeField, Range(0f, 1f)]
@@ -118,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region Internal Flags
     bool _inZeroGravity;
-    bool _zeroGMoving;
+    bool _jetpackMoving;
     #endregion
     public bool isDead;
 
@@ -148,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
         isSprint = true;
 
         _playingZeroGMoveEffects = false;
-        _zeroGMoving = false;
+        _jetpackMoving = false;
 
         _originalRateOverDistance = _zeroGMoveParticle.emission.rateOverDistance.constant;
         var dashParticleEmission = _dashParticle.emission;
@@ -162,11 +164,11 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleAllMovement();
 
-        if (_zeroGMoving && !_playingZeroGMoveEffects)
+        if (_jetpackMoving && !_playingZeroGMoveEffects)
         {
             StartZeroGMoveEffects();
         }
-        else if (!_zeroGMoving && _playingZeroGMoveEffects)
+        else if (!_jetpackMoving && _playingZeroGMoveEffects)
         {
             StopZeroGMoveEffects();
         }
@@ -191,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleRotation();
         }
+
         HandleDrag();
 
         if (isGrounded)
@@ -228,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 accel = GetAccel();
 
-        _zeroGMoving = false;
+        _jetpackMoving = false;
 
         if (!isGrounded && _moveDirection != Vector3.zero)
         {
@@ -241,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 _oxygen.RemoveOxygen(_zeroGMoveOxygenDrain * Time.deltaTime);
                 accel *= _zeroGMoveMultiplier;
-                _zeroGMoving = true;
+                _jetpackMoving = true;
             }
             else
             {
@@ -251,8 +254,10 @@ public class PlayerMovement : MonoBehaviour
         else if (isGrounded && !isJumping)
         {
             // Also apply a downward force proportional to velocity
-            _rb.AddForce(-_upAxis * _groundDownForceMultiplier * _rb.velocity.magnitude);
+            accel += -_upAxis * _groundDownForceMultiplier * _rb.velocity.magnitude;
         }
+
+        accel += GetJetpackAccel();
 
         _rb.AddForce(accel);
     }
@@ -271,6 +276,34 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return _moveDirection * accelVel;
+    }
+
+    Vector3 GetJetpackAccel()
+    {
+        Vector3 boostAccel = Vector3.zero;
+
+        float jetpackUpCost = _airJumpOxygenCost * Time.deltaTime;
+        if (!isJumping && _inputManager.jump && _oxygen.oxygen >= jetpackUpCost)
+        {
+            _jetpackMoving = true;
+            boostAccel += _upAxis * _jetpackVel;
+            _oxygen.RemoveOxygen(jetpackUpCost);
+        }
+
+        float dashCost = _dashOxygenCost * Time.deltaTime;
+        if (_inputManager.dash && _oxygen.oxygen >= dashCost)
+        {
+            _jetpackMoving = true;
+            Vector3 dashDir = _moveDirection;
+            if (dashDir == Vector3.zero)
+            {
+                dashDir = _cameraObject.forward;
+            }
+            boostAccel += dashDir * _dashVel;
+            _oxygen.RemoveOxygen(dashCost);
+        }
+
+        return boostAccel;
     }
 
     void HandleDrag()
@@ -323,10 +356,6 @@ public class PlayerMovement : MonoBehaviour
             StopCoroutine(HandleGroundJumpHold());
             StartCoroutine(HandleGroundJumpHold());
         }
-        else
-        {
-            HandleAirJumping();
-        }
     }
 
     public void HandleJumping()
@@ -334,17 +363,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 upVelocity = Vector3.Project(_rb.velocity, _upAxis);
         Vector3 desiredUpVelocity = _upAxis * jumpVel;
         _rb.AddForce(desiredUpVelocity - upVelocity, ForceMode.VelocityChange);
-    }
-
-    void HandleAirJumping()
-    {
-        if (_oxygen.oxygen < _airJumpOxygenCost || isDead)
-        {
-            return;
-        }
-        _oxygen.RemoveOxygen(_airJumpOxygenCost);
-        HandleJumping();
-        PlayDashEffects();
     }
 
     IEnumerator HandleGroundJumpHold()
@@ -363,30 +381,6 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         isJumping = false;
-    }
-
-    public void HandleDashInput()
-    {
-        if (_oxygen.oxygen < _dashOxygenCost || isDead)
-        {
-            return;
-        }
-        _oxygen.RemoveOxygen(_dashOxygenCost);
-        HandleDash();
-    }
-
-    void HandleDash()
-    {
-        Vector3 targetDirection = _moveDirection;
-        if (targetDirection == Vector3.zero)
-        {
-            targetDirection = _cameraObject.forward;
-        }
-
-        // Remove velocity not in target direction
-        _rb.velocity = Vector3.Project(_rb.velocity, targetDirection);
-        _rb.AddForce(targetDirection.normalized * _dashVel, ForceMode.VelocityChange);
-        PlayDashEffects();
     }
 
     void PlayDashEffects()

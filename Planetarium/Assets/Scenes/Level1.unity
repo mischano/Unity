@@ -345,18 +345,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4551215179539649911, guid: 0ac9868395c91df4c8216cce1ba8cdb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4551215179539649911, guid: 0ac9868395c91df4c8216cce1ba8cdb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4551215179539649911, guid: 0ac9868395c91df4c8216cce1ba8cdb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ac9868395c91df4c8216cce1ba8cdb7, type: 3}
 --- !u!1001 &302729513
@@ -445,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe025cb1b320e745a4d8177baab1d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 9.81
+  gravity: 20
   outerRadius: 30
   outerFalloffRadius: 40
 --- !u!135 &302729516
@@ -1660,6 +1648,10 @@ PrefabInstance:
     - target: {fileID: 1479334648568521571, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848527509574296687, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
+      propertyPath: _groundDragMoving
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3848527509574297490, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_Enabled

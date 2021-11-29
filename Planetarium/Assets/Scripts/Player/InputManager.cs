@@ -22,6 +22,7 @@ public class InputManager : MonoBehaviour
 
     public bool jump;
     public bool fire;
+    public bool dash;
     #endregion
 
     [SerializeField]
@@ -57,7 +58,11 @@ public class InputManager : MonoBehaviour
             {
                 return;
             }
-            _playerMovement.HandleDashInput();
+            dash = true;
+        };
+        playerControls.PlayerActions.Dash.canceled += i =>
+        {
+            dash = false;
         };
 
         // Space: jump

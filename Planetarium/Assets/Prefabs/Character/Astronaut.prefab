@@ -686,6 +686,7 @@ MonoBehaviour:
   _airMoveMultiplier: 0.2
   _zeroGMoveMultiplier: 0.4
   _jumpHoldVel: 13
+  _jetpackVel: 15
   _dashVel: 20
   _groundDragThreshold: 0.1
   _groundDragStopping: 5
@@ -711,8 +712,8 @@ MonoBehaviour:
   _zeroGOxygenDrain: 1
   _zeroGMoveOxygenDrain: 10
   _groundOxygenReplenishRate: 100
-  _airJumpOxygenCost: 70
-  _dashOxygenCost: 70
+  _airJumpOxygenCost: 20
+  _dashOxygenCost: 30
   _dashAudio: {fileID: 8300000, guid: e4352d4833b68234886b5fba1a7a8f34, type: 3}
   isDead: 0
 --- !u!114 &3848527509574296686
@@ -743,6 +744,7 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   jump: 0
   fire: 0
+  dash: 0
   _cam: {fileID: 7825743449252974855}
 --- !u!114 &3848527509574297488
 MonoBehaviour:
