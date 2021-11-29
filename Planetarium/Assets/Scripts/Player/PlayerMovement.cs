@@ -371,7 +371,7 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         for (int i = 0; i < _numJumpingTicks; i++)
         {
-            if (!Input.GetButton("Jump"))
+            if (!_inputManager.jump)
             {
                 isJumping = false;
                 yield break;
