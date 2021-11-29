@@ -8,22 +8,20 @@ public class CollectibleRespawn : MonoBehaviour
     [Header("Respawn Settings")]
 
     // Respawn time from 10 seconds to 5 minutes.
-    [SerializeField, Range(10, 300)]
+    [SerializeField, Range(1, 300)]
     public int respawnTime = 60;
 
-    private MeshRenderer _meshRenderer;
     private Collider _meshCollider;
-    
-    private bool _isDisabled;  
+
+    private bool _isDisabled;
     private float _timeToRespawn;
 
     private void Start()
     {
-        //_meshRenderer = GetComponent<MeshRenderer>();
-        //_meshCollider = GetComponent<Collider>();
+        _meshCollider = GetComponent<Collider>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         HandleRespawn();
     }
@@ -44,22 +42,35 @@ public class CollectibleRespawn : MonoBehaviour
 
     private void EnableObject()
     {
-        //_meshRenderer.enabled = true;
-        //_meshCollider.enabled = true;
+        EnableChildren();
+        _meshCollider.enabled = true;
 
-        //_isDisabled = false;
-        //_timeToRespawn = 0f;
+        _isDisabled = false;
+        _timeToRespawn = 0f;
     }
 
     public void DisableObject()
     {
-        Destroy(this.gameObject);
-        //_meshRenderer.enabled = false;
-        //_meshCollider.enabled = false;
+        _meshCollider.enabled = false;
+        DisableChildren();
 
-        //_isDisabled = true;
-        //_timeToRespawn = (float) respawnTime;
+        _isDisabled = true;
+        _timeToRespawn = (float)respawnTime;
     }
 
-    
+    void DisableChildren()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    void EnableChildren()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+    }
 }
