@@ -21,7 +21,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/mansu/Desktop/GitHub/Unity/Planetarium/Development Build/New Build;C:/Users/mansu/Desktop/GitHub/Unity/Planetarium/Development Build;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/mansu/Desktop/GitHub/Unity/Planetarium/Demo Build;C:/Users/mansu/Desktop/GitHub/Unity/Planetarium/WebGL Builds;;;;;;;;\"}"
             }
         ]
     }
