@@ -8,6 +8,7 @@ public class CollectibleCollider : MonoBehaviour
 {
     public AudioClip collectibleAudio;
     private CollectibleBuff _collectibleBuff;
+    CollectibleRespawn _respawn;
 
     [SerializeField]
     private UnityEvent _collectibleCollision = null;
@@ -15,9 +16,9 @@ public class CollectibleCollider : MonoBehaviour
     private void Awake()
     {
         _collectibleBuff = GetComponent<CollectibleBuff>();
-        
+        _respawn = GetComponent<CollectibleRespawn>();
     }
-    
+
     /* When a rigidbody collides with this object. */
     private void OnTriggerEnter(Collider other)
     {
@@ -26,14 +27,21 @@ public class CollectibleCollider : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(collectibleAudio, other.gameObject.transform.position);
             _collectibleBuff.ApplyBuff();
-            
+
             // Set collected to true for listening event.
             if (_collectibleCollision != null)
             {
                 _collectibleCollision.Invoke();
             }
 
-            Destroy(gameObject);
+            if (_respawn)
+            {
+                _respawn.DisableObject();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

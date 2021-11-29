@@ -16,7 +16,7 @@ public class CollectibleBuff : MonoBehaviour
     [SerializeField, Range(0, 2)]
     public int healthBoostAmount = 1;
 
-    [SerializeField, Range(0, 2)]
+    [SerializeField, Range(0, 999)]
     public int oxygenBoostAmount = 1;
 
     [SerializeField, Range(0, 2)]
