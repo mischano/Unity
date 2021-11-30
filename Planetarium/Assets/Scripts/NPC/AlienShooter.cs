@@ -16,6 +16,7 @@ public class AlienShooter : MonoBehaviour
     [SerializeField] GameObject _projectile;
     [SerializeField] Transform _spawnPoint;
     private Rigidbody _bombRb;
+    private float projectileSpeed = 10f;
     
     // astronaut attributes
     private GameObject _player;
@@ -26,7 +27,7 @@ public class AlienShooter : MonoBehaviour
     private Rigidbody _rb;
     
     // speed of the moving enemy
-    public float speed = 1.5f;
+    public float speed = 3.5f;
     public float rotationSpeed = 700;
 
     // enemy will follow or shoot the player if within a certain range
@@ -48,7 +49,8 @@ public class AlienShooter : MonoBehaviour
     void Update()
     {
         _playerPos = _player.transform.position;
-        if (!isShooting && ((_playerPos - _rb.position).magnitude <= followRadius))
+        
+        if (!isShooting && !isWalking && ((_playerPos - _rb.position).magnitude <= followRadius))
         {
             //_rb.constraints = RigidbodyConstraints.None;
             WalkToTarget();
@@ -63,18 +65,12 @@ public class AlienShooter : MonoBehaviour
 
     private void WalkToTarget()
     {
-        
         // move enemy toward the player
         isWalking = true;
-        Vector3 moveDir = Vector3.MoveTowards(_rb.position, _playerPos, speed * Time.deltaTime);
-        _rb.MovePosition(moveDir);
-        Vector3 positionDiff = _playerPos - _rb.position;
-        Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _cgrb.upAxis).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _cgrb.upAxis);
-        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        Move();
         
         // if player is within the shoot radius, stop walking and shoot
-        if ( (_playerPos - _rb.position).magnitude < shootRadius)
+        if ( !isShooting && (_playerPos - _rb.position).magnitude < shootRadius)
         {
             isWalking = false;
             isShooting = true;
@@ -82,17 +78,30 @@ public class AlienShooter : MonoBehaviour
         }
     }
 
+    private void Move()
+    {
+        Vector3 moveDir = Vector3.MoveTowards(_rb.position, _playerPos, speed * Time.deltaTime);
+        _rb.MovePosition(moveDir);
+        Vector3 positionDiff = _playerPos - _rb.position;
+        Vector3 projectedMoveDir = Vector3.ProjectOnPlane(positionDiff, _cgrb.upAxis).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(projectedMoveDir, _cgrb.upAxis);
+        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        
+    }
+
+   
     private void Shoot()
     {
        
         //isWalking = false;
         //isShooting = true;
+        
         GameObject clone = Instantiate(_projectile, _spawnPoint.position, Quaternion.identity);
         clone.tag = "Bomb";
         _bombRb = clone.GetComponent<Rigidbody>();
         _bombRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         Vector3 direction = _playerPos - _spawnPoint.position;
-        _rb.AddForce(direction, ForceMode.Impulse);
+        _bombRb.AddForce(direction * projectileSpeed, ForceMode.Impulse);
         Invoke("ShootCoolDown", 5.0f);
 
     }

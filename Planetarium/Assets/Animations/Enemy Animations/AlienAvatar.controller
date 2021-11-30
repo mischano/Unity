@@ -145,7 +145,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: Shoot
   m_Speed: 1
-  m_CycleOffset: 0
+  m_CycleOffset: 1
   m_Transitions:
   - {fileID: -7159627708806937505}
   - {fileID: 6463919734723530307}
@@ -336,9 +336,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_TransitionDuration: 0.23333329
+  m_TransitionOffset: 0.016666664
+  m_ExitTime: 0.7666667
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
