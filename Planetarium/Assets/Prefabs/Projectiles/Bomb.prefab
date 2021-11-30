@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 3404357528073665378}
   - component: {fileID: 6103649748617665039}
   - component: {fileID: 4688031642112447064}
+  - component: {fileID: -5867551407334177132}
+  - component: {fileID: 5765520459617804859}
+  - component: {fileID: -8204314774725647075}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -112,3 +115,45 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5867551407334177132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598785544326399730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf829a63660a9547a461ecd3fefa442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 3
+  explosionEffect: {fileID: 4032386574436990901, guid: 887e8003e91f54e4484fde5b427785de, type: 3}
+--- !u!114 &5765520459617804859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598785544326399730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0765e58a4a4f7a34ba95d2051683aa85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upAxis: {x: 0, y: 0, z: 0}
+  gravity: {x: 0, y: 0, z: 0}
+--- !u!114 &-8204314774725647075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598785544326399730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4201775f45b59c84fa49ccf8fc27bca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alien: {fileID: 3598785544326399730}
+  particleObject: {fileID: 4032386574436990901, guid: 887e8003e91f54e4484fde5b427785de, type: 3}
