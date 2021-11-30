@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,5 +23,19 @@ public class MainMenu : MonoBehaviour
             rend.material.color = Color.red;
             Application.Quit();
         }
+    }
+
+    public void PlayGame()
+    {
+        if (Time.timeScale <= 0)
+        {
+            Time.timeScale = 1;
+        }
+        SceneManager.LoadScene("Tutorial Level");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
