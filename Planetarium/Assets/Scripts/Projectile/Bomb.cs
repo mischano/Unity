@@ -11,7 +11,9 @@ public class Bomb : MonoBehaviour
     private CustomGravityRigidbody _cgrb;
 
     private Rigidbody _rb;
-
+    public float expolodeRadius = 5.0f;
+    private Vector3 explodeForce;
+    private float explodeForceFactor = 15f;
     public float delay = 3.0f;
     private float countdown;
     private bool hasExploded;
@@ -64,7 +66,18 @@ public class Bomb : MonoBehaviour
         // Show effect
         Instantiate(explosionEffect, transform.position, transform.rotation);
         // Damage Nearby Objects
+        GameObject _player = GameObject.FindWithTag("Player");
         
+        if ((_player.transform.position - transform.position).magnitude <= expolodeRadius)
+        {
+            _PlayerHealth playerHealth = _player.GetComponent<_PlayerHealth>();
+            Rigidbody _playerRB = _player.GetComponent<Rigidbody>();
+            explodeForce = (_player.transform.position - transform.position).normalized * explodeForceFactor;
+            explodeForce.y = explodeForce.y + 15f;
+            playerHealth.TakeDamage(1);
+            _playerRB.AddForce(explodeForce, ForceMode.Impulse);
+            
+        }
 
         // Delete Bomb
         Destroy(this.gameObject);
