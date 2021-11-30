@@ -690,8 +690,9 @@ MonoBehaviour:
   _dashVel: 20
   _groundDragThreshold: 0.1
   _groundDragStopping: 5
-  _groundDragMoving: 1
+  _groundDragMoving: 2
   _airDrag: 1
+  _zeroGDrag: 0.2
   _groundDownForceMultiplier: 4
   _numJumpingTicks: 30
   _spherecastDist: 0.6
