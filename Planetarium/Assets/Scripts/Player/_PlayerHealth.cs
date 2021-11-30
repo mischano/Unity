@@ -135,6 +135,10 @@ public class _PlayerHealth : MonoBehaviour
      Called from EnemyFollowPlayer*/
     public void TakeDamage(int amount)
     {
+        if (PersistentState.CheatsEnabled() && PersistentState.GetInstance().cheatGodmode)
+        {
+            return;
+        }
         currentNumberOfHearts -= amount;
 
         if (currentNumberOfHearts == 0)

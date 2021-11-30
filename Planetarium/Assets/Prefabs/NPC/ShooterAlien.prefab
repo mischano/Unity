@@ -502,7 +502,6 @@ GameObject:
   - component: {fileID: 1392152807865141680}
   - component: {fileID: 1392152807865141643}
   - component: {fileID: 8702663858180075175}
-  - component: {fileID: 8702663858180075171}
   - component: {fileID: 8702663858180075173}
   - component: {fileID: 8702663858180075174}
   m_Layer: 0
@@ -567,9 +566,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.5
-  m_Height: 6
+  m_Height: 5
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1392152807865141646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,10 +634,10 @@ MonoBehaviour:
   _onHealthChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1745743229}
         m_TargetAssemblyTypeName: HealthBar, Assembly-CSharp
         m_MethodName: SetHealthBarFill
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -650,7 +649,7 @@ MonoBehaviour:
   _onDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 221989217}
         m_TargetAssemblyTypeName: AlienDie, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
@@ -715,19 +714,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8702663858180075171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392152807865141681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 541ccb0bd4a5b3a4892dde440fb6540b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokenAlien: {fileID: 2830589508050054701, guid: 036c1b62a2056e4439b83cca521aacd6, type: 3}
 --- !u!114 &8702663858180075173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,12 +735,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392152807865141681}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageSFX: {fileID: 0}
+  _render: {fileID: 7766297330483424445}
+  DamageSFX: {fileID: 8300000, guid: bdeb010978200654eb0a589e8e352bbd, type: 3}
 --- !u!1 &2398218534606065579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1028,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 964596677016156862}
+  - component: {fileID: 221989217}
+  - component: {fileID: 221989218}
   m_Layer: 0
   m_Name: ShooterAlien
   m_TagString: Untagged
@@ -1064,6 +1053,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221989217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105183335967738048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541ccb0bd4a5b3a4892dde440fb6540b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenAlien: {fileID: 2830589508050054701, guid: 036c1b62a2056e4439b83cca521aacd6, type: 3}
+--- !u!114 &221989218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105183335967738048}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _render: {fileID: 7766297330483424445}
+  DamageSFX: {fileID: 8300000, guid: bdeb010978200654eb0a589e8e352bbd, type: 3}
 --- !u!1 &5181462454385639291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1121,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4822016034212305846}
   - component: {fileID: 7766297330483424445}
-  - component: {fileID: 2576987331028826060}
   m_Layer: 0
   m_Name: Roundcube
   m_TagString: Untagged
@@ -1191,19 +1206,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0037700161, y: 0.008885168, z: 0.0009956704}
     m_Extent: {x: 0.014357233, y: 0.027087804, z: 0.016335402}
   m_DirtyAABB: 0
---- !u!114 &2576987331028826060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5211990106437505252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageSFX: {fileID: 0}
 --- !u!1 &5475038159635925344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,8 +1401,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7752939275270972011}
   - component: {fileID: 7752939275270972010}
-  - component: {fileID: 1612318023}
-  - component: {fileID: 1612318022}
   m_Layer: 0
   m_Name: StylizedShooterAlien
   m_TagString: Untagged
@@ -1446,60 +1446,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!23 &1612318023
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7752939275270972012}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1612318022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7752939275270972012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageSFX: {fileID: 0}
 --- !u!1 &7752939275329309750
 GameObject:
   m_ObjectHideFlags: 0

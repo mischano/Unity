@@ -45,6 +45,10 @@ public class Oxygen : MonoBehaviour
 
     public void RemoveOxygen(float amount)
     {
+        if (PersistentState.CheatsEnabled() && PersistentState.GetInstance().cheatInfOxygen)
+        {
+            return;
+        }
         _oxygen -= amount;
         if (_oxygen <= Mathf.Epsilon)
         {

@@ -691,7 +691,7 @@ MonoBehaviour:
   _groundDragThreshold: 0.1
   _groundDragStopping: 5
   _groundDragMoving: 2
-  _airDrag: 1
+  _airDrag: 0.6
   _zeroGDrag: 0.2
   _groundDownForceMultiplier: 4
   _numJumpingTicks: 30
@@ -713,8 +713,8 @@ MonoBehaviour:
   _zeroGOxygenDrain: 1
   _zeroGMoveOxygenDrain: 10
   _groundOxygenReplenishRate: 100
-  _airJumpOxygenCost: 20
-  _dashOxygenCost: 30
+  _airJumpOxygenCost: 15
+  _dashOxygenCost: 20
   _dashAudio: {fileID: 8300000, guid: e4352d4833b68234886b5fba1a7a8f34, type: 3}
   isDead: 0
 --- !u!114 &3848527509574296686

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class DamageFlash : MonoBehaviour
 {
-    private MeshRenderer _render;
+    [SerializeField]
+    Renderer _render;
 
     private Color color;
 
@@ -14,10 +15,12 @@ public class DamageFlash : MonoBehaviour
     private Color origColor;
 
     public AudioClip DamageSFX;
+
+  
     // Start is called before the first frame update
     void Start()
     {
-        _render = GetComponent<MeshRenderer>();
+        _render = GetComponent<Renderer>();
         
     }
 
@@ -30,6 +33,7 @@ public class DamageFlash : MonoBehaviour
     
     public void FlashStart()
     {
+        
         origColor = _render.material.color;
         _render.material.color = Color.red;
         Invoke("FlashStop", _flashTime);
@@ -38,5 +42,6 @@ public class DamageFlash : MonoBehaviour
     void FlashStop()
     {
         _render.material.color = origColor;
+        //_render.material.SetColor("Orig", origColor);
     }
 }
