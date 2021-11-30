@@ -110,4 +110,9 @@ public class AlienShooter : MonoBehaviour
     {
         isShooting = false;
     }
+
+    public void Death()
+    {
+        Destroy(gameObject);
+    }
 }
