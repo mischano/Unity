@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class AreaEnter : MonoBehaviour
 {
     /* Triggered when the player enters triggerable area.
-     * to display hint text. 
+     * to display hint text.
      * Callee ShowHint.cs */
     [SerializeField]
     private OnAreaEnter _enterArea = null;
@@ -18,9 +18,9 @@ public class AreaEnter : MonoBehaviour
 
     public bool isTyped;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (collider.transform.CompareTag("Player"))
         {
             _enterArea.Invoke(message, isTyped, clearTextIn);
             Destroy(gameObject);

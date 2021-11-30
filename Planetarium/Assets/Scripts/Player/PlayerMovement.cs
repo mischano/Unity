@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     float _groundDragMoving = 1f;
     [SerializeField, Range(0f, 2f)]
     float _airDrag = 1f;
+    [SerializeField]
+    float _zeroGDrag = 0f;
 
     [SerializeField]
     float _groundDownForceMultiplier = 2f;
@@ -311,7 +313,7 @@ public class PlayerMovement : MonoBehaviour
         // Change drag based on movement state
         if (_inZeroGravity)
         {
-            _rb.drag = 0f;
+            _rb.drag = _zeroGDrag;
         }
         else if (!isGrounded)
         {
