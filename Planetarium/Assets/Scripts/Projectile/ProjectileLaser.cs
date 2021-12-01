@@ -11,9 +11,13 @@ public class ProjectileLaser : MonoBehaviour
     float _damage;
 
     private VisualEffect ve;
+    private GameObject _player;
+    private _PlayerHealth _playerAttributes;
 
     private void Awake()
     {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _playerAttributes = _player.GetComponent<_PlayerHealth>();
         Destroy(this.gameObject, lifetime);
         ve = GameObject.FindGameObjectWithTag("VFX Spark").GetComponent<VisualEffect>();
     }
@@ -30,6 +34,11 @@ public class ProjectileLaser : MonoBehaviour
         ve.transform.position = collision.contacts[0].point;
         ve.Play();
 
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("HIT PLAYER");
+            _playerAttributes.TakeDamage(1);
+        }
         if (healthScript != null)
         {
             healthScript.TakeDamage(_damage);
