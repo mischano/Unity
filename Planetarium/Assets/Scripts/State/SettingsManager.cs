@@ -40,4 +40,13 @@ public class SettingsManager : MonoBehaviour
     {
         PersistentState.GetInstance().cheatInfOxygen = val;
     }
+
+    public void CheatAddScrap()
+    {
+        if (!PersistentState.CheatsEnabled())
+        {
+            return;
+        }
+        GameObject.Find("AstronautSimulated")?.GetComponent<Scrap>().AddScrap();
+    }
 }
