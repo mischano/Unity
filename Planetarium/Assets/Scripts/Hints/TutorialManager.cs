@@ -16,12 +16,15 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField, Range(0, 4)]
     public int clearTextIn = 1;
-    
+
     private ShowHint _showHint;
     private Dictionary<string, bool> _hints = new Dictionary<string, bool>();
 
     private int index = 1;
     private bool skipAction;
+
+    [SerializeField]
+    GameObject[] _toDisable;
 
     private void Awake()
     {
@@ -38,8 +41,8 @@ public class TutorialManager : MonoBehaviour
         {
             return;
         }
-        
-        foreach(KeyValuePair<string, bool> pair in _hints)
+
+        foreach (KeyValuePair<string, bool> pair in _hints)
         {
             if (!pair.Value && !skipAction)
             {
@@ -49,9 +52,9 @@ public class TutorialManager : MonoBehaviour
                 }
                 if (index == 3)
                 {
-                    GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
+                    EnablePlayerInput();
                 }
-                // typed is true only for the 1st message. 
+                // typed is true only for the 1st message.
                 bool typed = index == 1;
                 _hints[pair.Key] = true;
                 _enterArea.Invoke(pair.Key, typed, clearTextIn);
@@ -65,12 +68,28 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    void EnablePlayerInput()
+    {
+        GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
+    }
+
     IEnumerator ExploreCamera()
     {
         skipAction = true;
         _camera.SetActive(true);
         yield return new WaitForSeconds(5f);
         skipAction = false;
+    }
+
+    public void SkipTutorial()
+    {
+        _camera.SetActive(true);
+        GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
+        foreach (GameObject obj in _toDisable)
+        {
+            obj.SetActive(false);
+        }
+        Destroy(gameObject);
     }
 }
 
