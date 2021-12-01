@@ -16,13 +16,15 @@ public class OnPortalEnter : UnityEvent<bool> { }
 public class Portal : MonoBehaviour
 {
     [SerializeField]
-    public UnityEvent usePortal; 
+    public UnityEvent usePortal;
 
     [SerializeField]
     private OnPortalEnter _enterPortal = null;
 
-    [SerializeField, Range(1f, 20f)]
+    [SerializeField, Range(0f, 20f)]
     public int teleportTime = 10;
+
+    [SerializeField] string _countdownString = "Teleporting in {0}";
 
     // private GameManager _gameManager;
     private TextMeshProUGUI _text;
@@ -103,7 +105,7 @@ public class Portal : MonoBehaviour
         _corourine = StartCoroutine(Countdown());
         _text.enabled = true;
     }
-    
+
     private void HandleExitPortal()
     {
         // Change particle velocity.
@@ -135,14 +137,14 @@ public class Portal : MonoBehaviour
         while (counter > 0)
         {
             // Display remaining time on the screen
-            _text.text = "Teleporting in " + counter.ToString();
+            _text.text = string.Format(_countdownString, counter);
             yield return new WaitForSeconds(1);
             counter--;
         }
         usePortal.Invoke();
         StartCoroutine(HandleWait());
     }
-    
+
     private IEnumerator HandleWait()
     {
         _canTeleport = false;

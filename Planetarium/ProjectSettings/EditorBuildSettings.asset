@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GravityTest.unity
     guid: dd38eb41637d2304e94ddcf677cb2598
+  - enabled: 0
+    path: Assets/Scenes/MainMenu.unity
+    guid: b5d85367f1f25534aaa4ffc8bf659d11
+  - enabled: 0
+    path: Assets/Scenes/IntroVideo.unity
+    guid: 65ea22e6e1eeb6f4bb19440eefde6a00
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1e0791285d3f75b449a0ceb22e32e038, type: 2}
