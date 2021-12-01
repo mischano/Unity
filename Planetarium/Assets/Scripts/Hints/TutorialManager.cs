@@ -89,6 +89,7 @@ public class TutorialManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
+        _showHint.CancelCurrentHint();
         Destroy(gameObject);
     }
 }
