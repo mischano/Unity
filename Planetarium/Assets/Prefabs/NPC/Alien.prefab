@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 2327466050358940245}
   - component: {fileID: 4441227298312217343}
   - component: {fileID: 3768335116865307948}
+  - component: {fileID: 2783782196178078462}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Untagged
@@ -408,6 +409,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alien: {fileID: 4074272236163800928}
   particleObject: {fileID: 4032386574436990901, guid: 887e8003e91f54e4484fde5b427785de, type: 3}
+--- !u!135 &2783782196178078462
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074272236163800928}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &6078024421091264073
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +576,7 @@ GameObject:
   - component: {fileID: 7957371589174545996}
   - component: {fileID: 6128782936651380219}
   - component: {fileID: 3843672635565546039}
+  - component: {fileID: 234748223915434582}
   m_Layer: 0
   m_Name: Roundcube
   m_TagString: Untagged
@@ -632,6 +647,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &234748223915434582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7264807744323994910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _render: {fileID: 0}
+  DamageSFX: {fileID: 0}
 --- !u!1 &7741262263968978033
 GameObject:
   m_ObjectHideFlags: 0
