@@ -10,9 +10,8 @@ public class turret : MonoBehaviour
 
     public void OnDeath()
     {
-
         _onDeath.Invoke();
-        Destroy(_turret);
+        Destroy(_turret, 1.0f);
         Destroy(gameObject, 1.0f);
     }
 }
