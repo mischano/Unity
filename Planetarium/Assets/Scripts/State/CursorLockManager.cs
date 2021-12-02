@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class CursorLockManager : MonoBehaviour
 {
+    [SerializeField] bool _startLocked = true;
     // Start is called before the first frame update
     void Start()
     {
-        LockCursor();
+        if (_startLocked)
+        {
+            LockCursor();
+        }
+        else
+        {
+            UnlockCursor();
+        }
     }
 
     public void LockCursor()
