@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         //     nextSceneIndex = _numberOfScenes;
         // }
         // SceneManager.LoadScene(nextSceneIndex);
+        CustomGravity.ClearSources();
         SceneManager.LoadScene(nextSceneName);
     }
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        CustomGravity.ClearSources();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // TODO check checkpoint and set player position on scene load
         // We could store level checkpoints/scrap collected in this script with a DontDestroyOnLoad
