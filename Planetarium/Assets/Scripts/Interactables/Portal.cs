@@ -28,7 +28,7 @@ public class Portal : MonoBehaviour
 
     // private GameManager _gameManager;
     private TextMeshProUGUI _text;
-    private Coroutine _corourine;
+    private Coroutine _coroutine;
 
     private ParticleSystem _ps;
     private ParticleSystem.MinMaxCurve _trailOldWidth;
@@ -40,12 +40,13 @@ public class Portal : MonoBehaviour
     private bool _activatePortal;
     private static bool _canTeleport = true;
 
-    private void Awake()
+    private void Start()
     {
         // _gameManager = FindObjectOfType<GameManager>();
 
         _text = GameObject.FindGameObjectWithTag("UI-Extract").GetComponent<TextMeshProUGUI>();
         _text.enabled = false;  // Disable "Extract" text
+        _canTeleport = true;
 
         _ps = GetComponentInChildren<ParticleSystem>();
         _trailOldVelocity = _ps.velocityOverLifetime.y;
@@ -102,7 +103,7 @@ public class Portal : MonoBehaviour
         trailColor.colorOverTrail = _trailNewColor;
 
         // Start the coroutine when the player steps on the portal.
-        _corourine = StartCoroutine(Countdown());
+        _coroutine = StartCoroutine(Countdown());
         _text.enabled = true;
     }
 
@@ -122,9 +123,9 @@ public class Portal : MonoBehaviour
 
         // Stop the coroutine & reset its values if the player
         // steps off the portal prematurely.
-        if (_corourine != null)
+        if (_coroutine != null)
         {
-            StopCoroutine(_corourine);
+            StopCoroutine(_coroutine);
         }
         _text.enabled = false;  // Disable the UI text
 

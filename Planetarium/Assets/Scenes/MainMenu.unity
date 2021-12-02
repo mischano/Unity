@@ -718,6 +718,7 @@ MonoBehaviour:
   rend: {fileID: 0}
   isStart: 0
   isQuit: 0
+  _nextSceneName: IntroVideo
 --- !u!1001 &130121663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6508,6 +6509,7 @@ MonoBehaviour:
   rend: {fileID: 0}
   isStart: 0
   isQuit: 0
+  _nextSceneName: 
 --- !u!4 &1219094722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6140374071191487504, guid: 1cd095e184fbe8d4ea06a197c045f32f, type: 3}
@@ -7282,6 +7284,7 @@ MonoBehaviour:
   rend: {fileID: 1332026123}
   isStart: 0
   isQuit: 1
+  _nextSceneName: 
 --- !u!1 &1334064412
 GameObject:
   m_ObjectHideFlags: 0
@@ -7421,6 +7424,7 @@ MonoBehaviour:
   rend: {fileID: 1334064415}
   isStart: 1
   isQuit: 0
+  _nextSceneName: 
 --- !u!1001 &1336036110
 PrefabInstance:
   m_ObjectHideFlags: 0

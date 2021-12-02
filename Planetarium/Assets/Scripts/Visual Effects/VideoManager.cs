@@ -14,16 +14,11 @@ public class VideoManager : MonoBehaviour
     {
         _gameManager = FindObjectOfType<GameManager>();
         counter = 0f;
-
+        Invoke("CompleteLevel", VideoLengthSeconds);
     }
 
-    // Update is called once per frame
-    void Update()
+    void CompleteLevel()
     {
-        counter += Time.deltaTime;
-        if (counter > VideoLengthSeconds)
-        {
-            _gameManager.CompleteLevel();
-        }
+        _gameManager.CompleteLevel();
     }
 }

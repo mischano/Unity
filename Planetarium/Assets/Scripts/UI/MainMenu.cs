@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour
     public bool isStart;
     public bool isQuit;
 
+    [SerializeField] string _nextSceneName;
+
     private void OnMouseUp()
     {
         if (isStart)
@@ -31,7 +33,7 @@ public class MainMenu : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        SceneManager.LoadScene("Tutorial Level");
+        SceneManager.LoadScene(_nextSceneName);
     }
 
     public void QuitGame()
