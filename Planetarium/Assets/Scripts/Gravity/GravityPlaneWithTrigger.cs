@@ -8,9 +8,4 @@ public class GravityPlaneWithTrigger : GravityPlane
     {
         // Override GravitySource, don't register
     }
-
-    void OnDisable()
-    {
-        // Override GravitySource, don't register
-    }
 }
