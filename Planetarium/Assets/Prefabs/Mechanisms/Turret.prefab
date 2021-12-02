@@ -5037,8 +5037,8 @@ GameObject:
   - component: {fileID: 3075219129748848080}
   - component: {fileID: 3075219129748848082}
   - component: {fileID: 5903018362668679787}
-  - component: {fileID: 5311906435389291686}
   - component: {fileID: 1163893042046463158}
+  - component: {fileID: 785818992539618096}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -5139,41 +5139,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5311906435389291686}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: turret, Assembly-CSharp
         m_MethodName: OnDeath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5311906435389291686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3075219129748848095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29a7a0aceed6df4e921b9988781957b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _turret: {fileID: 3075219129748848095}
-  _onDeath:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5192,6 +5164,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &785818992539618096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075219129748848095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362cd7adc664c484c973820148c78442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 3
+  _damage: 20
 --- !u!1 &3812950671573279028
 GameObject:
   m_ObjectHideFlags: 0
