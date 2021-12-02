@@ -9,7 +9,7 @@ public class _PlayerHealth : MonoBehaviour
 
     // Amount of hearts the player currently owns.
     [SerializeField, Range(1, 9f)]
-    public static int currentNumberOfHearts = 2;
+    public int currentNumberOfHearts = 2;
 
     // Max number of hearts the player can have.
     [SerializeField, Range(1, 9)]

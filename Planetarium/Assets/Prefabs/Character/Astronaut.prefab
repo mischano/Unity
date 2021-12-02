@@ -940,8 +940,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a77cf36c64d4b46bf0ab9e8f464f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxNumberOfHearts: 5
-  glowHeartsAt: 3
+  currentNumberOfHearts: 3
+  maxNumberOfHearts: 3
+  glowHeartsAt: 1
   heartsList:
   - {fileID: 0}
   - {fileID: 0}
