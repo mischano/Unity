@@ -187,6 +187,7 @@ public class ShowHint : MonoBehaviour
             StopCoroutine(_curCoroutine);
         }
         SetAlpha(0f);
+        _audioSource.Stop();
         aHintBeingDisplayed = false;
     }
 }
