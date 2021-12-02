@@ -52,9 +52,4 @@ public class CustomGravity : MonoBehaviour
           );
         sources.Remove(source);
     }
-
-    public static void ClearSources()
-    {
-        sources.Clear();
-    }
 }
