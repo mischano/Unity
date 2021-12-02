@@ -11,7 +11,7 @@ public class TrackingSystem : MonoBehaviour
 
     void Start()
     {
-        m_target = GameObject.FindWithTag("Player");
+        m_target = GameObject.FindWithTag("TurretTarget");
     }
 
     // Update is called once per frame

@@ -4,16 +4,20 @@ using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.Experimental.VFX;
 
-public class ProjectileLaser : MonoBehaviour
+public class EnemyLaser : MonoBehaviour
 {
     public float lifetime;
     [SerializeField]
     float _damage;
 
     private VisualEffect ve;
+    private GameObject _player;
+    private _PlayerHealth _playerAttributes;
 
     private void Awake()
     {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _playerAttributes = _player.GetComponent<_PlayerHealth>();
         Destroy(this.gameObject, lifetime);
         ve = GameObject.FindGameObjectWithTag("VFX Spark").GetComponent<VisualEffect>();
     }
@@ -30,19 +34,9 @@ public class ProjectileLaser : MonoBehaviour
         ve.transform.position = collision.contacts[0].point;
         ve.Play();
 
-        if (healthScript != null)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            healthScript.TakeDamage(_damage);
-            if (flash != null)
-            {
-                flash.FlashStart();
-            }
-            else if (collision.transform.childCount > 0)
-            {
-                // child object of enemy prefab MUST be first object in tree
-                DamageFlash childFlash = collision.transform.GetChild(0).GetComponent<DamageFlash>();
-                childFlash.FlashStart();
-            }
+            _playerAttributes.TakeDamage(1);
         }
         Destroy(this.gameObject);
     }
