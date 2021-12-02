@@ -28,6 +28,7 @@ public class CollectibleBuff : MonoBehaviour
     public bool boostHealth;
     public bool boostOxygen;
     public bool boostScrap;
+    public bool boostArtifact;
     public bool boostJump;
     public bool boostSprint;
     #endregion
@@ -36,6 +37,7 @@ public class CollectibleBuff : MonoBehaviour
     private _PlayerHealth _playerHealth;
     private Oxygen _oxygen;
     public Scrap _scrap;
+    private Artifact _artifact;
 
     private void Awake()
     {
@@ -44,6 +46,7 @@ public class CollectibleBuff : MonoBehaviour
         _playerHealth = _player.GetComponent<_PlayerHealth>();
         _scrap = _player.GetComponent<Scrap>();
         _oxygen = _player.GetComponent<Oxygen>();
+        _artifact = _player.GetComponent<Artifact>();
     }
 
     /* Apply the proper boost to player based on enabled boosts. */
@@ -61,5 +64,10 @@ public class CollectibleBuff : MonoBehaviour
         {
             _scrap.AddScrap();
         }
+        else if (boostArtifact)
+        {
+            _artifact.AddArtifact();
+        }
+            
     }
 }
