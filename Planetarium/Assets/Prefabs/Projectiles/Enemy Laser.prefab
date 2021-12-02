@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6832821185536039480}
   - component: {fileID: 7902769427166507507}
   - component: {fileID: 3528495608423092091}
-  - component: {fileID: 2799330733436726179}
+  - component: {fileID: 6721981934682559710}
   m_Layer: 8
   m_Name: Enemy Laser
   m_TagString: Untagged
@@ -133,7 +133,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 50.00001, z: 1.3877788e-15}
---- !u!114 &2799330733436726179
+--- !u!114 &6721981934682559710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6832821185526193702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8a4743e36a48cb4ea015c9001fb48cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 362cd7adc664c484c973820148c78442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 3
