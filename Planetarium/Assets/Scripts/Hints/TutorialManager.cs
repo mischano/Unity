@@ -64,6 +64,7 @@ public class TutorialManager : MonoBehaviour
         }
         if (index == 4)
         {
+            DisableObjects();
             Destroy(gameObject);
         }
     }
@@ -85,12 +86,20 @@ public class TutorialManager : MonoBehaviour
     {
         _camera.SetActive(true);
         GameObject.Find("AstronautSimulated").GetComponent<InputManager>().enabled = true;
+        _showHint.CancelCurrentHint();
+        DisableObjects();
+        Destroy(gameObject);
+    }
+
+    void DisableObjects()
+    {
         foreach (GameObject obj in _toDisable)
         {
-            obj.SetActive(false);
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
         }
-        _showHint.CancelCurrentHint();
-        Destroy(gameObject);
     }
 }
 
