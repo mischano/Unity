@@ -10506,6 +10506,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3075219129748848082, guid: 9ba2d66847963ce47b0e3e8c3eac5976, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 6832821185526193702, guid: 9ce31c4ea5017be41b8df9e0282396d7, type: 3}
     - target: {fileID: 3075219129748848095, guid: 9ba2d66847963ce47b0e3e8c3eac5976, type: 3}
       propertyPath: m_Name
       value: Turret

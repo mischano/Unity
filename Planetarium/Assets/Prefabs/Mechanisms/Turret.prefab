@@ -5092,10 +5092,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   fireRate: 1
-  projectile: {fileID: 6832821185526193702, guid: d57c1ac0d2e858d4090e4a6449b1153c, type: 3}
+  projectile: {fileID: 6832821185526193702, guid: 9ce31c4ea5017be41b8df9e0282396d7, type: 3}
   projectileSpawn: {fileID: 3075219129631099578}
   speed: 20
-  range: 0
+  range: 30
 --- !u!114 &5903018362668679787
 MonoBehaviour:
   m_ObjectHideFlags: 0
