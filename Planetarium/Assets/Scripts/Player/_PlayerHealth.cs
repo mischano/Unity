@@ -28,6 +28,8 @@ public class _PlayerHealth : MonoBehaviour
 
     private GameObject _player;
 
+    [SerializeField] Animator _playerAnimator;
+
     private void Awake()
     {
         InvokeRepeating("GlowHealth", 0, 0.5f);
@@ -152,7 +154,7 @@ public class _PlayerHealth : MonoBehaviour
         _player.GetComponent<PlayerMovement>().isDead = true;
         _player.GetComponent<PlayerShoot>().isDead = true;
         AudioSource.PlayClipAtPoint(DeathSFX, _player.transform.position);
-        FindObjectOfType<Animator>().SetTrigger("Death");
+        _playerAnimator.SetTrigger("Death");
         FindObjectOfType<GameManager>().EndGame();
     }
 
