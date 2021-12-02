@@ -60,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
     float _spherecastDist = 1f;
     [SerializeField]
     float _spherecastStartOffset = 1f;
+    [SerializeField]
+    float _maxGroundedSlopeAngle = 60f;
+
+    float _slopeAngle;
 
     #region Movement Flags
     [Header("Animation Flags")]
@@ -426,10 +430,15 @@ public class PlayerMovement : MonoBehaviour
 
         bool result;
         result = Physics.SphereCast(transform.position + _upAxis * _spherecastStartOffset, 0.4f, -_upAxis, out hit, _spherecastDist, _playerLayerMask);
+        _slopeAngle = Vector3.Angle(_upAxis, hit.normal);
+
+        result = result && _slopeAngle < _maxGroundedSlopeAngle;
+
         if (result && !isGrounded)
         {
             _playerEffects.JumpDustVFX();
         }
+
         return result;
     }
 
