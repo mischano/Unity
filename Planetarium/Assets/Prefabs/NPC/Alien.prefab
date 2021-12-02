@@ -180,7 +180,7 @@ Transform:
   m_LocalPosition: {x: 4.74, y: 36.52, z: 15.39}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
-  - {fileID: 7579677545296858471}
+  - {fileID: 7957371589174545996}
   - {fileID: 5526748069686281082}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upAxis: {x: 0, y: 0, z: 0}
+  gravity: {x: 0, y: 0, z: 0}
 --- !u!82 &4645164806695792599
 AudioSource:
   m_ObjectHideFlags: 0
@@ -550,7 +551,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!1 &7174207793561601589
+--- !u!1 &7264807744323994910
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -558,11 +559,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7579677545296858471}
-  - component: {fileID: 5932331728070833872}
-  - component: {fileID: 3605509977753671964}
-  - component: {fileID: 4645164806788627111}
-  - component: {fileID: 4645164806788627110}
+  - component: {fileID: 7957371589174545996}
+  - component: {fileID: 6128782936651380219}
+  - component: {fileID: 3843672635565546039}
   m_Layer: 0
   m_Name: Roundcube
   m_TagString: Untagged
@@ -570,35 +569,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7579677545296858471
+--- !u!4 &7957371589174545996
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174207793561601589}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_GameObject: {fileID: 7264807744323994910}
+  m_LocalRotation: {x: -0.7071068, y: 0.000000014901163, z: 0.000000014901163, w: 0.70710677}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3729378169740314074}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5932331728070833872
+--- !u!33 &6128782936651380219
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174207793561601589}
-  m_Mesh: {fileID: 7398509403596113055, guid: 26327a14b09d5204580b724d59fae0fd, type: 3}
---- !u!23 &3605509977753671964
+  m_GameObject: {fileID: 7264807744323994910}
+  m_Mesh: {fileID: 7398509403596113055, guid: 95d11e6fd1bc06a4388a61d4c0c2db2a, type: 3}
+--- !u!23 &3843672635565546039
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174207793561601589}
+  m_GameObject: {fileID: 7264807744323994910}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -611,7 +610,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e29eeb26f382bb4e900be2e336b7a2c, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -633,32 +632,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4645164806788627111
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174207793561601589}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 1}
---- !u!114 &4645164806788627110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174207793561601589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 339270cf8ba08ff44a84ebebee83dbb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageSFX: {fileID: 8300000, guid: bdeb010978200654eb0a589e8e352bbd, type: 3}
 --- !u!1 &7741262263968978033
 GameObject:
   m_ObjectHideFlags: 0
