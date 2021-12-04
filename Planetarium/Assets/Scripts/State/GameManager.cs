@@ -26,9 +26,18 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel()
     {
-        _timer.paused = true;
-        _player.SetActive(false);
-        _results.ShowResultsScreen();
+        if (_timer != null)
+        {
+            _timer.paused = true;
+        }
+        if (_player != null)
+        {
+            _player.SetActive(false);
+        }
+        if (_results != null)
+        {
+            _results.ShowResultsScreen();
+        }
         LevelStats.ResetForNextLevel();
         Invoke("LoadNextScene", _nextLevelDelay);
     }

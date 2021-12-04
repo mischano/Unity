@@ -5950,11 +5950,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448179274466, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000006936809
+      value: 0.00000000693681
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448179274466, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000037920587
+      value: 0.000000003792057
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448452940121, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5970,11 +5970,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448452940121, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000006936809
+      value: 0.00000000693681
       objectReference: {fileID: 0}
     - target: {fileID: 7825743448452940121, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000037920587
+      value: 0.000000003792057
       objectReference: {fileID: 0}
     - target: {fileID: 7825743449252974872, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6002,11 +6002,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7825743449653795931, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000069368205
+      value: -0.00000004582139
       objectReference: {fileID: 0}
     - target: {fileID: 7825743449653795931, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000003792067
+      value: -0.000000025048603
       objectReference: {fileID: 0}
     - target: {fileID: 8974536526388429608, guid: 95dbec77be4dd3c4d995a37a49859dc8, type: 3}
       propertyPath: heartsList.Array.size
@@ -52604,7 +52604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7877558112002729050, guid: 8c9351d0caaa24b41aa6cf86c906ca94, type: 3}
       propertyPath: teleportTime
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877558112002729050, guid: 8c9351d0caaa24b41aa6cf86c906ca94, type: 3}
+      propertyPath: _countdownString
+      value: Extracting in {0}
       objectReference: {fileID: 0}
     - target: {fileID: 7877558112002729050, guid: 8c9351d0caaa24b41aa6cf86c906ca94, type: 3}
       propertyPath: usePortal.m_PersistentCalls.m_Calls.Array.size
@@ -53738,7 +53742,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681744701}
-  m_LocalRotation: {x: 0.47966564, y: -0.0000000069368076, z: -0.0000000037920604, w: -0.87745136}
+  m_LocalRotation: {x: 0.47966564, y: -0.0000000069368085, z: -0.0000000037920587, w: -0.87745136}
   m_LocalPosition: {x: 4.07, y: 48.386192, z: 45.60179}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -63408,7 +63412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1118267276490740680, guid: 700f6615a17818f4f984ae34207db99e, type: 3}
       propertyPath: nextSceneName
-      value: MainMenu
+      value: EndVideo
       objectReference: {fileID: 0}
     - target: {fileID: 6927945249181324225, guid: 700f6615a17818f4f984ae34207db99e, type: 3}
       propertyPath: m_Pivot.x

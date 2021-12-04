@@ -20,7 +20,7 @@ public class Bomb : MonoBehaviour
     private bool landed;
 
     [SerializeField]
-     GameObject explosionEffect;
+    GameObject explosionEffect;
 
     private MeshRenderer _renderer;
     // Start is called before the first frame update
@@ -39,7 +39,7 @@ public class Bomb : MonoBehaviour
         {
             Countdown();
         }
-        
+
     }
 
     private void OnCollisionEnter(Collision other)
@@ -67,8 +67,8 @@ public class Bomb : MonoBehaviour
         Instantiate(explosionEffect, transform.position, transform.rotation);
         // Damage Nearby Objects
         GameObject _player = GameObject.FindWithTag("Player");
-        
-        if ((_player.transform.position - transform.position).magnitude <= expolodeRadius)
+
+        if (_player != null && (_player.transform.position - transform.position).magnitude <= expolodeRadius)
         {
             _PlayerHealth playerHealth = _player.GetComponent<_PlayerHealth>();
             Rigidbody _playerRB = _player.GetComponent<Rigidbody>();
@@ -76,7 +76,6 @@ public class Bomb : MonoBehaviour
             explodeForce.y = explodeForce.y + 15f;
             playerHealth.TakeDamage(1);
             _playerRB.AddForce(explodeForce, ForceMode.Impulse);
-            
         }
 
         // Delete Bomb
