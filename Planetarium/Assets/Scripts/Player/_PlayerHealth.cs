@@ -24,6 +24,7 @@ public class _PlayerHealth : MonoBehaviour
     public Sprite emptyHeart;
 
     public AudioClip DeathSFX;
+    [SerializeField] AudioClip _painSfx;
     private bool _isVisible;
 
     private GameObject _player;
@@ -165,6 +166,7 @@ public class _PlayerHealth : MonoBehaviour
         }
 
         StartCoroutine(InvAfterDamageCoroutine());
+        AudioSource.PlayClipAtPoint(_painSfx, _player.transform.position);
     }
 
     IEnumerator InvAfterDamageCoroutine()

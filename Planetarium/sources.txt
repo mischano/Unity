@@ -19,6 +19,7 @@ SFX
 --
 Air hiss: https://freesound.org/people/typeoo/sounds/521506/
 Air hiss loop: https://freesound.org/people/typeoo/sounds/521505/
+Player hurt sound: https://freesound.org/people/tonsil5/sounds/416839/
 
 Particle effects
 --
