@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Vector3 lastCheckpoint;
     public Quaternion lastCheckpointRotation;
     private GameObject _player;
+    [SerializeField] TimerManager _timer;
 
     void Start()
     {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
         //     nextSceneIndex = _numberOfScenes;
         // }
         // SceneManager.LoadScene(nextSceneIndex);
+        // TODO show results screen
+        _timer.paused = true;
+        _player.SetActive(false);
         SceneManager.LoadScene(nextSceneName);
     }
 
