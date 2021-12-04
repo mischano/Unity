@@ -5472,6 +5472,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3147220525278132697, guid: 3d7d8a6e23f0abc4591cbbc986dfcff0, type: 3}
+        m_TargetAssemblyTypeName: LevelStats, Assembly-CSharp
+        m_MethodName: IncrementKills
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &1163893042046463158
 SphereCollider:
   m_ObjectHideFlags: 0

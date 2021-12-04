@@ -7,6 +7,7 @@ public class TimerManager : MonoBehaviour
 {
     [SerializeField] TMP_Text _timerLabel;
     float _time;
+    public float time => _time;
     public bool paused;
 
     void Start()
@@ -27,10 +28,15 @@ public class TimerManager : MonoBehaviour
     void UpdateTimer()
     {
         _time += Time.fixedDeltaTime;
-        float minutes = _time / 60;
-        float seconds = _time % 60;
-        float fraction = (_time * 100) % 100;
+        _timerLabel.text = FormatTime(_time);
+    }
 
-        _timerLabel.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
+    public static string FormatTime(float time)
+    {
+        float minutes = time / 60;
+        float seconds = time % 60;
+        float fraction = (time * 100) % 100;
+
+        return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
     }
 }
