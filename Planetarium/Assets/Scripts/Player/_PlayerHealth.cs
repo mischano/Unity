@@ -29,13 +29,20 @@ public class _PlayerHealth : MonoBehaviour
     private GameObject _player;
 
     [SerializeField] Animator _playerAnimator;
+    [SerializeField] SkinnedMeshRenderer _playerMesh;
     PlayerMovement _playerMovement;
 
-    private void Awake()
+    [SerializeField] int _numInvincibilityTicks = 25;
+    bool _isInvincible;
+    bool _isDead;
+
+    private void Start()
     {
         InvokeRepeating("GlowHealth", 0, 0.5f);
         _player = GameObject.FindWithTag("Player");
         _playerMovement = _player.GetComponent<PlayerMovement>();
+        _isInvincible = false;
+        _isDead = false;
     }
 
     private void Update()
@@ -139,7 +146,8 @@ public class _PlayerHealth : MonoBehaviour
      Called from EnemyFollowPlayer*/
     public void TakeDamage(int amount, Vector3? damageSourcePos = null)
     {
-        if (PersistentState.CheatsEnabled() && PersistentState.GetInstance().cheatGodmode)
+        if (_isInvincible || _isDead
+            || (PersistentState.CheatsEnabled() && PersistentState.GetInstance().cheatGodmode))
         {
             return;
         }
@@ -153,11 +161,30 @@ public class _PlayerHealth : MonoBehaviour
         if (currentNumberOfHearts == 0)
         {
             PlayerDeath();
+            return;
         }
+
+        StartCoroutine(InvAfterDamageCoroutine());
+    }
+
+    IEnumerator InvAfterDamageCoroutine()
+    {
+        _isInvincible = true;
+        for (int i = 0; i < _numInvincibilityTicks; i++)
+        {
+            if (i % 3 == 0)
+            {
+                _playerMesh.enabled = !_playerMesh.enabled;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        _playerMesh.enabled = true;
+        _isInvincible = false;
     }
 
     public void PlayerDeath()
     {
+        _isDead = true;
         _playerMovement.isDead = true;
         _player.GetComponent<PlayerShoot>().isDead = true;
         AudioSource.PlayClipAtPoint(DeathSFX, _player.transform.position);

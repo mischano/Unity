@@ -697,8 +697,10 @@ MonoBehaviour:
   _zeroGDrag: 0.2
   _groundDownForceMultiplier: 4
   _numJumpingTicks: 30
+  _knockbackForce: 10
   _spherecastDist: 0.6
   _spherecastStartOffset: 1
+  _maxGroundedSlopeAngle: 60
   isSprint: 0
   isJumping: 0
   isGrounded: 0
@@ -958,6 +960,8 @@ MonoBehaviour:
   emptyHeart: {fileID: 21300000, guid: 57daf334b5a3b4b43bb48c1d75ce1a5d, type: 3}
   DeathSFX: {fileID: 8300000, guid: 5563d852e91fdad49b91ac6f5504e746, type: 3}
   _playerAnimator: {fileID: 4407908355706341443}
+  _playerMesh: {fileID: 4377741871342333898}
+  _numInvincibilityTicks: 50
 --- !u!114 &4647016092929233773
 MonoBehaviour:
   m_ObjectHideFlags: 0
