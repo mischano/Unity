@@ -112,6 +112,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f906947e-1714-432c-a99c-03261d5c6277"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -147,6 +155,50 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""177d9e3d-f928-4f0b-afca-633f15851531"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30ad9517-639d-4ff7-84e9-b5b04d447cfb"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5df16ef9-fa9f-478e-aea9-e5c0931af996"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40c1b144-e0aa-4af0-88e8-34ae62d18047"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -161,6 +213,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_Fire = m_PlayerActions.FindAction("Fire", throwIfNotFound: true);
+        m_PlayerActions_Pause = m_PlayerActions.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,6 +299,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_Dash;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_Fire;
+    private readonly InputAction m_PlayerActions_Pause;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -253,6 +307,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_PlayerActions_Dash;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @Fire => m_Wrapper.m_PlayerActions_Fire;
+        public InputAction @Pause => m_Wrapper.m_PlayerActions_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -271,6 +326,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFire;
+                @Pause.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -284,6 +342,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -297,5 +358,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

@@ -6184,6 +6184,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11451796, guid: 9fa0eb6531853e246931f87efac4e921, type: 3}
+      propertyPath: useUnityInputSystem
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11451796, guid: 9fa0eb6531853e246931f87efac4e921, type: 3}
+      propertyPath: useUnityInputManager
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11451796, guid: 9fa0eb6531853e246931f87efac4e921, type: 3}
       propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.size
       value: 4
       objectReference: {fileID: 0}
