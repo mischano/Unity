@@ -53,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     int _numJumpingTicks = 30;
+
+    [SerializeField]
+    float _knockbackForce = 10f;
     #endregion
 
     [Header("Ground Check")]
@@ -475,6 +478,12 @@ public class PlayerMovement : MonoBehaviour
         _rb.MoveRotation(newUpRotation);
 
         _upAxis = transform.up;
+    }
+
+    public void ApplyKnockback(Vector3 damageSourcePos)
+    {
+        Vector3 dir = ((transform.position - damageSourcePos) + _upAxis).normalized;
+        _rb.AddForce(dir * _knockbackForce, ForceMode.VelocityChange);
     }
 
     void OnDrawGizmos()

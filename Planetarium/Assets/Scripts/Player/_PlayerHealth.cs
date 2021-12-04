@@ -29,11 +29,13 @@ public class _PlayerHealth : MonoBehaviour
     private GameObject _player;
 
     [SerializeField] Animator _playerAnimator;
+    PlayerMovement _playerMovement;
 
     private void Awake()
     {
         InvokeRepeating("GlowHealth", 0, 0.5f);
         _player = GameObject.FindWithTag("Player");
+        _playerMovement = _player.GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -135,13 +137,18 @@ public class _PlayerHealth : MonoBehaviour
 
     /*decreases the number of hearts.
      Called from EnemyFollowPlayer*/
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3? damageSourcePos = null)
     {
         if (PersistentState.CheatsEnabled() && PersistentState.GetInstance().cheatGodmode)
         {
             return;
         }
         currentNumberOfHearts -= amount;
+
+        if (damageSourcePos != null)
+        {
+            _playerMovement.ApplyKnockback((Vector3)damageSourcePos);
+        }
 
         if (currentNumberOfHearts == 0)
         {
@@ -151,7 +158,7 @@ public class _PlayerHealth : MonoBehaviour
 
     public void PlayerDeath()
     {
-        _player.GetComponent<PlayerMovement>().isDead = true;
+        _playerMovement.isDead = true;
         _player.GetComponent<PlayerShoot>().isDead = true;
         AudioSource.PlayClipAtPoint(DeathSFX, _player.transform.position);
         _playerAnimator.SetTrigger("Death");

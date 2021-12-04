@@ -57,7 +57,7 @@ public class EnemyFollowPlayer : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _playerAttributes.TakeDamage(1);
+            _playerAttributes.TakeDamage(1, _rb.position);
         }
     }
 }
